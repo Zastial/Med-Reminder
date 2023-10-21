@@ -4,7 +4,7 @@ import com.example.frontend_android.feature_prescription.domain.model.Prescripti
 
 interface PrescriptionDao {
 
-    fun gestPrescriptions() : List<Prescription>
+    fun getPrescriptions() : List<Prescription>
 
     fun getPrescriptionById(id : Int) : Prescription?
 
