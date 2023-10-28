@@ -23,17 +23,9 @@ class MainActivity : ComponentActivity() {
             FrontendandroidTheme {
 
             }
+            // Mise en place de la navigation (point d'entrée)
+            Navigation()
 
-
-
-            // Navigation et définition des routes pour naviguer entre les écrans
-            val navController = rememberNavController()
-            NavHost(
-                navController = navController,
-                startDestination = Screen.prescriptionScreen.route
-            ) {
-                //composable()
-            }
 
         }
     }

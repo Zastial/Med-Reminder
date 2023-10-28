@@ -11,11 +11,13 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavHostController
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PrescriptionsScreen() {
+fun PrescriptionsScreen(navController: NavHostController, entry: NavBackStackEntry) {
 
     Scaffold(
         floatingActionButton = {
