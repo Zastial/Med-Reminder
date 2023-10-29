@@ -17,5 +17,20 @@ fun PrescriptionScreen(
     entry: NavBackStackEntry
 ) {
 
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
 
+        val textRecup = entry.savedStateHandle.get<String>("myText")
+        textRecup?.let {
+            Text(text = textRecup)
+        }
+
+
+        Button(onClick = {
+            navController.navigate(Screen.otherScreen.route)
+        }) {
+            Text(text = "Aller à l'écran 2")
+        }
+    }
 }
