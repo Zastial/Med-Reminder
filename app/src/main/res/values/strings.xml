@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">frontend-android</string>
+
+
+    <string name="default_name"> Défaut</string>
+
+    <!-- Nom des ecrans -->
+
+    <string name="screen_title_camera">Camera</string>
+    <string name="screen_title_prescriptions">Mes Ordonnances</string>
+    <string name="screen_title_alarms">Mes Alarmes</string>
+
+
+    <!-- Nav Bar Label -->
+    <string name="nav_bar_label_camera">Camera</string>
+    <string name="nav_bar_label_prescriptions">Ordonnances</string>
+    <string name="nav_bar_label_alarms">Alarmes</string>
+
+
+
+
 </resources>
