@@ -14,23 +14,17 @@ import androidx.navigation.NavHostController
 @Composable
 fun PrescriptionScreen(
     navController : NavHostController,
-    entry: NavBackStackEntry
+    showPrescription : () -> Unit
 ) {
 
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-
-        val textRecup = entry.savedStateHandle.get<String>("myText")
-        textRecup?.let {
-            Text(text = textRecup)
-        }
-
-
-        Button(onClick = {
-            navController.navigate(Screen.otherScreen.route)
-        }) {
-            Text(text = "Aller à l'écran 2")
+        Text(text = "Prescription")
+        Button(
+            onClick = { showPrescription() }
+        ) {
+            Text("Go to prescription with ID")
         }
     }
 }

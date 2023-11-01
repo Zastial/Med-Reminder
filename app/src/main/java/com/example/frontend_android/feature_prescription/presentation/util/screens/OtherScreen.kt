@@ -20,28 +20,6 @@ fun OtherScreen(
     Column(
         modifier = Modifier.fillMaxSize()
     ) {
-        var text by remember {
-            mutableStateOf("")
-        }
-
-        OutlinedTextField(
-            value = text ,
-            onValueChange = { text = it},
-            modifier = Modifier.width(300.dp)
-        )
-
-
-        Button(onClick = {
-            // passe le text à l'écran précédent
-            navController.previousBackStackEntry
-                ?.savedStateHandle
-                ?.set("myText", text)
-
-            //retour à l'écran précédent en supprimant l'écran courant de la stack
-            navController.popBackStack()
-
-        }) {
-            Text(text = "Aller à l'écran 1")
-        }
+        Text(text = "Other")
     }
 }

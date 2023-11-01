@@ -1,14 +1,21 @@
 package com.example.frontend_android.feature_prescription.data.data_source
 
+import androidx.room.*
 import com.example.frontend_android.feature_prescription.domain.model.Prescription
+import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface PrescriptionDao {
 
-    fun getPrescriptions() : List<Prescription>
+    @Query("SELECT * FROM prescription")
+    fun getPrescriptions() : Flow<List<Prescription>>
 
-    fun getPrescriptionById(id : Int) : Prescription?
+    @Query("SELECT * FROM prescription WHERE id = :id")
+    suspend fun getPrescriptionById(id : Int) : Prescription?
 
-    fun insertPrescription(prescription : Prescription)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPrescription(prescription : Prescription)
 
+    @Delete
     fun deletePrescription(prescription : Prescription)
 }

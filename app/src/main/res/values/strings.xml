@@ -11,10 +11,10 @@
     <string name="screen_title_alarms">Mes Alarmes</string>
 
 
-    <!-- Nav Bar Item -->
-    <string name="nav_bar_item_camera">Camera</string>
-    <string name="nav_bar_item_prescriptions">Ordonnances</string>
-    <string name="nav_bar_item_alarms">Alarmes</string>
+    <!-- Nav Bar Label -->
+    <string name="nav_bar_label_camera">Camera</string>
+    <string name="nav_bar_label_prescriptions">Ordonnances</string>
+    <string name="nav_bar_label_alarms">Alarmes</string>
 
 
 
