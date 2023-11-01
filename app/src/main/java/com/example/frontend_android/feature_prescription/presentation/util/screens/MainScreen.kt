@@ -46,7 +46,7 @@ fun MainScreen() {
                             Icon(
                                 imageVector = ImageVector.vectorResource(id = screen.icon),
                                 contentDescription = null,
-                                tint = Color.White
+                                tint = if (isSelected) Color.Red else Color.White
                             )
                         },
                         label = {
@@ -81,11 +81,8 @@ fun MainScreen() {
         }
     ) {
         Modifier.padding(it)
-        Text(text = "TEST")
 
-        // fixer la route par défaut,
-        // car il y a 2 graphes alarm et prescription, mais je pense qu'aucun n'est défini comme "principal" donc crash
-        //NavigationGraph(navController)
+        NavigationGraph(navController)
 
 
 

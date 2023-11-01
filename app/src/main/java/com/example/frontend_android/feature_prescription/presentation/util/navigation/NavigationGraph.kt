@@ -17,10 +17,10 @@ fun NavigationGraph(
     navController: NavHostController
 ) {
 
-    NavHost(navController = navController, startDestination = Screen.prescriptionsScreen.route) {
+    NavHost(navController = navController, startDestination = RootScreen.prescription.route) {
 
-        //prescriptionGraph(navController = navController)
-        //alarmsGraph(navController = navController)
+        prescriptionGraph(navController = navController)
+        alarmsGraph(navController = navController)
 
 
 
