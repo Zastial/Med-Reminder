@@ -16,6 +16,10 @@
     <string name="nav_bar_label_prescriptions">Ordonnances</string>
     <string name="nav_bar_label_alarms">Alarmes</string>
 
+    <!-- Action -->
+    <string name="add_prescription">Ajouter une ordonnance</string>
+    <string name="delete_prescription">Supprimer l\'ordonnance</string>
+
 
 
 

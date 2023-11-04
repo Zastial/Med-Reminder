@@ -7,7 +7,6 @@ import androidx.compose.runtime.*
 
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import com.example.frontend_android.feature_prescription.presentation.util.PrescriptionScreen
 
 
 
