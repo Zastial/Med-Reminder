@@ -1,0 +1,27 @@
+package com.example.frontend_android.common.navigation
+
+
+
+
+import androidx.compose.runtime.*
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.*
+
+
+
+// Point d'entree du graphe de navigation entre les écrans
+@Composable
+fun NavigationGraph(
+    navController: NavHostController
+) {
+
+    NavHost(navController = navController, startDestination = RootScreen.prescription.route) {
+
+        prescriptionGraph(navController = navController)
+        notificationGraph(navController = navController)
+
+
+
+    }
+}
+
