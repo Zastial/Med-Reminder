@@ -1,4 +1,4 @@
-package com.example.frontend_android.common.navigation
+package com.example.frontend_android.navigation
 
 
 

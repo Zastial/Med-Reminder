@@ -1,4 +1,4 @@
-package com.example.frontend_android.common.navigation
+package com.example.frontend_android.navigation
 
 import androidx.annotation.StringRes
 import com.example.frontend_android.R

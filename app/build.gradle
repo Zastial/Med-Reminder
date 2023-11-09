@@ -78,7 +78,7 @@ dependencies {
 
     //Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-
+    implementation "androidx.compose.runtime:runtime-livedata:1.5.4"
 
     //dagger Hilt
     implementation("com.google.dagger:hilt-android:2.44")
@@ -100,4 +100,9 @@ dependencies {
 
     //coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+    //workManager with coroutine
+    implementation "androidx.work:work-runtime-ktx:2.8.1"
+
+
 }

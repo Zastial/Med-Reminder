@@ -1,4 +1,4 @@
-package com.example.frontend_android.common
+package com.example.frontend_android
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
@@ -18,8 +18,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.*
-import com.example.frontend_android.common.navigation.NavigationGraph
-import com.example.frontend_android.common.navigation.RootScreen
+import com.example.frontend_android.navigation.NavigationGraph
+import com.example.frontend_android.navigation.RootScreen
 
 
 // Ecran contenant la barre de navigation et le graphe de navigation
