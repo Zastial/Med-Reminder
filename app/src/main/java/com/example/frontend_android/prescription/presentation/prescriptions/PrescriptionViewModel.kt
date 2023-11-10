@@ -1,4 +1,4 @@
-package com.example.frontend_android.prescription.presentation.screens
+package com.example.frontend_android.prescription.presentation.prescriptions
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.State
@@ -31,10 +31,11 @@ class PrescriptionViewModel @Inject constructor (
             .onEach { prescriptions ->
                 _state.value = state.value.copy(
                     prescriptions = prescriptions,
+
                 )
             }
             .launchIn(viewModelScope)
-    }
 
+    }
 
 }

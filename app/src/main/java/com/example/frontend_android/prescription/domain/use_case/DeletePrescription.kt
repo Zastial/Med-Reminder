@@ -6,7 +6,6 @@ import com.example.frontend_android.prescription.domain.repository.PrescriptionR
 class DeletePrescription(
     private val repository: PrescriptionRepository
 ) {
-
     suspend operator fun invoke(prescription: Prescription) {
         repository.deletePrescription(prescription)
     }

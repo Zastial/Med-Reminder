@@ -14,7 +14,6 @@ data class Prescription(
     val description: String,
     val deliveredAt: LocalDate,
 ) {
-    @get:RequiresApi(Build.VERSION_CODES.O)
     val formatDate : String
         get() = deliveredAt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
