@@ -4,7 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.frontend_android.prescription.presentation.screens.AddEditPrescriptionScreen
+import com.example.frontend_android.prescription.presentation.add_edit_prescription.AddEditPrescriptionScreen
 import com.example.frontend_android.feature_prescription.presentation.util.PrescriptionScreen
 
 
@@ -33,12 +33,7 @@ fun NavGraphBuilder.prescriptionGraph(
         composable(
             route = Screen.addEditPrescriptionScreen.route
         ) {
-            AddEditPrescriptionScreen(
-                id = "aa",
-                onBack = {
-                    navController.navigateUp()
-                }
-            )
+            AddEditPrescriptionScreen()
         }
     }
 }

@@ -14,7 +14,6 @@ class PrescriptionRepositoryImpl(
     private val dao: PrescriptionDao
 ): PrescriptionRepository {
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun getPrescriptions(): Flow<List<Prescription>> {
         return dao.getPrescriptions()
     }
