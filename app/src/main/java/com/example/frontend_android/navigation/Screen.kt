@@ -19,8 +19,12 @@ sealed class Screen(val route: String) {
     )
 
     // Screen par défaut
-    object otherScreen: Screen(
-        route = "otherScreen"
+    object medicineScreen: Screen(
+        route = "medicine_screen"
+    )
+
+    object userScreen: Screen(
+        route = "user_screen"
     )
 
 }

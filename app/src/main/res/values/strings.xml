@@ -12,9 +12,10 @@
 
 
     <!-- Nav Bar Label -->
-    <string name="nav_bar_label_camera">Camera</string>
     <string name="nav_bar_label_prescriptions">Ordonnances</string>
     <string name="nav_bar_label_notification">Notifications</string>
+    <string name="nav_bar_label_medicine">Medicaments</string>
+    <string name="nav_bar_label_user">Utilisateur</string>
 
     <!-- Action -->
     <string name="add_prescription">Ajouter une ordonnance</string>

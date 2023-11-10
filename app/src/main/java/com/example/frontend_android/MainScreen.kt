@@ -1,6 +1,7 @@
 package com.example.frontend_android
 
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
@@ -14,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -30,7 +32,9 @@ fun MainScreen() {
     val navController = rememberNavController()
     val bottomNavigationItem: List<RootScreen> = listOf(
         RootScreen.prescription,
-        RootScreen.notification
+        RootScreen.notification,
+        RootScreen.medicine,
+        RootScreen.user
     )
 
     Scaffold(
@@ -50,7 +54,7 @@ fun MainScreen() {
                         },
                         label = {
                             Text(
-                                stringResource(id = screen.ressourceID),
+                                text = stringResource(id = screen.ressourceID),
                                 color = if (isSelected) Color.Red else Color.White
                             )
                         },
