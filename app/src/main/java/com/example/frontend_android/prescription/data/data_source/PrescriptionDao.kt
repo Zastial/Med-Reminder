@@ -12,11 +12,11 @@ interface PrescriptionDao {
     fun getPrescriptions() : Flow<List<Prescription>>
 
     @Query("SELECT * FROM prescription WHERE id = :id")
-    fun getPrescriptionById(id : Int) : Prescription?
+    suspend fun getPrescriptionById(id : Int) : Prescription?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPrescription(prescription : Prescription)
+    suspend fun insertPrescription(prescription : Prescription)
 
     @Delete
-    fun deletePrescription(prescription : Prescription)
+    suspend fun deletePrescription(prescription : Prescription)
 }

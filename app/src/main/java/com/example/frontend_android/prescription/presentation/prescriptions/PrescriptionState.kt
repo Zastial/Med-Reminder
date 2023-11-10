@@ -1,4 +1,4 @@
-package com.example.frontend_android.prescription.presentation.screens
+package com.example.frontend_android.prescription.presentation.prescriptions
 
 import com.example.frontend_android.prescription.domain.model.Prescription
 
