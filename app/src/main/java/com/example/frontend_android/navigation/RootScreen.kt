@@ -1,4 +1,4 @@
-package com.example.frontend_android.common.navigation
+package com.example.frontend_android.navigation
 
 import androidx.annotation.StringRes
 import com.example.frontend_android.R
@@ -17,5 +17,17 @@ sealed class RootScreen(val route : String, @StringRes val ressourceID: Int, val
         ressourceID = R.string.nav_bar_label_notification,
         icon = R.drawable.icon_alarm
     )
+    object medicine : RootScreen(
+        route = "root_medicine",
+        ressourceID = R.string.nav_bar_label_medicine,
+        icon = R.drawable.icon_default
+    )
+
+    object user : RootScreen(
+        route = "root_user",
+        ressourceID = R.string.nav_bar_label_user,
+        icon = R.drawable.icon_default
+    )
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.frontend_android.common.navigation
+package com.example.frontend_android.navigation
 
 
 
@@ -15,10 +15,12 @@ fun NavigationGraph(
     navController: NavHostController
 ) {
 
-    NavHost(navController = navController, startDestination = RootScreen.prescription.route) {
+    NavHost(navController = navController, startDestination = RootScreen.notification.route) {
 
         prescriptionGraph(navController = navController)
         notificationGraph(navController = navController)
+        medicineGraph(navController = navController)
+        userGraph(navController = navController)
 
 
 
