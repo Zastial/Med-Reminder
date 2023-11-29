@@ -4,8 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.frontend_android.medicine.presentation.MedicineScreen
-import com.example.frontend_android.user.presentation.UserScreen
+import com.example.frontend_android.pages.user.ViewUser
 
 fun NavGraphBuilder.userGraph(
     navController: NavHostController
@@ -13,11 +12,11 @@ fun NavGraphBuilder.userGraph(
 
     navigation(
         route = RootScreen.user.route,
-        startDestination = Screen.userScreen.route
+        startDestination = Screen.viewUser.route
     ) {
 
-        composable(route = Screen.userScreen.route) {
-            UserScreen(navController = navController)
+        composable(route = Screen.viewUser.route) {
+            ViewUser(navController = navController)
         }
 
     }

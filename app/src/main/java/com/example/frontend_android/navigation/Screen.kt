@@ -4,26 +4,26 @@ package com.example.frontend_android.navigation
 sealed class Screen(val route: String) {
 
     //Screen pour toutes les ordonnances
-    object prescriptionsScreen: Screen(
+    object viewPrescriptions: Screen(
         route ="prescriptions_screen"
     )
     //Screen pour une seule ordonnance
-    object addEditPrescriptionScreen: Screen(
+    object createPrescription: Screen(
         route = "prescription_screen"
     )
 
 
     // Screen pour toutes les alarmes
-    object notificationScreen: Screen(
+    object viewNotifications: Screen(
         route = "alarms_screen"
     )
 
     // Screen par défaut
-    object medicineScreen: Screen(
+    object viewMedicines: Screen(
         route = "medicine_screen"
     )
 
-    object userScreen: Screen(
+    object viewUser: Screen(
         route = "user_screen"
     )
 

@@ -3,7 +3,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.frontend_android.feature_prescription.presentation.util.NotificationScreen
+import com.example.frontend_android.pages.notification.ViewNotifications
 
 
 fun NavGraphBuilder.notificationGraph(
@@ -12,11 +12,11 @@ fun NavGraphBuilder.notificationGraph(
 
     navigation(
         route = RootScreen.notification.route,
-        startDestination = Screen.notificationScreen.route
+        startDestination = Screen.viewNotifications.route
     ) {
 
-        composable(route = Screen.notificationScreen.route) {
-            NotificationScreen(navController = navController)
+        composable(route = Screen.viewNotifications.route) {
+            ViewNotifications(navController = navController)
         }
 
     }

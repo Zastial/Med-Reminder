@@ -4,8 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.frontend_android.feature_prescription.presentation.util.NotificationScreen
-import com.example.frontend_android.medicine.presentation.MedicineScreen
+import com.example.frontend_android.pages.medicines.ViewMedicines
+import com.example.frontend_android.pages.notification.ViewNotifications
 
 fun NavGraphBuilder.medicineGraph(
     navController: NavHostController
@@ -13,11 +13,11 @@ fun NavGraphBuilder.medicineGraph(
 
     navigation(
         route = RootScreen.medicine.route,
-        startDestination = Screen.medicineScreen.route
+        startDestination = Screen.viewMedicines.route
     ) {
 
-        composable(route = Screen.medicineScreen.route) {
-            MedicineScreen(navController = navController)
+        composable(route = Screen.viewMedicines.route) {
+            ViewMedicines(navController = navController)
         }
 
     }

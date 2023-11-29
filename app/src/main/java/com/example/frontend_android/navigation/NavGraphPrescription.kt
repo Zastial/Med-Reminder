@@ -4,8 +4,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.frontend_android.prescription.presentation.add_edit_prescription.AddEditPrescriptionScreen
-import com.example.frontend_android.feature_prescription.presentation.util.PrescriptionScreen
+import com.example.frontend_android.pages.prescription.CreatePrescriptions
+import com.example.frontend_android.pages.prescription.ViewPrescriptions
 
 
 // graphe s'occupant des ordonnances
@@ -15,25 +15,24 @@ fun NavGraphBuilder.prescriptionGraph(
 
     navigation(
         route = RootScreen.prescription.route,
-        startDestination = Screen.prescriptionsScreen.route
+        startDestination = Screen.viewPrescriptions.route
 
     ) {
 
         composable(
-            route = Screen.prescriptionsScreen.route
+            route = Screen.viewPrescriptions.route
         ) {
-            PrescriptionScreen(
+            ViewPrescriptions(
                 navController = navController,
-                showPrescription = {
-                    navController.navigate(Screen.addEditPrescriptionScreen.route)
-                }
             )
         }
 
         composable(
-            route = Screen.addEditPrescriptionScreen.route
+            route = Screen.createPrescription.route
         ) {
-            AddEditPrescriptionScreen()
+            CreatePrescriptions(
+                navController = navController
+            )
         }
     }
 }
