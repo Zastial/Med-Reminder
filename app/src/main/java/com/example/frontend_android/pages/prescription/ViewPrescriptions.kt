@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.data.model.Prescription
 import com.example.frontend_android.navigation.Screen
+import com.example.frontend_android.prescription.component.PrescriptionItem.PrescriptionCard
 import java.time.LocalDate
 
 
@@ -46,8 +47,9 @@ fun ViewPrescriptions(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(state.prescriptions) { prescription -> Text(text = prescription.title) }
+                items(state.prescriptions) { prescription -> PrescriptionCard(prescription = prescription) }
             }
+
         }
 
 
