@@ -15,7 +15,7 @@ fun NavigationGraph(
     navController: NavHostController
 ) {
 
-    NavHost(navController = navController, startDestination = RootScreen.notification.route) {
+    NavHost(navController = navController, startDestination = RootScreen.prescription.route) {
         prescriptionGraph(navController = navController)
         notificationGraph(navController = navController)
         medicineGraph(navController = navController)

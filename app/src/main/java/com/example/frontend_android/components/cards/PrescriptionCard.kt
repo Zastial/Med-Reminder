@@ -62,7 +62,7 @@ fun PrescriptionCard(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "10/11/2023",
+                    text = prescription.formatDate,
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
