@@ -104,5 +104,8 @@ dependencies {
     //workManager with coroutine
     implementation "androidx.work:work-runtime-ktx:2.8.1"
 
+    // For rest api
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 
 }
