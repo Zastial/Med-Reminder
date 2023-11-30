@@ -37,9 +37,12 @@ fun PrescriptionCard(
 ) {
     Card(
         modifier = Modifier
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation(),
+            .padding(16.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        ),
         colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
         )
 
     ) {
@@ -65,9 +68,10 @@ fun PrescriptionCard(
             }
             Spacer(modifier = Modifier.size(12.dp))
             Row(
-                modifier = Modifier,
+                modifier = Modifier
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(20.dp)
+                horizontalArrangement = Arrangement.SpaceBetween
 
                 ) {
                 Text(
@@ -78,6 +82,7 @@ fun PrescriptionCard(
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
                 )
+                Spacer(modifier = Modifier.size(12.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.ic_chevron_right),
                     contentDescription = "Show prescription"
@@ -122,7 +127,7 @@ fun PrescriptionPreview() {
     PrescriptionCard(Prescription(
         0,
         "Prescription",
-        "Is a long established fact that a reader will be distraction and " +
+        "Is a long established fact " +
                 " by the readable content of a page when looking at its layout." +
                 " The point of using Lorem Ipsum is that it has a more-or-less " +
                 "normal distribution of letters, as opposed to using 'Content here," +
