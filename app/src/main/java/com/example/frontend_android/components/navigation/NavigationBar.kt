@@ -103,6 +103,6 @@ fun isSelected(currentDestination: NavDestination?, screenRoute: String): Boolea
 
 @Preview
 @Composable
-fun navPreveiw() {
+fun navPreview() {
     NavigationBar()
 }

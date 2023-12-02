@@ -26,6 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.frontend_android.R
+import com.example.frontend_android.components.counterChips
 import com.example.frontend_android.components.medicineItem
 import com.example.frontend_android.data.model.Prescription
 import java.time.LocalDate
@@ -95,16 +96,15 @@ fun PrescriptionCard(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
 
-                LazyRow(
+                Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier
                         .weight(1f)
 
                 ) {
-                    val listMedic = listOf("medoc 1", "medoc 2", "medic3", "medicament 4")
-                    items(listMedic){ medic ->
-                        medicineItem(medicineName = medic)
-                    }
+                    val listMedic = listOf("medoc 1", "medoc 2", "medic3", "medicament 4");
+                    medicineItem(medicineName = listMedic.first())
+                    counterChips(listMedic.size - 1)
                 }
                 Spacer(Modifier.size(8.dp))
 
