@@ -1,6 +1,19 @@
 package com.example.frontend_android.ui.theme
 
+import android.annotation.SuppressLint
 import androidx.compose.ui.graphics.Color
+
+val Cyan500 = Color(0xFF1FC7BD);
+val Orange400 = Color(0xFFFF9500);
+
+val White = Color(0xFFFFFFFF);
+val Black = Color(0xFF212121);
+
+
+val Red700 = Color(0xFFB00020);
+val Green600 = Color(0xFF34C759);
+
+
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)

@@ -1,10 +1,13 @@
 package com.example.frontend_android.components.navigation
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +17,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -21,6 +27,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.navigation.NavigationGraph
 import com.example.frontend_android.navigation.RootScreen
+import com.example.frontend_android.ui.theme.Cyan500
+import com.example.frontend_android.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,23 +44,27 @@ fun NavigationBar() {
 
     Scaffold(
         bottomBar = {
-            BottomNavigation {
+            BottomNavigation(
+                backgroundColor = White
+            ) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 bottomNavigationItem.forEach { screen ->
                     val isSelected = isSelected(currentDestination, screen.route)
+                    val colorNavItem = if (isSelected) MaterialTheme.colorScheme.primary else Color.Black
                     BottomNavigationItem(
                         icon = {
                             Icon(
                                 imageVector = ImageVector.vectorResource(id = screen.icon),
                                 contentDescription = null,
-                                tint = if (isSelected) Color.Red else Color.White
+                                tint = colorNavItem
                             )
                         },
                         label = {
                             Text(
                                 text = stringResource(id = screen.ressourceID),
-                                color = if (isSelected) Color.Red else Color.White
+                                color = colorNavItem,
+                                fontSize = 10.sp
                             )
                         },
                         selected = isSelected,
@@ -87,4 +99,10 @@ fun NavigationBar() {
 
 fun isSelected(currentDestination: NavDestination?, screenRoute: String): Boolean {
     return currentDestination?.hierarchy?.any { it.route === screenRoute } == true
+}
+
+@Preview
+@Composable
+fun navPreview() {
+    NavigationBar()
 }
