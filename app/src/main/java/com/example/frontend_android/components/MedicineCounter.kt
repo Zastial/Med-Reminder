@@ -8,12 +8,9 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun medicineCounterChips(numberOfMedicine : Int) {
+fun medicineCounter(numberOfMedicine : Int) {
 
-    SuggestionChip(
-        onClick = { /*TODO*/ },
-        label = { Text(text = "$numberOfMedicine médicaments")}
-    )
+    Text(text = "$numberOfMedicine médicaments")
 }
 
 
@@ -21,6 +18,6 @@ fun medicineCounterChips(numberOfMedicine : Int) {
 @Composable
 fun previewMedicineCounterChips()
 {
-    medicineCounterChips(numberOfMedicine = 3)
+    medicineCounter(numberOfMedicine = 3)
 }
 
