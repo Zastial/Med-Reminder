@@ -1,12 +1,6 @@
 package com.example.frontend_android.data
 
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
 import com.example.frontend_android.data.model.Medicine
-import com.example.frontend_android.data.model.Prescription
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
