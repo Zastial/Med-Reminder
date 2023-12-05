@@ -3,6 +3,7 @@ package com.example.frontend_android
 import android.app.Application
 import androidx.room.Room
 import com.example.frontend_android.data.AppDatabase
+import com.example.frontend_android.data.MedicineDao
 import com.example.frontend_android.data.PrescriptionDao
 import dagger.Module
 import dagger.Provides
