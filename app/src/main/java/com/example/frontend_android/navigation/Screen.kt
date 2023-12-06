@@ -27,4 +27,8 @@ sealed class Screen(val route: String) {
         route = "user_screen"
     )
 
+    object viewUserInformations: Screen(
+        route = "user_informations_screen"
+    )
+
 }
