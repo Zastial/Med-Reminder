@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.data.model.Prescription
 import com.example.frontend_android.navigation.Screen
+import com.example.frontend_android.prescription.component.PrescriptionItem.PrescriptionCard
 import java.time.LocalDate
 
 
