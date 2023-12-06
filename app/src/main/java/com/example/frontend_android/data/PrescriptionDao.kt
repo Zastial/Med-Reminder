@@ -5,21 +5,27 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.frontend_android.data.model.Prescription
+import com.example.frontend_android.data.model.relations.PrescriptionWithRelations
 import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface PrescriptionDao {
-    @Query("SELECT * FROM prescription")
+    @Query("SELECT * FROM Prescription")
     fun getPrescriptions() : Flow<List<Prescription>>
 
-    @Query("SELECT * FROM prescription WHERE id = :id")
+    @Query("SELECT * FROM Prescription WHERE id = :id")
     suspend fun getPrescription(id : Int) : Prescription?
 
+    @Transaction
+    @Query("SELECT * FROM Prescription")
+    fun getPrescriptionsWithRelations(): Flow<List<PrescriptionWithRelations>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(prescription : Prescription)
+    suspend fun insertPrescription(prescription : Prescription): Long
 
     @Delete
-    suspend fun delete(prescription : Prescription)
+    suspend fun deletePrescription(prescription : Prescription)
 }

@@ -6,17 +6,17 @@ import androidx.room.PrimaryKey
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@Entity
+@Entity(tableName="Prescription")
 data class Prescription (
     @PrimaryKey(autoGenerate = true)
-    val id: Int?,
+    val id: Long?,
     val title: String,
     val description: String,
-    val deliveredAt: LocalDate,
+    val delivered_at: LocalDate,
+    val doctor_id: Long,
 ) {
     val formatDate : String
-        get() = deliveredAt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-
+        get() = delivered_at.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 }
 
 class InvalidPrescriptionException(message: String): Exception(message)

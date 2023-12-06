@@ -3,7 +3,10 @@ package com.example.frontend_android
 import android.app.Application
 import androidx.room.Room
 import com.example.frontend_android.data.AppDatabase
+import com.example.frontend_android.data.DoctorDao
+import com.example.frontend_android.data.MedicinePosologyDao
 import com.example.frontend_android.data.PrescriptionDao
+import com.example.frontend_android.data.SideEffectDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,10 +27,29 @@ object AppModule {
         ).build()
     }
 
-
     @Provides
     @Singleton
     fun providePrescriptionDao(database: AppDatabase): PrescriptionDao {
         return database.prescriptionDao()
     }
+
+
+    @Provides
+    @Singleton
+    fun provideDoctorDao(database: AppDatabase): DoctorDao {
+        return database.doctorDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMedicinePosologyDao(database: AppDatabase): MedicinePosologyDao {
+        return database.medicinePosologyDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideSideEffectDao(database: AppDatabase): SideEffectDao {
+        return database.sideEffectDao()
+    }
+
 }
