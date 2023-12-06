@@ -3,9 +3,9 @@ package com.example.frontend_android
 import android.app.Application
 import androidx.room.Room
 import com.example.frontend_android.data.AppDatabase
+import com.example.frontend_android.data.PrescriptionDao
 import com.example.frontend_android.data.DoctorDao
 import com.example.frontend_android.data.MedicinePosologyDao
-import com.example.frontend_android.data.PrescriptionDao
 import com.example.frontend_android.data.SideEffectDao
 import dagger.Module
 import dagger.Provides
@@ -26,6 +26,7 @@ object AppModule {
             AppDatabase.DATABASE_NAME
         ).build()
     }
+
 
     @Provides
     @Singleton

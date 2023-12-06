@@ -46,10 +46,9 @@ fun ViewPrescriptions(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(state.prescriptionsWithRelations) { prescriptionWithRelations ->
-                    Text(text = prescriptionWithRelations.prescription.title)
-                }
+                items(state.prescriptionsWithRelations) { prescriptionWithRelations -> PrescriptionCard(prescription = prescriptionWithRelations.prescription) }
             }
+
         }
 
 
