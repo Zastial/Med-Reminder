@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.frontend_android.pages.user.ViewUser
 import com.example.frontend_android.pages.user.ViewUserInformations
+import com.example.frontend_android.pages.user.ViewUserSideEffectsHistory
 
 fun NavGraphBuilder.userGraph(
     navController: NavHostController
@@ -24,6 +25,9 @@ fun NavGraphBuilder.userGraph(
             ViewUserInformations(navController = navController)
         }
 
+        composable(route = Screen.viewUserSideEffectsHistory.route) {
+            ViewUserSideEffectsHistory(navController = navController)
+        }
     }
 
 }
