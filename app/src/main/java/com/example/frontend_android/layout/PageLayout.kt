@@ -1,11 +1,12 @@
-package com.example.frontend_android.components.navigation
+package com.example.frontend_android.layout
 
-import androidx.compose.foundation.background
+
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
+import androidx.compose.material.TopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -17,8 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -27,12 +28,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.navigation.NavigationGraph
 import com.example.frontend_android.navigation.RootScreen
-import com.example.frontend_android.ui.theme.Cyan500
 import com.example.frontend_android.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavigationBar() {
+fun PageLayout() {
 
     val navController = rememberNavController()
     val bottomNavigationItem: List<RootScreen> = listOf(
@@ -43,6 +43,12 @@ fun NavigationBar() {
     )
 
     Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {Text(textAlign = TextAlign.Center, text="sqdqd")},
+                backgroundColor = MaterialTheme.colorScheme.surface
+            )
+        },
         bottomBar = {
             BottomNavigation(
                 backgroundColor = White
@@ -92,8 +98,12 @@ fun NavigationBar() {
 
         }
     ) {
-        Modifier.padding(it)
-        NavigationGraph(navController)
+        Box(
+            modifier = Modifier.padding(it),
+        ) {
+            NavigationGraph(navController)
+        }
+
     }
 }
 
@@ -104,5 +114,5 @@ fun isSelected(currentDestination: NavDestination?, screenRoute: String): Boolea
 @Preview
 @Composable
 fun navPreview() {
-    NavigationBar()
+    PageLayout()
 }

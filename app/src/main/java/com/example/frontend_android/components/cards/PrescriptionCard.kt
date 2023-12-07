@@ -1,4 +1,5 @@
 package com.example.frontend_android.prescription.component.PrescriptionItem
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.frontend_android.R
-import com.example.frontend_android.components.medicineCounterChips
+import com.example.frontend_android.components.medicineCounter
 import com.example.frontend_android.data.model.Prescription
 import java.time.LocalDate
 
@@ -93,7 +94,7 @@ fun PrescriptionCard(
 
 
                 val listMedic = listOf("medoc 1", "medoc 2", "medic3", "medicament 4");
-                medicineCounterChips(numberOfMedicine = listMedic.size)
+                medicineCounter(numberOfMedicine = listMedic.size)
 
                 Row() {
                     Text(text = "Dr. ")
