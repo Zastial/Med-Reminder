@@ -40,7 +40,7 @@ fun PrescriptionCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        onClick = { /* TODO */ }
+        onClick = { Log.e("CLICK", "click prescripotion") }
 
     ) {
         Column(
@@ -120,6 +120,8 @@ fun PrescriptionPreview() {
                 " The point of using Lorem Ipsum is that it has a more-or-less " +
                 "normal distribution of letters, as opposed to using 'Content here," +
                 " content here', making it look like readable English.",
-        LocalDate.now()))
+        LocalDate.now(),
+        doctor_id = 1
+    ))
 
 }
