@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "554713f2ffc20004fe15313977372a56",
+    "identityHash": "3071efd695fc356de19b163f928341db",
     "entities": [
       {
         "tableName": "Prescription",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Doctor",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, `email` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -69,6 +69,12 @@
             "columnName": "last_name",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "email",
+            "columnName": "email",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -160,7 +166,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '554713f2ffc20004fe15313977372a56')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3071efd695fc356de19b163f928341db')"
     ]
   }
 }

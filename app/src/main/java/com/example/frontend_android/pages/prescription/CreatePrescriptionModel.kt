@@ -1,21 +1,17 @@
 package com.example.frontend_android.pages.prescription
 
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.data.DoctorDao
 import com.example.frontend_android.data.PrescriptionDao
 import com.example.frontend_android.data.model.Doctor
-import com.example.frontend_android.data.model.InvalidDoctorException
 import com.example.frontend_android.data.model.InvalidPrescriptionException
 import com.example.frontend_android.data.model.Prescription
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
-import kotlin.jvm.Throws
 
 
 
@@ -34,7 +30,8 @@ class CreatePrescriptionModel @Inject constructor(
                     Doctor(
                         id = null,
                         first_name = "",
-                        last_name = ""
+                        last_name = "",
+                        email = ""
                     )
                 )
 
