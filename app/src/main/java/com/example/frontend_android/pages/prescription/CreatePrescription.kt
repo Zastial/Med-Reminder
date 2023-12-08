@@ -16,6 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.frontend_android.data.model.Prescription
+import com.example.frontend_android.layout.FormLayout
+import com.example.frontend_android.layout.PageLayout
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,7 +27,13 @@ fun CreatePrescriptions(
     viewModel: CreatePrescriptionModel = hiltViewModel()
 ) {
 
-
+    FormLayout(
+        title = "Ajouter une ordonnance",
+        canGoBack = true,
+        navController = navController,
+        onValidation = {},
+        onCancellation = {}
+    )
 
 
 }
