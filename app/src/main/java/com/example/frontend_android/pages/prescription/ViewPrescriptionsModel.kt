@@ -13,10 +13,11 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.State
+import com.example.frontend_android.data.model.relations.PrescriptionWithRelations
 import javax.inject.Inject
 
 data class PrescriptionsState (
-    val prescriptions: List<Prescription> = emptyList()
+    val prescriptionsWithRelations: List<PrescriptionWithRelations> = emptyList()
 )
 
 @HiltViewModel
@@ -35,10 +36,10 @@ class ViewPrescriptionsModel  @Inject constructor (
 
     private fun retrievePrescriptions() {
         getPrescriptionsJob?.cancel()
-        getPrescriptionsJob = prescriptionDao.getPrescriptions()
-            .onEach { prescriptions ->
+        getPrescriptionsJob = prescriptionDao.getPrescriptionsWithRelations()
+            .onEach { prescriptionsWithRelations ->
                 _state.value = state.value.copy(
-                    prescriptions = prescriptions,
+                    prescriptionsWithRelations = prescriptionsWithRelations,
                 )
             }
             .launchIn(viewModelScope)

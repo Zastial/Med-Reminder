@@ -14,12 +14,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.components.cards.PrescriptionCard
+import com.example.frontend_android.components.cards.SideEffectCard
 import com.example.frontend_android.pages.prescription.ViewPrescriptionsModel
 
 @Composable
 fun ViewUserSideEffectsHistory(
     navController: NavController,
-    viewModel: ViewPrescriptionsModel = hiltViewModel()
+    viewModel: ViewSideEffectsHistoryModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
 
@@ -38,7 +39,7 @@ fun ViewUserSideEffectsHistory(
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(state.prescriptions) { prescription -> PrescriptionCard(prescription = prescription) }
+                items(state.sideEffects) { sideEffects -> SideEffectCard(sideEffect = sideEffects) }
             }
         }
     }
