@@ -21,13 +21,15 @@ fun PageLayout(
     title: String,
     canGoBack: Boolean,
     navController: NavController,
+    modifier: Modifier = Modifier,
     Content: (@Composable () -> Unit)? = null,
 ) {
 
-    Layout(
+    BaseLayout(
         title = title,
         canGoBack = canGoBack,
         navController = navController,
+        modifier = modifier,
         BottomBar = {
             BottomBarNavigation(navController = navController)
         },

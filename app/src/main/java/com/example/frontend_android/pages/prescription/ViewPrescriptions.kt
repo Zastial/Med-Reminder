@@ -1,6 +1,7 @@
 package com.example.frontend_android.pages.prescription
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,10 +36,10 @@ fun ViewPrescriptions(
     PageLayout(
         title = "Ordonnance",
         canGoBack = false,
-        navController = navController
+        navController = navController,
     ) {
-        Column {
 
+        Column {
             Button(onClick = { navController.navigate(Screen.createPrescription.route) }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Plus")
                 Text(text = "Ajouter une ordonnance")
@@ -47,14 +48,9 @@ fun ViewPrescriptions(
             LazyColumn() {
                 items(state.prescriptionsWithRelations) { prescriptionWithRelations -> PrescriptionCard(prescription = prescriptionWithRelations.prescription) }
             }
-
         }
+
+
+
     }
-
-
-
-
-
-    
-
 }

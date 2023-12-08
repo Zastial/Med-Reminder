@@ -17,8 +17,6 @@ import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun TopBar(title: String, canGoBack: Boolean, navController: NavController) {
-
-
     TopAppBar(
         navigationIcon = {
             if (canGoBack) {
@@ -31,5 +29,4 @@ fun TopBar(title: String, canGoBack: Boolean, navController: NavController) {
         modifier = Modifier.fillMaxWidth(),
         backgroundColor = MaterialTheme.colorScheme.surface
     )
-
 }

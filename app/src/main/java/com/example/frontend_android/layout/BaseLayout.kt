@@ -9,14 +9,14 @@ import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
-import com.example.frontend_android.components.layout.BottomBarNavigation
 import com.example.frontend_android.components.layout.TopBar
 
 @Composable
-fun Layout(
+fun BaseLayout(
     title: String,
     canGoBack: Boolean,
     navController: NavController,
+    modifier: Modifier = Modifier,
     BottomBar: @Composable () -> Unit,
     Content: (@Composable () -> Unit)? = null
 ) {
@@ -27,9 +27,7 @@ fun Layout(
         scaffoldState = scaffoldState
     ) {
         Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxHeight()
+            modifier = modifier.padding(it).fillMaxHeight()
         ) {
             TopBar(title = title, canGoBack = canGoBack, navController = navController)
 
