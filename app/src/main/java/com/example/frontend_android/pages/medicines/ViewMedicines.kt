@@ -17,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.frontend_android.layout.PageLayout
 import com.example.frontend_android.navigation.Screen
 
 @Composable
@@ -28,24 +29,21 @@ fun ViewMedicines(
     val state = viewModel.state.value
     val scaffoldState = rememberScaffoldState()
 
-    Scaffold(
-        scaffoldState = scaffoldState
-    ) {
-        Column(
-            modifier = Modifier.padding(it)
-        ) {
-            Text(text = "Page médicaments")
+   PageLayout(
+       title = "Médicaments",
+       canGoBack = false,
+       navController = navController,
+   ) {
+       LazyColumn(
+           modifier = Modifier.fillMaxSize()
+       ) {
+           items(state.medicines) {
+                   medicine -> Text(text = medicine.name)
+           }
+       }
 
+   }
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(state.medicines) { medicine -> Text(text = medicine.name) }
-            }
-        }
-
-
-    }
 
 
 }
