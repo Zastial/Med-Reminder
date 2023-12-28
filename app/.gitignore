@@ -1,2 +1,3 @@
 /build
-/app/schemas
+/schemas/com.example.frontend_android.data.AppDatabase/
+
