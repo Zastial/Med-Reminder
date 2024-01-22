@@ -1,6 +1,7 @@
 package com.example.frontend_android.pages.prescription
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.data.model.Prescription
+import com.example.frontend_android.layout.PageLayout
 import com.example.frontend_android.navigation.Screen
 import com.example.frontend_android.prescription.component.PrescriptionItem.PrescriptionCard
 import java.time.LocalDate
@@ -30,33 +32,25 @@ fun ViewPrescriptions(
 ) {
 
     val state = viewModel.state.value
-    val scaffoldState = rememberScaffoldState()
 
-    Scaffold(
-        scaffoldState = scaffoldState
+    PageLayout(
+        title = "Ordonnance",
+        canGoBack = false,
+        navController = navController,
     ) {
-        Column(
-            modifier = Modifier.padding(it)
-        ) {
 
+        Column {
             Button(onClick = { navController.navigate(Screen.createPrescription.route) }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Plus")
                 Text(text = "Ajouter une ordonnance")
             }
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            LazyColumn() {
                 items(state.prescriptionsWithRelations) { prescriptionWithRelations -> PrescriptionCard(prescription = prescriptionWithRelations.prescription) }
             }
-
         }
 
 
+
     }
-
-
-
-    
-
 }
