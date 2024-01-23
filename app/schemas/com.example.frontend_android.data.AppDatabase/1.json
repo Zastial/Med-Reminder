@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6cca427a791ffbeda97f3bd4d7f26fc4",
+    "identityHash": "a2052c32ca47174ef40691495b76266d",
     "entities": [
       {
         "tableName": "Prescription",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `delivered_at` TEXT NOT NULL, `doctor_id` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `delivered_at` TEXT NOT NULL, `doctor_first_name` TEXT, `doctor_last_name` TEXT, `doctor_email` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -33,46 +33,20 @@
             "notNull": true
           },
           {
-            "fieldPath": "doctor_id",
-            "columnName": "doctor_id",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "Doctor",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `first_name` TEXT NOT NULL, `last_name` TEXT NOT NULL, `email` TEXT)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
+            "fieldPath": "doctor_first_name",
+            "columnName": "doctor_first_name",
+            "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "first_name",
-            "columnName": "first_name",
+            "fieldPath": "doctor_last_name",
+            "columnName": "doctor_last_name",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "last_name",
-            "columnName": "last_name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "email",
-            "columnName": "email",
+            "fieldPath": "doctor_email",
+            "columnName": "doctor_email",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -172,7 +146,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6cca427a791ffbeda97f3bd4d7f26fc4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a2052c32ca47174ef40691495b76266d')"
     ]
   }
 }

@@ -14,7 +14,9 @@ data class Prescription (
     val title: String,
     val description: String,
     val delivered_at: LocalDate,
-    val doctor_id: Long,
+    val doctor_first_name: String?,
+    val doctor_last_name: String?,
+    val doctor_email: String?
 ) {
     val formatDate : String
         get() = delivered_at.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))

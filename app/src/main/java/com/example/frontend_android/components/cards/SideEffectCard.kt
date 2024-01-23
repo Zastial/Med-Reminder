@@ -25,7 +25,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.frontend_android.R
-import com.example.frontend_android.components.medicineCounter
 import com.example.frontend_android.data.model.Prescription
 import com.example.frontend_android.data.model.SideEffect
 import com.example.frontend_android.navigation.RootScreen
