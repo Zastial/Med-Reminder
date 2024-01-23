@@ -1,5 +1,6 @@
 package com.example.frontend_android.components.layout
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,13 +39,13 @@ import com.example.frontend_android.ui.theme.White
 
 @Composable
 fun BottomBarValidation (
+    navController: NavController,
     onValidation: () -> Unit,
     onCancellation: () -> Unit,
-    navController: NavController
 ) {
 
     Row(
-        modifier = Modifier.padding(4.dp).fillMaxWidth(),
+        modifier = Modifier.padding(4.dp).fillMaxWidth().background(White),
         horizontalArrangement = Arrangement.SpaceEvenly,
     ) {
 
