@@ -13,7 +13,7 @@ import com.example.frontend_android.ui.theme.primaryColor
 
 
 @Composable
-fun btnContinue(enabled : Boolean = true, actionText: String) {
+fun btnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Unit) {
     Button(
         modifier = Modifier.fillMaxWidth(),
         enabled = enabled,
@@ -31,5 +31,5 @@ fun btnContinue(enabled : Boolean = true, actionText: String) {
 @Preview(showBackground = true )
 @Composable
 fun buttonPreview() {
-    btnContinue(actionText = "Continuer")
+    btnContinue(actionText = "Continuer", onClick = { })
 }

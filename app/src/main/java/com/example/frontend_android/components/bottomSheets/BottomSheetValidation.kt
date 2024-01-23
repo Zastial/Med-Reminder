@@ -65,6 +65,6 @@ fun defaultBottomSheetPreview() {
         isOpen = false,
         title = "Votre ordonnance à été correctement enregistrée",
         description = "L'opération c'est terminée avec succès",
-        actionButton = { btnContinue(actionText = "Continuer") }
+        actionButton = { btnContinue(actionText = "Continuer", onClick = { }) }
     )
 }
