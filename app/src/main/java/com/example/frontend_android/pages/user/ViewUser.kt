@@ -14,23 +14,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.frontend_android.components.cards.UserSectionCard
+import com.example.frontend_android.components.layout.BottomBarNavigation
+import com.example.frontend_android.components.layout.TopBar
+import com.example.frontend_android.layout.BaseLayout
 import com.example.frontend_android.navigation.Screen
 
 @Composable
 fun ViewUser(
     navController: NavController
 ) {
-    val scaffoldState = rememberScaffoldState()
-
-    Scaffold(
-        scaffoldState = scaffoldState
+    BaseLayout(
+        TopBar = {
+            TopBar(
+                navController = navController,
+                title = "Informations utilisateur",
+                canGoBack = false
+            )
+        },
+        BottomBar = {
+            BottomBarNavigation(
+                navController = navController
+            )
+        }
     ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             UserSectionCard("Informations personnelles", navController , Screen.viewUserInformations.route)
             UserSectionCard("Contacter Médecin", navController , Screen.viewUserDoctorContact.route)
             UserSectionCard("Historique effets secondaires", navController , Screen.viewUserSideEffectsHistory.route)

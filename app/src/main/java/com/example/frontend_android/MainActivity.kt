@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.frontend_android.layout.PageLayout
+import androidx.navigation.compose.rememberNavController
+import com.example.frontend_android.navigation.NavigationGraph
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,9 +23,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PageLayout()
+                    NavigationGraph()
                 }
+
+
             }
         }
     }
 }
+

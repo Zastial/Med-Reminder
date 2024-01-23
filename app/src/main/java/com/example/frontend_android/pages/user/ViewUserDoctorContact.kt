@@ -1,4 +1,4 @@
-package com.example.frontend_android.pages.notification
+package com.example.frontend_android.pages.user
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -8,23 +8,26 @@ import com.example.frontend_android.components.layout.TopBar
 import com.example.frontend_android.layout.BaseLayout
 
 @Composable
-fun ViewNotifications(
+fun ViewUserDoctorContact(
     navController: NavController
 ) {
+
     BaseLayout(
         TopBar = {
             TopBar(
                 navController = navController,
-                title = "Notifications",
-                canGoBack = false
+                title = "Contact docteur",
+                canGoBack = true,
             )
         },
         BottomBar = {
             BottomBarNavigation(
-                navController = navController
+                navController = navController,
             )
-        }
+        },
     ) {
-        Text(text = "Page de notifications")
+        Text(text = "Page contact docteur")
     }
+
+
 }

@@ -1,8 +1,10 @@
 package com.example.frontend_android.pages.user
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,6 +28,9 @@ import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.frontend_android.components.cards.UserSectionCard
+import com.example.frontend_android.components.layout.BottomBarNavigation
+import com.example.frontend_android.components.layout.TopBar
+import com.example.frontend_android.layout.BaseLayout
 import com.example.frontend_android.navigation.Screen
 import com.example.frontend_android.ui.theme.Purple40
 
@@ -34,104 +39,104 @@ fun ViewUserInformations(
     navController: NavController
 ) {
 
-    Scaffold (
-        scaffoldState = rememberScaffoldState(),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp, 16.dp)
+    BaseLayout(
+        TopBar = {
+            TopBar(
+                navController = navController,
+                title = "Infomations utilisateur",
+                canGoBack = true,
+            )
+        },
+        BottomBar = {
+            BottomBarNavigation(
+                navController = navController,
+            )
+        },
     ) {
         Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Column() {
-                Column() {
-                    Text(
-                        text = "Vos informations",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        label = {
-                            Text(text = "Nom")
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = Purple40,
-                        ),
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        label = {
-                            Text(text = "Prénom")
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = Purple40,
-                        ),
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        label = {
-                            Text(text = "Email")
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = Purple40,
-                        ),
-                    )
-                }
-
-                Spacer(modifier = Modifier.size(20.dp))
-
-                Column() {
-                    Text(
-                        text = "Médecin traitant",
-                        style = MaterialTheme.typography.titleMedium
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        label = {
-                            Text(text = "Nom")
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = Purple40,
-                        ),
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        label = {
-                            Text(text = "Prénom")
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = Purple40,
-                        ),
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
-                        label = {
-                            Text(text = "Email")
-                        },
-                        colors = TextFieldDefaults.outlinedTextFieldColors(
-                            unfocusedBorderColor = Purple40,
-                        ),
-                    )
-                }
-
-                Spacer(modifier = Modifier.size(20.dp))
+                Text(
+                    text = "Vos informations",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    onValueChange = {},
+                    label = {
+                        Text(text = "Nom")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    onValueChange = {},
+                    label = {
+                        Text(text = "Prénom")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    onValueChange = {},
+                    label = {
+                        Text(text = "Email")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
             }
 
-            Column(
-                modifier = Modifier
-                    .padding(it)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+            Column() {
+                Text(
+                    text = "Médecin traitant",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    onValueChange = {},
+                    label = {
+                        Text(text = "Nom")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    onValueChange = {},
+                    label = {
+                        Text(text = "Prénom")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = "",
+                    onValueChange = {},
+                    label = {
+                        Text(text = "Email")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
+            }
+
+            Column() {
                 Text(
                     modifier = Modifier
                         .width(350.dp),
@@ -140,9 +145,7 @@ fun ViewUserInformations(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 OutlinedTextField(
-                    modifier = Modifier
-                        .width(300.dp)
-                        .height(150.dp),
+                    modifier = Modifier.height(150.dp).fillMaxWidth(),
                     value = "",
                     onValueChange = {},
                     label = {
@@ -154,5 +157,7 @@ fun ViewUserInformations(
                 )
             }
         }
+
+
     }
 }

@@ -14,6 +14,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.components.cards.SideEffectCard
+import com.example.frontend_android.components.layout.BottomBarNavigation
+import com.example.frontend_android.components.layout.TopBar
+import com.example.frontend_android.layout.BaseLayout
 
 @Composable
 fun ViewUserSideEffectsHistory(
@@ -22,16 +25,21 @@ fun ViewUserSideEffectsHistory(
 ) {
     val state = viewModel.state.value
 
-    Scaffold (
-        scaffoldState = rememberScaffoldState(),
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp, 16.dp)
+    BaseLayout(
+        TopBar = {
+            TopBar(
+                navController = navController,
+                title = "Effects secondaires",
+                canGoBack = true,
+            )
+        },
+        BottomBar = {
+            BottomBarNavigation(
+                navController = navController,
+            )
+        },
     ) {
         Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LazyColumn(
@@ -41,4 +49,5 @@ fun ViewUserSideEffectsHistory(
             }
         }
     }
+
 }
