@@ -16,7 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun TopBar(title: String, canGoBack: Boolean, navController: NavController) {
+fun TopBar(navController: NavController, title: String, canGoBack: Boolean) {
     TopAppBar(
         navigationIcon = {
             if (canGoBack) {
