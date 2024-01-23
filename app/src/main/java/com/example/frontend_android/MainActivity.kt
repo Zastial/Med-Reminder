@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.example.frontend_android.layout.PageLayout
 import com.example.frontend_android.navigation.NavigationGraph
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +25,10 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NavigationGraph()
                 }
+
+
             }
         }
     }
 }
+

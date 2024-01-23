@@ -1,22 +1,21 @@
 package com.example.frontend_android.layout
 
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-import com.example.frontend_android.components.layout.TopBar
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun BaseLayout(
-    title: String,
-    canGoBack: Boolean,
-    navController: NavController,
     modifier: Modifier = Modifier,
+    TopBar: @Composable () -> Unit,
     BottomBar: @Composable () -> Unit,
     Content: (@Composable () -> Unit)? = null
 ) {
@@ -24,23 +23,15 @@ fun BaseLayout(
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
-        scaffoldState = scaffoldState
+        modifier = Modifier.fillMaxHeight(),
+        scaffoldState = scaffoldState,
+        topBar = { TopBar() },
+        bottomBar = { BottomBar() },
     ) {
-        Column(
-            modifier = modifier.padding(it).fillMaxHeight()
-        ) {
-            TopBar(title = title, canGoBack = canGoBack, navController = navController)
-
-            Surface(modifier = Modifier.weight(1f)) {
-                if (Content != null) {
-                    Content()
-                }
+        Surface(modifier = modifier.padding(8.dp, 16.dp).padding(it)) {
+            if (Content != null) {
+                Content()
             }
-
-            BottomBar()
-
-
         }
     }
-
 }

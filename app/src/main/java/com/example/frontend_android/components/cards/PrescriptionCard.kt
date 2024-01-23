@@ -1,4 +1,4 @@
-package com.example.frontend_android.prescription.component.PrescriptionItem
+package com.example.frontend_android.components.cards
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,7 +32,7 @@ fun PrescriptionCard(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .padding(16.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
