@@ -32,8 +32,8 @@ fun ViewUser(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             UserSectionCard("Informations personnelles", navController , Screen.viewUserInformations.route)
-            UserSectionCard("Contacter Médecin", navController , Screen.viewUserInformations.route)
-            UserSectionCard("Historique effets secondaires", navController , Screen.viewUserInformations.route)
+            UserSectionCard("Contacter Médecin", navController , Screen.viewUserDoctorContact.route)
+            UserSectionCard("Historique effets secondaires", navController , Screen.viewUserSideEffectsHistory.route)
         }
     }
 }

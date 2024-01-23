@@ -13,9 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.frontend_android.components.cards.PrescriptionCard
 import com.example.frontend_android.components.cards.SideEffectCard
-import com.example.frontend_android.pages.prescription.ViewPrescriptionsModel
 
 @Composable
 fun ViewUserSideEffectsHistory(
