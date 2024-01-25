@@ -1,43 +1,30 @@
 package com.example.frontend_android.pages.user
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
-import androidx.compose.ui.focus.focusTarget
-import androidx.compose.ui.graphics.Color.Companion.Green
-import androidx.compose.ui.graphics.Color.Companion.Yellow
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.frontend_android.components.cards.UserSectionCard
-import com.example.frontend_android.components.layout.BottomBarNavigation
+import com.example.frontend_android.components.layout.BottomBarValidation
 import com.example.frontend_android.components.layout.TopBar
 import com.example.frontend_android.layout.BaseLayout
-import com.example.frontend_android.navigation.Screen
 import com.example.frontend_android.ui.theme.Purple40
 
 @Composable
 fun ViewUserInformations(
-    navController: NavController
+    navController: NavController,
+    viewModel: ViewUserInformationsModel = hiltViewModel()
 ) {
+
+    val state = viewModel.state.value
 
     BaseLayout(
         TopBar = {
@@ -48,8 +35,10 @@ fun ViewUserInformations(
             )
         },
         BottomBar = {
-            BottomBarNavigation(
+            BottomBarValidation(
                 navController = navController,
+                onValidation = { viewModel.handleValidation() },
+                onCancellation = {}
             )
         },
     ) {
@@ -63,19 +52,8 @@ fun ViewUserInformations(
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
-                    label = {
-                        Text(text = "Nom")
-                    },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = Purple40,
-                    ),
-                )
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = state.first_name,
+                    onValueChange = { viewModel.changeFirstName(it) },
                     label = {
                         Text(text = "Prénom")
                     },
@@ -85,8 +63,20 @@ fun ViewUserInformations(
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = state.last_name,
+                    onValueChange = { viewModel.changeLastName(it) },
+                    label = {
+                        Text(text = "Nom")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.email,
+                    onValueChange = { viewModel.changeEmail(it) },
                     label = {
                         Text(text = "Email")
                     },
@@ -103,19 +93,8 @@ fun ViewUserInformations(
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
-                    label = {
-                        Text(text = "Nom")
-                    },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = Purple40,
-                    ),
-                )
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = state.doctor_first_name ?: "",
+                    onValueChange = { viewModel.changeDoctorFirstName(it) } ,
                     label = {
                         Text(text = "Prénom")
                     },
@@ -125,8 +104,19 @@ fun ViewUserInformations(
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = state.doctor_last_name ?: "",
+                    onValueChange = { viewModel.changeDoctorLastName(it) },
+                    label = {
+                        Text(text = "Nom")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.doctor_email ?: "",
+                    onValueChange = { viewModel.changeDoctorEmail(it) },
                     label = {
                         Text(text = "Email")
                     },
@@ -145,9 +135,11 @@ fun ViewUserInformations(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 OutlinedTextField(
-                    modifier = Modifier.height(150.dp).fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    modifier = Modifier
+                        .height(150.dp)
+                        .fillMaxWidth(),
+                    value = state.allergies,
+                    onValueChange = { viewModel.changeAllergies(it) },
                     label = {
                         Text(text = "Allergies")
                     },
