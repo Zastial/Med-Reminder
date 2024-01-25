@@ -83,6 +83,11 @@ class CreatePrescriptionModel @Inject constructor(
         )
     }
 
+    fun stepToProgress() : Float {
+        val res = state.value.step + 1
+        return res / 6f // Changer 6 par nombre de pages dynamiquement
+    }
+
 
 }
 

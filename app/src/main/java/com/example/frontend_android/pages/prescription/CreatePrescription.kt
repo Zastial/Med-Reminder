@@ -53,7 +53,7 @@ fun CreatePrescriptions(
         BottomBar = {
             BottomBarValidation(
                 navController = navController,
-                onValidation = { },
+                onValidation = { viewModel.nextPage() },
                 onCancellation = {})
             }
     ) {
