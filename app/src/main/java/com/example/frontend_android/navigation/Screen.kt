@@ -9,9 +9,11 @@ sealed class Screen(val route: String) {
     )
     //Screen pour une seule ordonnance
     object createPrescription: Screen(
-        route = "prescription_screen"
+        route = "create_prescription_screen"
     )
-
+    object modifyPrescription: Screen(
+        route = "modify_prescription_screen"
+    )
 
     // Screen pour toutes les alarmes
     object viewNotifications: Screen(
