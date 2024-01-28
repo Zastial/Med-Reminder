@@ -23,6 +23,9 @@ import javax.inject.Singleton
 data class CreatePrescriptionState (
     val step: Int = 0,
     val imageUri: Uri? = null,
+    val date : String = "",
+    val nom : String = "",
+    val description : String = "",
 )
 
 
@@ -68,16 +71,35 @@ class CreatePrescriptionModel @Inject constructor(
         _state.value = state.value.copy(
             imageUri = new_uri
         )
-        println(state)
+    }
+
+    fun changeDate(new_date: String) {
+        _state.value = state.value.copy(
+            date = new_date
+        )
+    }
+
+    fun changeNom(new_nom: String) {
+        _state.value = state.value.copy(
+            nom = new_nom
+        )
+    }
+
+    fun changeDescription(new_description: String) {
+        _state.value = state.value.copy(
+            description = new_description
+        )
     }
 
     fun nextPage() {
+        if (state.value.step == 6) return
         _state.value = state.value.copy(
             step = state.value.step + 1
         )
     }
 
     fun previousPage() {
+        if (state.value.step == 0) return
         _state.value = state.value.copy(
             step = state.value.step - 1
         )

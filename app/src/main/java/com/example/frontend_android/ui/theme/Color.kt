@@ -8,6 +8,7 @@ val Orange400 = Color(0xFFFF9500);
 
 val White = Color(0xFFFFFFFF);
 val Black = Color(0xFF212121);
+val LightGrey = Color(0xFFF3F3F3);
 
 
 val Red700 = Color(0xFFB00020);
