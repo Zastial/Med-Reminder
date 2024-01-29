@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -49,17 +50,23 @@ fun BottomBarStepNavigation (
     navController: NavController,
     onClick: () -> Unit,
 ) {
-    Button(
-        onClick = {
-            onClick()
-        },
-        modifier = Modifier
-            .padding(4.dp)
-            .fillMaxWidth()
-            .background(White),
-        colors = ButtonDefaults.buttonColors(containerColor = Cyan500)
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Continuer")
+        Button(
+            onClick = {
+                onClick()
+            },
+            modifier = Modifier
+                .width(300.dp)
+                .padding(6.dp)
+                .background(White),
+            colors = ButtonDefaults.buttonColors(containerColor = Cyan500)
+        ) {
+            Text(text = "Continuer")
+        }
     }
 }
 

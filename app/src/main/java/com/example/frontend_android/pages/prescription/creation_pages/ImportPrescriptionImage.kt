@@ -54,8 +54,8 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionModel) {
     Column(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth().
-            fillMaxHeight(),
+            .fillMaxWidth()
+            .fillMaxHeight(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -91,7 +91,7 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionModel) {
                 .fillMaxWidth(),
         ) {
             Text(
-                text = "Upload picture",
+                text = "Importer image",
                 fontSize = 15.sp,
             )
         }
