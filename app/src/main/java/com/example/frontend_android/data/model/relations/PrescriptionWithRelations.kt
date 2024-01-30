@@ -2,14 +2,16 @@ package com.example.frontend_android.data.model.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.example.frontend_android.data.model.Doctor
-import com.example.frontend_android.data.model.MedicinePosology
-import com.example.frontend_android.data.model.Prescription
+import com.example.frontend_android.data.model.entities.Alarm
+import com.example.frontend_android.data.model.entities.Doctor
+import com.example.frontend_android.data.model.entities.MedicinePosology
+import com.example.frontend_android.data.model.entities.Prescription
 
 /**
  * Ceci est un object représentant l'ordonance avec ses relations:
  * - medicine_posologies
  * - doctor
+ * - alarm
  */
 data class PrescriptionWithRelations (
     @Embedded
@@ -26,5 +28,12 @@ data class PrescriptionWithRelations (
         entityColumn = "id"
     )
     val doctor: Doctor,
-) {
+
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "prescription_id"
+    )
+    val alarms: List<Alarm>
+
+    ) {
 }
