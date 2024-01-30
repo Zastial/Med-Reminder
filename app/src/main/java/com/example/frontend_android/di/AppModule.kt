@@ -1,4 +1,4 @@
-package com.example.frontend_android
+package com.example.frontend_android.di
 
 import android.app.Application
 import androidx.room.Room
@@ -7,7 +7,6 @@ import com.example.frontend_android.data.PrescriptionDao
 import com.example.frontend_android.data.DoctorDao
 import com.example.frontend_android.data.MedicinePosologyDao
 import com.example.frontend_android.data.SideEffectDao
-import com.example.frontend_android.pages.prescription.CreatePrescriptionModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
