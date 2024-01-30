@@ -10,6 +10,7 @@ data class SideEffect(
     val description: String,
     val medicine_id: Long,
     val prescription_id: Long,
+    val date: String,
 )
 
 class InvalidSideEffectException(message: String): Exception(message)

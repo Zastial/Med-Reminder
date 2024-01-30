@@ -1,6 +1,7 @@
 package com.example.frontend_android.pages.prescription
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,6 +19,7 @@ import com.example.frontend_android.components.cards.PrescriptionCard
 import com.example.frontend_android.components.layout.BottomBarNavigation
 import com.example.frontend_android.components.layout.TopBar
 import com.example.frontend_android.layout.BaseLayout
+import com.example.frontend_android.components.cards.PrescriptionCard
 
 
 @Composable
@@ -48,7 +50,7 @@ fun ViewPrescriptions(
             }
 
             LazyColumn(
-                modifier = Modifier.wrapContentHeight()
+                modifier = Modifier.fillMaxHeight()
             ) {
                 items(state.prescriptionsWithRelations) { prescriptionWithRelations -> PrescriptionCard(prescription = prescriptionWithRelations.prescription) }
             }
