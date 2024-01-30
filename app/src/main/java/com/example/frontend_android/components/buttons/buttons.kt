@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.frontend_android.ui.theme.MedreminderTheme
 import com.example.frontend_android.ui.theme.disabledColor
 import com.example.frontend_android.ui.theme.primaryColor
 
@@ -18,7 +19,7 @@ fun btnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Un
         modifier = Modifier.fillMaxWidth(),
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(containerColor = primaryColor, disabledContainerColor = disabledColor ),
-        onClick = { }
+        onClick = { onClick }
     ) {
         Text(text = actionText)
     }
@@ -31,5 +32,7 @@ fun btnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Un
 @Preview(showBackground = true )
 @Composable
 fun buttonPreview() {
-    btnContinue(actionText = "Continuer", onClick = { })
+    MedreminderTheme {
+        btnContinue(actionText = "Continuer", onClick = { })
+    }
 }
