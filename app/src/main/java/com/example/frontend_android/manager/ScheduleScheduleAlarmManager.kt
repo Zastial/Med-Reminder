@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import com.example.frontend_android.GlobalProperties.pendingIntentFlags
-import com.example.frontend_android.data.model.Alarm
+import com.example.frontend_android.data.model.entities.Alarm
 import com.example.frontend_android.reciever.AlarmBroadcastReciever
 import com.example.frontend_android.reciever.HOUR
 import com.example.frontend_android.reciever.IS_RECURRING
@@ -16,10 +16,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import javax.inject.Inject
 
-@AndroidEntryPoint
+/**
+ * Gestion des alarmes : Planification et annulation
+ */
+
 class ScheduleScheduleAlarmManager @Inject constructor(
     private val context: Context,
-
 ) : IScheduleAlarmManager {
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
