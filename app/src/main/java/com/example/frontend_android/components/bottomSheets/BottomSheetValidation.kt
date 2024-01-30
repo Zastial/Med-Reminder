@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.frontend_android.components.buttons.btnContinue
+import com.example.frontend_android.components.buttons.BtnContinue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun bottomSheetOperationValidation(isSuccesfull: Boolean, isOpen : Boolean, title: String, description: String, actionButton : @Composable () -> Unit) {
+fun BottomSheetOperationValidation(isSuccesfull: Boolean, isOpen : Boolean, title: String, description: String, actionButton : @Composable () -> Unit) {
 
 
     var isSheetOpen by rememberSaveable { mutableStateOf(true) }
@@ -59,12 +59,12 @@ fun bottomSheetOperationValidation(isSuccesfull: Boolean, isOpen : Boolean, titl
 
 @Preview(showBackground = true )
 @Composable
-fun defaultBottomSheetPreview() {
-    bottomSheetOperationValidation(
+fun DefaultBottomSheetPreview() {
+    BottomSheetOperationValidation(
         isSuccesfull = true,
         isOpen = false,
         title = "Votre ordonnance à été correctement enregistrée",
         description = "L'opération c'est terminée avec succès",
-        actionButton = { btnContinue(actionText = "Continuer", onClick = { }) }
+        actionButton = { BtnContinue(actionText = "Continuer", onClick = { }) }
     )
 }

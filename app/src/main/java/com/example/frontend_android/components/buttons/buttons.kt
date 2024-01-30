@@ -14,12 +14,12 @@ import com.example.frontend_android.ui.theme.primaryColor
 
 
 @Composable
-fun btnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Unit) {
+fun BtnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Unit) {
     Button(
         modifier = Modifier.fillMaxWidth(),
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(containerColor = primaryColor, disabledContainerColor = disabledColor ),
-        onClick = { onClick }
+        onClick = { onClick() }
     ) {
         Text(text = actionText)
     }
@@ -31,8 +31,8 @@ fun btnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Un
 
 @Preview(showBackground = true )
 @Composable
-fun buttonPreview() {
+fun ButtonPreview() {
     MedreminderTheme {
-        btnContinue(actionText = "Continuer", onClick = { })
+        BtnContinue(actionText = "Continuer", onClick = { })
     }
 }
