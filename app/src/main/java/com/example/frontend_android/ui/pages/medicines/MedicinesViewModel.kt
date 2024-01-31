@@ -19,7 +19,7 @@ data class MedicinesState (
 
 
 @HiltViewModel
-class ViewMedicinesModel @Inject constructor(): ViewModel() {
+class MedicinesViewModel @Inject constructor(): ViewModel() {
 
     val medicineDao  = ServiceBuilder.buildService(MedicineDao::class.java)
 

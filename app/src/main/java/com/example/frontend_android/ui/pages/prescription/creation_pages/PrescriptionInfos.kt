@@ -43,7 +43,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.frontend_android.components.layout.BottomBarStepNavigation
-import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionModel
+import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 import com.example.frontend_android.ui.theme.Cyan500
 import com.example.frontend_android.ui.theme.LightGrey
 import com.example.frontend_android.ui.theme.Purple40
@@ -53,7 +53,7 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
 @Composable
-fun FillPrescriptionInfos(viewModel: CreatePrescriptionModel) {
+fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -127,7 +127,7 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionModel) {
 }
 
 @Composable
-fun ShowCalendar(viewModel: CreatePrescriptionModel) {
+fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
     val calendar = Calendar.getInstance()
     val currentYear = calendar.get(Calendar.YEAR)
     val currentMonth = calendar.get(Calendar.MONTH)

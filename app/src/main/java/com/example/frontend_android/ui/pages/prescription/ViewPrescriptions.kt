@@ -25,7 +25,7 @@ import com.example.frontend_android.ui.components.cards.PrescriptionCard
 @Composable
 fun ViewPrescriptions(
     navController: NavController,
-    viewModel: ViewPrescriptionsModel = hiltViewModel()
+    viewModel: PrescriptionsViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
 

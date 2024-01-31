@@ -35,11 +35,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionModel
+import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 import java.time.LocalDate
 
 @Composable
-fun ImportPrescriptionImage(viewModel: CreatePrescriptionModel) {
+fun ImportPrescriptionImage(viewModel: CreatePrescriptionViewModel) {
     val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             viewModel.changeImageUri(uri)
