@@ -21,7 +21,7 @@ import com.example.frontend_android.ui.layout.BaseLayout
 @Composable
 fun ViewUserSideEffectsHistory(
     navController: NavController,
-    viewModel: ViewSideEffectsHistoryModel = hiltViewModel()
+    viewModel: SideEffectsHistoryViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
 

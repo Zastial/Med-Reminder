@@ -17,7 +17,7 @@ data class SideEffectsState (
 )
 
 @HiltViewModel
-class ViewSideEffectsHistoryModel  @Inject constructor (
+class SideEffectsHistoryViewModel  @Inject constructor (
     private val SideEffectsHistoryDao: SideEffectDao
 ): ViewModel() {
 

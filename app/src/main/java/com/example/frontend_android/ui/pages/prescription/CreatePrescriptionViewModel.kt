@@ -27,7 +27,7 @@ data class CreatePrescriptionState (
 
 
 @HiltViewModel
-class CreatePrescriptionModel @Inject constructor(
+class CreatePrescriptionViewModel @Inject constructor(
     private val prescriptionDao: PrescriptionDao,
     private val doctorDao: DoctorDao
 ): ViewModel() {

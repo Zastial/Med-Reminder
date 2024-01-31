@@ -26,12 +26,12 @@ import com.example.frontend_android.pages.prescription.creation_pages.FillPrescr
 import com.example.frontend_android.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.layout.BaseLayout
-import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionModel
+import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 
 @Composable
 fun CreatePrescriptions(
     navController: NavController,
-    viewModel: CreatePrescriptionModel = hiltViewModel()
+    viewModel: CreatePrescriptionViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
 

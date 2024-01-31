@@ -15,7 +15,7 @@ import com.example.frontend_android.ui.layout.BaseLayout
 @Composable
 fun ViewMedicines(
     navController: NavController,
-    viewModel: ViewMedicinesModel = hiltViewModel()
+    viewModel: MedicinesViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value
