@@ -2,7 +2,6 @@ package com.example.frontend_android.data.model.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalTime
 
 
 @Entity(tableName = "Alarm")

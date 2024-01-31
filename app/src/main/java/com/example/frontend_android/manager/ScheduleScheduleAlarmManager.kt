@@ -7,11 +7,8 @@ import android.content.Intent
 import android.widget.Toast
 import com.example.frontend_android.GlobalProperties.pendingIntentFlags
 import com.example.frontend_android.data.model.entities.Alarm
-<<<<<<< HEAD
+
 import com.example.frontend_android.receiver.AlarmBroadcastReceiver
-=======
-import com.example.frontend_android.receiver.AlarmBroadcastReciever
->>>>>>> 91800d8 (correction pour publier le changement de structure)
 import com.example.frontend_android.receiver.HOUR
 import com.example.frontend_android.receiver.IS_RECURRING
 import com.example.frontend_android.receiver.MINUTE
