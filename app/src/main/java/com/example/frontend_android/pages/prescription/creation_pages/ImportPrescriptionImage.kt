@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,8 +54,8 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionModel) {
     Column(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth().
-            fillMaxHeight(),
+            .fillMaxWidth()
+            .fillMaxHeight(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -71,12 +72,14 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionModel) {
             fontSize = 25.sp,
         )
 
+        val configuration = LocalConfiguration.current
+        val screenHeight = configuration.screenHeightDp.dp
         AsyncImage(
             model = viewModel.state.value.imageUri ?: "",
             contentDescription = "",
             modifier = Modifier
                 .background(color = Color.LightGray)
-                .height(500.dp)
+                .height(screenHeight / 1.7f)
                 .clip(RectangleShape)
                 .border(1.dp, Color.Black),
         )
@@ -88,7 +91,7 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionModel) {
                 .fillMaxWidth(),
         ) {
             Text(
-                text = "Upload picture",
+                text = "Importer image",
                 fontSize = 15.sp,
             )
         }

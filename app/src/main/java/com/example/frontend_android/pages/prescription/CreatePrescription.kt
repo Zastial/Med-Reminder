@@ -20,9 +20,12 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.frontend_android.components.layout.BottomBarStepNavigation
 import com.example.frontend_android.components.layout.BottomBarValidation
 import com.example.frontend_android.components.layout.TopBar
+import com.example.frontend_android.components.layout.TopBarPrescriptionNavigation
 import com.example.frontend_android.layout.BaseLayout
+import com.example.frontend_android.pages.prescription.creation_pages.FillPrescriptionInfos
 import com.example.frontend_android.pages.prescription.creation_pages.ImportPrescriptionImage
 
 @Composable
@@ -30,32 +33,51 @@ fun CreatePrescriptions(
     navController: NavController,
     viewModel: CreatePrescriptionModel = hiltViewModel()
 ) {
-
     val state = viewModel.state.value
-
 
     @Composable
     fun PageFromStep(step: Int) {
         return when (step) {
             0 -> ImportPrescriptionImage(viewModel)
+            1 -> FillPrescriptionInfos(viewModel)
             else -> {}
+        }
+    }
+
+    @Composable
+    fun BottomBar(step : Int) {
+        when (step) {
+            0 -> BottomBarStepNavigation(
+                navController = navController,
+                onClick = { viewModel.nextPage() },
+            )
+            6 -> BottomBarValidation(
+                navController = navController,
+                onValidation = { viewModel.insertPrescription() },
+                onCancellation = { viewModel.previousPage() }
+            )
+            else -> BottomBarStepNavigation(
+                navController = navController,
+                onClick = { viewModel.nextPage() },
+            )
         }
     }
 
     BaseLayout(
         TopBar = {
-            TopBar(
+            TopBarPrescriptionNavigation(
                 navController = navController,
                 title = "Ajouter une ordonnance",
-                canGoBack = true
+                onClick = {
+                    if (state.step == 0) {
+                        navController.navigateUp()
+                    } else {
+                        viewModel.previousPage()
+                    }
+                }
             )
         },
-        BottomBar = {
-            BottomBarValidation(
-                navController = navController,
-                onValidation = { viewModel.nextPage() },
-                onCancellation = {})
-            }
+        BottomBar = { BottomBar(state.step) }
     ) {
         PageFromStep(state.step)
     }
