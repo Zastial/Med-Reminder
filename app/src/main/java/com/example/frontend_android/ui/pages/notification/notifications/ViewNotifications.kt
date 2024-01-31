@@ -1,4 +1,4 @@
-package com.example.frontend_android.ui.pages.notification
+package com.example.frontend_android.ui.pages.notification.notifications
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button

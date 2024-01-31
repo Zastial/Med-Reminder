@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.frontend_android.ui.pages.medicines.ViewMedicines
-import com.example.frontend_android.ui.pages.notification.ViewNotifications
 
 fun NavGraphBuilder.medicineGraph(
     navController: NavHostController
