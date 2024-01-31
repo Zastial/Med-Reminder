@@ -1,13 +1,13 @@
 package com.example.frontend_android.ui.pages.notification.add_edit_notification
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.data.model.entities.InvalidAlarmException
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,8 +17,8 @@ class AddEditNotificationsViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(AddEditNotificationState())
-    val state: StateFlow<AddEditNotificationState> = _state.asStateFlow()
+    private val _state = mutableStateOf(AddEditNotificationState())
+    val state: State<AddEditNotificationState> = _state
 
     // permet de gérer les evenements
     // ex : quand on sauvegarde une alarme
@@ -47,10 +47,10 @@ class AddEditNotificationsViewModel @Inject constructor(
 
                         // save alarm avec repo
 
-                        emitEvent(UiEvent.SaveNotification)
+                        _eventFlow.emit(UiEvent.SaveNotification)
                     } catch (e : InvalidAlarmException) {
 
-                        emitEvent(
+                        _eventFlow.emit(
                             UiEvent.ShowToast(
                                 message = e.message ?: "Impossible de sauvegarder l'alarme"
                             )
@@ -62,17 +62,8 @@ class AddEditNotificationsViewModel @Inject constructor(
         }
 
 
-        _state.update { currentState ->
-                currentState.copy(
 
-                )
-        }
     }
-
-    suspend fun emitEvent(event: UiEvent) {
-        _eventFlow.emit(event)
-    }
-
 
     sealed class UiEvent {
         data class ShowToast(val message: String): UiEvent()

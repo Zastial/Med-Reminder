@@ -35,15 +35,8 @@ fun NavGraphBuilder.notificationGraph(
         }
 
         composable(route = Screen.createAlarm.route) {
-            val viewModel  = hiltViewModel<AddEditNotificationsViewModel>()
-            val state by viewModel.state.collectAsState()
-
-            val eventFlow by viewModel.eventFlow.collect()
             CreateNotificationScreen(
-                navController = navController,
-                state = state,
-                onEvent = viewModel::onEvent,
-                viewModelEvent = eventFlow
+                navController = navController
             )
         }
 

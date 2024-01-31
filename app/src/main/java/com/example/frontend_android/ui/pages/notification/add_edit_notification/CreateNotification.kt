@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
+import androidx.compose.material.TextField
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,6 +16,8 @@ import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
@@ -26,16 +31,16 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun CreateNotificationScreen(
     navController: NavController,
-    state : AddEditNotificationState,
-    onEvent : (AddEditNotificationEvent) -> Unit,
-    viewModelEvent : Flow<Any>
+    viewModel: AddEditNotificationsViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state.value
 
     val scaffoldState = rememberScaffoldState()
 
+
     // observeur permettant de récupéré les evenement du viewModel
     LaunchedEffect(key1 = true) {
-        viewModelEvent.collectLatest { event ->
+        viewModel.eventFlow.collectLatest { event ->
             when(event) {
                 is AddEditNotificationsViewModel.UiEvent.ShowToast -> {
 
@@ -47,6 +52,7 @@ fun CreateNotificationScreen(
             }
         }
     }
+
 
 
     Scaffold(
@@ -61,12 +67,16 @@ fun CreateNotificationScreen(
                 .padding(it)
         ) {
 
+            BasicTextField(
+                value = state.hour,
+                onValueChange = { viewModel.onEvent(AddEditNotificationEvent.EnteredHour(it))}
+            )
+
+            BasicTextField(
+                value = state.minutes,
+                onValueChange = { viewModel.onEvent(AddEditNotificationEvent.EnteredMinute(it))}
+            )
         }
-
-
-
-
-
     }
 
 }
@@ -78,9 +88,6 @@ fun CreateNotificationScreenPreview() {
     MedreminderTheme {
         CreateNotificationScreen(
             navController = rememberNavController(),
-            state = AddEditNotificationState(),
-            onEvent = {},
-            viewModelEvent = flowOf()
         )
     }
 }
