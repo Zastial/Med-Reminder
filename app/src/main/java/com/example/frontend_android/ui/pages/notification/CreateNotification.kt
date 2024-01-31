@@ -5,7 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.components.layout.TopBar
-import com.example.frontend_android.ui.layout.BaseLayout
+import com.example.frontend_android.ui.components.layout.BaseLayout
 
 @Composable
 fun CreateNotificationScreen(

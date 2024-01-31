@@ -63,7 +63,6 @@ fun BottomBarStepNavigation (
                 .width(300.dp)
                 .padding(6.dp)
                 .background(White),
-            colors = ButtonDefaults.buttonColors(containerColor = Cyan500)
         ) {
             Text(text = "Continuer")
         }
