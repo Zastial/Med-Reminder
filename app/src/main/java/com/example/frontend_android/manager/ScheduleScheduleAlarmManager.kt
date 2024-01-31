@@ -7,12 +7,11 @@ import android.content.Intent
 import android.widget.Toast
 import com.example.frontend_android.GlobalProperties.pendingIntentFlags
 import com.example.frontend_android.data.model.entities.Alarm
-import com.example.frontend_android.reciever.AlarmBroadcastReciever
-import com.example.frontend_android.reciever.HOUR
-import com.example.frontend_android.reciever.IS_RECURRING
-import com.example.frontend_android.reciever.MINUTE
-import com.example.frontend_android.reciever.TITLE
-import dagger.hilt.android.AndroidEntryPoint
+import com.example.frontend_android.receiver.AlarmBroadcastReciever
+import com.example.frontend_android.receiver.HOUR
+import com.example.frontend_android.receiver.IS_RECURRING
+import com.example.frontend_android.receiver.MINUTE
+import com.example.frontend_android.receiver.TITLE
 import java.util.Calendar
 import javax.inject.Inject
 

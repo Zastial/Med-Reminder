@@ -1,4 +1,4 @@
-package com.example.frontend_android.reciever
+package com.example.frontend_android.receiver
 
 import android.content.BroadcastReceiver
 import android.content.Context
