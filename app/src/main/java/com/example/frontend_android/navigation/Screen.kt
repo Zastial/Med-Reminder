@@ -40,4 +40,8 @@ sealed class Screen(val route: String) {
     object viewUserSideEffectsHistory: Screen(
         route = "user_side_effects_history_screen"
     )
+
+    object createAlarm: Screen(
+        route = "crate_notification"
+    )
 }

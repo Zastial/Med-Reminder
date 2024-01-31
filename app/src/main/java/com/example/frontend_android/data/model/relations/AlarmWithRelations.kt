@@ -2,16 +2,16 @@ package com.example.frontend_android.data.model.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import com.example.frontend_android.data.model.entities.Alarm
 import com.example.frontend_android.data.model.entities.Prescription
-import com.example.frontend_android.data.model.entities.SideEffect
 
 /**
- * Ceci est un object représentant un effet secondaire avec ses relations:
- * - prescription
+ * Ceci est un object représentant une alarme avec sa prescription
  */
-data class SideEffectWithRelations(
+data class AlarmWithRelations(
     @Embedded
-    val side_effect: SideEffect,
+    val alarm: Alarm,
+
     @Relation(
         parentColumn = "prescription_id",
         entityColumn = "id"
