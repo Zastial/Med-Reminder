@@ -7,7 +7,11 @@ import android.content.Intent
 import android.widget.Toast
 import com.example.frontend_android.GlobalProperties.pendingIntentFlags
 import com.example.frontend_android.data.model.entities.Alarm
+<<<<<<< HEAD
+import com.example.frontend_android.receiver.AlarmBroadcastReceiver
+=======
 import com.example.frontend_android.receiver.AlarmBroadcastReciever
+>>>>>>> 91800d8 (correction pour publier le changement de structure)
 import com.example.frontend_android.receiver.HOUR
 import com.example.frontend_android.receiver.IS_RECURRING
 import com.example.frontend_android.receiver.MINUTE
@@ -26,7 +30,7 @@ class ScheduleScheduleAlarmManager @Inject constructor(
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     override fun schedule(alarm: Alarm) {
 
-        val alarmIntent =  Intent(context, AlarmBroadcastReciever::class.java).apply {
+        val alarmIntent =  Intent(context, AlarmBroadcastReceiver::class.java).apply {
             putExtra(IS_RECURRING, alarm.isRecurring)
             putExtra(HOUR, alarm.hour)
             putExtra(MINUTE, alarm.minute)
@@ -56,7 +60,7 @@ class ScheduleScheduleAlarmManager @Inject constructor(
     override fun cancel(alarm: Alarm) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val alamIntent = Intent(context, AlarmBroadcastReciever::class.java)
+        val alamIntent = Intent(context, AlarmBroadcastReceiver::class.java)
 
         val alarmPendingIntent = PendingIntent.getBroadcast(
             context,
