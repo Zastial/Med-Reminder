@@ -23,13 +23,10 @@ import com.example.frontend_android.components.buttons.BtnContinue
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomSheetOperationValidation(isSuccesfull: Boolean, isOpen : Boolean, title: String, description: String, actionButton : @Composable () -> Unit) {
-
-
     var isSheetOpen by rememberSaveable { mutableStateOf(true) }
     val sheetState = rememberModalBottomSheetState(
         confirmValueChange = { false }
     )
-
 
     if (isOpen) {
         ModalBottomSheet(
@@ -51,10 +48,8 @@ fun BottomSheetOperationValidation(isSuccesfull: Boolean, isOpen : Boolean, titl
                 Text(text = description, textAlign = TextAlign.Center)
                 actionButton()
             }
-
         }
     }
-
 }
 
 @Preview(showBackground = true )

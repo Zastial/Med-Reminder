@@ -25,10 +25,6 @@ fun BtnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Un
     }
 }
 
-
-
-
-
 @Preview(showBackground = true )
 @Composable
 fun ButtonPreview() {
