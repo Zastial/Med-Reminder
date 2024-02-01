@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.frontend_android.pages.prescription.CreatePrescriptions
-import com.example.frontend_android.pages.prescription.ViewPrescriptions
+import com.example.frontend_android.ui.pages.prescription.ViewPrescriptions
 
 
 // graphe s'occupant des ordonnances

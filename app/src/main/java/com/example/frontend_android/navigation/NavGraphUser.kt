@@ -4,10 +4,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.frontend_android.pages.user.ViewUserInformations
-import com.example.frontend_android.pages.user.ViewUser
-import com.example.frontend_android.pages.user.ViewUserDoctorContact
-import com.example.frontend_android.pages.user.ViewUserSideEffectsHistory
+import com.example.frontend_android.ui.pages.user.ViewUser
+import com.example.frontend_android.ui.pages.user.ViewUserDoctorContact
+import com.example.frontend_android.ui.pages.user.ViewUserInformations
+import com.example.frontend_android.ui.pages.user.ViewUserSideEffectsHistory
 
 fun NavGraphBuilder.userGraph(
     navController: NavHostController
