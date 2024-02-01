@@ -58,26 +58,23 @@ import java.util.Calendar
 fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            verticalArrangement =  Arrangement.Center,
-        ) {
-            LinearProgressIndicator(
-                progress = viewModel.stepToProgress(),
-                modifier = Modifier.fillMaxWidth(),
-            )
+        LinearProgressIndicator(
+            progress = viewModel.stepToProgress(),
+            modifier = Modifier.fillMaxWidth(),
+        )
 
-            Text(
-                text = "Saisissez un nom et une description",
-                modifier = Modifier
-                    .padding(top = 20.dp, bottom = 30.dp),
-                fontWeight = FontWeight.Bold,
-                fontSize = 25.sp,
-            )
-        }
+        Text(
+            text = "Saisissez un nom et une description",
+            modifier = Modifier
+                .padding(top = 20.dp, bottom = 20.dp),
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp,
+        )
 
         Column {
             Text(
