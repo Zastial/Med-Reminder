@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -48,10 +49,9 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionViewModel) {
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .fillMaxHeight(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LinearProgressIndicator(
@@ -81,9 +81,9 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionViewModel) {
         Button(
             onClick = { galleryLauncher.launch("image/*") },
             modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
                 .padding(top = 16.dp)
-                .height(50.dp)
-                .fillMaxWidth(),
         ) {
             Text(
                 text = "Importer image",
