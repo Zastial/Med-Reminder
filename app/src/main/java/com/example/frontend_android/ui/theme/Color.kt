@@ -9,6 +9,8 @@ val White = Color(0xFFFFFFFF);
 val Black = Color(0xFF212121);
 val LightGrey = Color(0xFFF3F3F3);
 
+val Grey100 = Color(0xFF999898);
+
 
 val Red700 = Color(0xFFB00020);
 val Green600 = Color(0xFF34C759);

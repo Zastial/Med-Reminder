@@ -1,4 +1,4 @@
-package com.example.frontend_android.ui.components.forms.buttons
+package com.example.frontend_android.ui.components.forms
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
