@@ -48,7 +48,7 @@ fun AddEditNotificationScreen(
     Scaffold(
         modifier = Modifier.fillMaxHeight(),
         scaffoldState = scaffoldState,
-        topBar = { TopBar(navController= navController, canGoBack = false, title = "Ajouter une alarme") },
+        topBar = { TopBar(navController= navController, canGoBack = true, title = "Ajouter une alarme") },
     ) {
 
         Column(

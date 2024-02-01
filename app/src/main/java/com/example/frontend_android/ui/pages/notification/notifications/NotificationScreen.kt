@@ -8,13 +8,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.navigation.Screen
+import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
-import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.theme.MedreminderTheme
 
 @Composable
-fun ViewNotifications(
+fun NotificationScreen(
     navController: NavController
 ) {
     //val viewModelNotification = hiltViewModel<>()
@@ -33,8 +33,6 @@ fun ViewNotifications(
         }
     ) {
         Column {
-            Text(text = "Page de notifications")
-
             Button(onClick = { navController.navigate(Screen.createAlarm.route) }) {
                 Text(text = "Ajouter une notification")
             }
@@ -50,15 +48,12 @@ fun ViewNotifications(
 
 
 
-
-
-
 @Preview(showBackground = true, )
 @Composable
 fun NotificationPreview() {
     val navController = rememberNavController()
     MedreminderTheme {
-        ViewNotifications(
+        NotificationScreen(
             navController = navController
         )
     }
