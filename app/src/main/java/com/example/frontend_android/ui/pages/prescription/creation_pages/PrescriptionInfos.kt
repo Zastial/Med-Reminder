@@ -12,10 +12,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleRight
 import androidx.compose.material.icons.filled.DateRange
@@ -23,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +44,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.frontend_android.components.layout.BottomBarStepNavigation
-import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionModel
+import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 import com.example.frontend_android.ui.theme.Cyan500
 import com.example.frontend_android.ui.theme.LightGrey
 import com.example.frontend_android.ui.theme.Purple40
@@ -52,30 +53,28 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FillPrescriptionInfos(viewModel: CreatePrescriptionModel) {
+fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            verticalArrangement =  Arrangement.Center,
-        ) {
-            LinearProgressIndicator(
-                progress = viewModel.stepToProgress(),
-                modifier = Modifier.fillMaxWidth(),
-            )
+        LinearProgressIndicator(
+            progress = viewModel.stepToProgress(),
+            modifier = Modifier.fillMaxWidth(),
+        )
 
-            Text(
-                text = "Saisissez un nom et une description",
-                modifier = Modifier
-                    .padding(top = 20.dp, bottom = 30.dp),
-                fontWeight = FontWeight.Bold,
-                fontSize = 25.sp,
-            )
-        }
+        Text(
+            text = "Saisissez un nom et une description",
+            modifier = Modifier
+                .padding(top = 20.dp, bottom = 20.dp),
+            fontWeight = FontWeight.Bold,
+            fontSize = 25.sp,
+        )
 
         Column {
             Text(
@@ -101,7 +100,7 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionModel) {
                 label = {
                     Text(text = "Maladie")
                 },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
+                colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Purple40,
                 ),
             )
@@ -127,7 +126,7 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionModel) {
 }
 
 @Composable
-fun ShowCalendar(viewModel: CreatePrescriptionModel) {
+fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
     val calendar = Calendar.getInstance()
     val currentYear = calendar.get(Calendar.YEAR)
     val currentMonth = calendar.get(Calendar.MONTH)

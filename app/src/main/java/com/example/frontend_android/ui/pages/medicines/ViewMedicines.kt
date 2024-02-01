@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
-import com.example.frontend_android.ui.layout.BaseLayout
+import com.example.frontend_android.ui.components.layout.BaseLayout
 
 @Composable
 fun ViewMedicines(
     navController: NavController,
-    viewModel: ViewMedicinesModel = hiltViewModel()
+    viewModel: MedicinesViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value

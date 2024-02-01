@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -35,11 +36,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionModel
+import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 import java.time.LocalDate
 
 @Composable
-fun ImportPrescriptionImage(viewModel: CreatePrescriptionModel) {
+fun ImportPrescriptionImage(viewModel: CreatePrescriptionViewModel) {
     val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             viewModel.changeImageUri(uri)
@@ -48,10 +49,9 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionModel) {
 
     Column(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .fillMaxHeight(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LinearProgressIndicator(
@@ -81,9 +81,9 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionModel) {
         Button(
             onClick = { galleryLauncher.launch("image/*") },
             modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
                 .padding(top = 16.dp)
-                .height(50.dp)
-                .fillMaxWidth(),
         ) {
             Text(
                 text = "Importer image",
