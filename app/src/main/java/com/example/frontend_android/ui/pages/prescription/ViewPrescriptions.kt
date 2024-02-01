@@ -2,10 +2,10 @@ package com.example.frontend_android.ui.pages.prescription
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -18,8 +18,7 @@ import com.example.frontend_android.navigation.Screen
 import com.example.frontend_android.ui.components.cards.PrescriptionCard
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
-import com.example.frontend_android.ui.layout.BaseLayout
-import com.example.frontend_android.ui.components.cards.PrescriptionCard
+import com.example.frontend_android.ui.components.layout.BaseLayout
 
 
 @Composable

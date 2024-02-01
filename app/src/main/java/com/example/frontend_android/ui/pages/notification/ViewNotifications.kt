@@ -10,7 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.navigation.Screen
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
-import com.example.frontend_android.ui.layout.BaseLayout
+import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.theme.MedreminderTheme
 
 @Composable

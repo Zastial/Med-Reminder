@@ -1,16 +1,20 @@
 package com.example.frontend_android.ui.components.layout
 
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -20,27 +24,27 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.frontend_android.navigation.RootScreen
 import com.example.frontend_android.ui.theme.White
 
+val bottomNavigationItem: List<RootScreen> = listOf(
+    RootScreen.prescription,
+    RootScreen.notification,
+    RootScreen.medicine,
+    RootScreen.user
+)
+
 @Composable
 fun BottomBarNavigation(
     navController: NavController
 ) {
 
-    val bottomNavigationItem: List<RootScreen> = listOf(
-        RootScreen.prescription,
-        RootScreen.notification,
-        RootScreen.medicine,
-        RootScreen.user
-    )
-
-    BottomNavigation(
-        backgroundColor = White
+    NavigationBar(
+        modifier = Modifier.height(70.dp),
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         bottomNavigationItem.forEach { screen ->
             val isSelected = isSelected(currentDestination, screen.route)
             val colorNavItem = if (isSelected) MaterialTheme.colorScheme.primary else Color.Black
-            BottomNavigationItem(
+            NavigationBarItem(
                 icon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = screen.icon),
@@ -73,9 +77,7 @@ fun BottomBarNavigation(
                     }
                 }
             )
-
         }
-
     }
 }
 

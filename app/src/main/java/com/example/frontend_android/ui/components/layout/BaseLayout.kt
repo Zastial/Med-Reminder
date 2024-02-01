@@ -1,13 +1,15 @@
-package com.example.frontend_android.ui.layout
+package com.example.frontend_android.ui.components.layout
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -19,16 +21,17 @@ fun BaseLayout(
     BottomBar: @Composable () -> Unit,
     Content: (@Composable () -> Unit)? = null
 ) {
-
-    val scaffoldState = rememberScaffoldState()
-
+    val snackbarHostState = remember { SnackbarHostState() }
+    
     Scaffold(
         modifier = Modifier.fillMaxHeight(),
-        scaffoldState = scaffoldState,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = { TopBar() },
         bottomBar = { BottomBar() },
     ) {
-        Surface(modifier = modifier.padding(8.dp, 16.dp).padding(it)) {
+        Surface(modifier = modifier
+            .padding(8.dp, 16.dp)
+            .padding(it)) {
             if (Content != null) {
                 Content()
             }
