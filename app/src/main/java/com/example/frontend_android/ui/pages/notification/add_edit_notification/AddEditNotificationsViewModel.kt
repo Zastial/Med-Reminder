@@ -5,7 +5,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.data.model.entities.InvalidAlarmException
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -13,7 +12,7 @@ import javax.inject.Inject
 
 
 class AddEditNotificationsViewModel @Inject constructor(
-        @ApplicationContext val context: ApplicationContext
+
 ) : ViewModel() {
 
     private val _state = mutableStateOf(AddEditNotificationState())
@@ -49,11 +48,16 @@ class AddEditNotificationsViewModel @Inject constructor(
 
                         // save alarm avec repo
 
-                        _eventFlow.emit(UiEvent.SaveNotification)
+                        _eventFlow.emit(
+                            UiEvent.ShowSnackBar(
+                                message = "Impossible de sauvegarder l'alarme"
+                            )
+                        )
+                        //_eventFlow.emit(UiEvent.SaveNotification)
                     } catch (e : InvalidAlarmException) {
 
                         _eventFlow.emit(
-                            UiEvent.ShowToast(
+                            UiEvent.ShowSnackBar(
                                 message = e.message ?: "Impossible de sauvegarder l'alarme"
                             )
                         )
@@ -68,7 +72,7 @@ class AddEditNotificationsViewModel @Inject constructor(
     }
 
     sealed class UiEvent {
-        data class ShowToast(val message: String): UiEvent()
+        data class ShowSnackBar(val message: String): UiEvent()
         object SaveNotification: UiEvent()
     }
 }
