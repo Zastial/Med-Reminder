@@ -6,9 +6,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.frontend_android.data.model.dao.DoctorDao
 import com.example.frontend_android.data.model.dao.PrescriptionDao
-import com.example.frontend_android.data.model.entities.Doctor
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
 import com.example.frontend_android.data.model.entities.Prescription
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +27,6 @@ data class CreatePrescriptionState (
 @HiltViewModel
 class CreatePrescriptionViewModel @Inject constructor(
     private val prescriptionDao: PrescriptionDao,
-    private val doctorDao: DoctorDao
 ): ViewModel() {
 
     private val _state = mutableStateOf(CreatePrescriptionState())
@@ -40,22 +37,16 @@ class CreatePrescriptionViewModel @Inject constructor(
 
         viewModelScope.launch {
             try {
-                val doctor_id = doctorDao.insertDoctor(
-                    Doctor(
-                        id = null,
-                        first_name = "",
-                        last_name = "",
-                        email = ""
-                    )
-                )
-
                 prescriptionDao.insertPrescription(
                     Prescription(
                         id = null,
                         title = "",
                         description = "",
                         delivered_at = LocalDate.now(),
-                        doctor_id = doctor_id,
+                        doctor_first_name = null,
+                        doctor_last_name = null,
+                        doctor_email = null,
+
                     )
                 )
             } catch (e: InvalidPrescriptionException) {

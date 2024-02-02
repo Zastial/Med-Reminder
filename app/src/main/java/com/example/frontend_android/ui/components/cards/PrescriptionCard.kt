@@ -21,14 +21,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.frontend_android.R
-import com.example.frontend_android.ui.components.medicineCounter
+import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
+import com.example.frontend_android.data.model.relations.PrescriptionWithRelations
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrescriptionCard(
-    prescription: Prescription,
+    prescriptionWithRelations: PrescriptionWithRelations,
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -53,13 +54,13 @@ fun PrescriptionCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = prescription.title,
+                    text = prescriptionWithRelations.prescription.title,
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = prescription.formatDate,
+                    text = prescriptionWithRelations.prescription.formatDate,
                     style = MaterialTheme.typography.titleMedium,
                 )
             }
@@ -74,7 +75,7 @@ fun PrescriptionCard(
                 Text(
                     modifier = Modifier
                         .weight(weight = 1f, fill = false),
-                    text = prescription.description,
+                    text = prescriptionWithRelations.prescription.description,
                     style = MaterialTheme.typography.bodySmall,
                     maxLines = 3,
                     overflow = TextOverflow.Ellipsis
@@ -91,14 +92,11 @@ fun PrescriptionCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-
-
-                val listMedic = listOf("medoc 1", "medoc 2", "medic3", "medicament 4");
-                medicineCounter(numberOfMedicine = listMedic.size)
+                Text(text = "${prescriptionWithRelations.medicine_posologies.size} médicaments")
 
                 Row() {
                     Text(text = "Dr. ")
-                    Text(text = "Louis")
+                    prescriptionWithRelations.prescription.doctor_last_name?.let { Text(text = it) }
                 }
 
 
@@ -113,17 +111,27 @@ fun PrescriptionCard(
 @Composable
 fun PrescriptionPreview() {
     PrescriptionCard(
-        Prescription(
-        0,
-        "Prescription",
-        "Is a long established fact " +
-                " by the readable content of a page when looking at its layout." +
-                " The point of using Lorem Ipsum is that it has a more-or-less " +
-                "normal distribution of letters, as opposed to using 'Content here," +
-                " content here', making it look like readable English.",
-        LocalDate.now(),
-        doctor_id = 1
-    )
-    )
+        PrescriptionWithRelations(
+            Prescription(
 
+                0,
+                "Prescription",
+                "Is a long established fact " +
+                        " by the readable content of a page when looking at its layout." +
+                        " The point of using Lorem Ipsum is that it has a more-or-less " +
+                        "normal distribution of letters, as opposed to using 'Content here," +
+                        " content here', making it look like readable English.",
+                LocalDate.now(),
+                doctor_first_name = "Jean",
+                doctor_last_name = "Dupont",
+                doctor_email = "jean.dupont@medecine.com",
+            ),
+            listOf(
+                MedicinePosology(0, "Ceci est un médicament", 0, 0),
+                MedicinePosology(1, "Ceci est un médicament", 1, 0),
+                MedicinePosology(2, "Ceci est un médicament", 2, 0),
+            ),
+            listOf()
+        )
+    )
 }

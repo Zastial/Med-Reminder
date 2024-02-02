@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.AlarmBroadcastReciever" />
+        <receiver android:name=".receiver.AlarmBroadcastReceiver" />
     </application>
 
 </manifest>
