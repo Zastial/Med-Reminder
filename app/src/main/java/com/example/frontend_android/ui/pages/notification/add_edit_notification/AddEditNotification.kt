@@ -1,17 +1,17 @@
 package com.example.frontend_android.ui.pages.notification.add_edit_notification
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.TimeInput
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -22,7 +22,10 @@ import com.example.frontend_android.ui.components.buttons.BtnContinue
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import kotlinx.coroutines.flow.collectLatest
+import java.util.Calendar
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddEditNotificationScreen(
     navController: NavController,
@@ -38,7 +41,7 @@ fun AddEditNotificationScreen(
         viewModel.eventFlow.collectLatest { event ->
             when(event) {
                 is AddEditNotificationsViewModel.UiEvent.ShowToast -> {
-
+                    //showToast(message = event.message, duration = Toast.LENGTH_SHORT)
                 }
                 is AddEditNotificationsViewModel.UiEvent.SaveNotification -> {
                     navController.navigateUp()
@@ -53,42 +56,33 @@ fun AddEditNotificationScreen(
     Scaffold(
         modifier = Modifier.fillMaxHeight(),
         topBar = { TopBar(navController= navController, canGoBack = true, title = "Ajouter une alarme")},
+        bottomBar = { BtnContinue(actionText = "Sauvegarder",modifier = Modifier.padding(40.dp,0.dp,40.dp,20.dp), onClick = { viewModel.onEvent(AddEditNotificationEvent.SaveNotification) })}
     ) {
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp)
-        ) {
-            Row(
+        Surface(modifier = Modifier
+            .padding(it)) {
+
+
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(it),
-                horizontalArrangement = Arrangement.Center,
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                TextField(
-                    modifier = Modifier.width(100.dp),
-                    value = state.hour,
-                    placeholder = { Text(text="00") },
-                    onValueChange = { viewModel.onEvent(AddEditNotificationEvent.EnteredHour(it))}
-                )
 
-                Text(text = ":")
+                val timePickerState = rememberTimePickerState(Calendar.HOUR, initialMinute = Calendar.MINUTE,  is24Hour = true)
+                TimeInput(state = timePickerState)
 
-                TextField(
-                    modifier = Modifier.width(100.dp),
-                    value = state.minutes,
-                    placeholder = { Text(text="00") },
-                    onValueChange = { viewModel.onEvent(AddEditNotificationEvent.EnteredMinute(it))}
-                )
+
+
+
+
+
             }
-
-            BtnContinue(
-                actionText = "Sauvegarder",
-                onClick = { viewModel.onEvent(AddEditNotificationEvent.SaveNotification) }
-            )
         }
+
+
 
     }
 

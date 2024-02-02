@@ -1,20 +1,19 @@
 package com.example.frontend_android.ui.pages.notification.add_edit_notification
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.data.model.entities.InvalidAlarmException
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableSharedFlow
-
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 class AddEditNotificationsViewModel @Inject constructor(
-
+        @ApplicationContext val context: ApplicationContext
 ) : ViewModel() {
 
     private val _state = mutableStateOf(AddEditNotificationState())
@@ -31,12 +30,15 @@ class AddEditNotificationsViewModel @Inject constructor(
 
         when(event){
             is AddEditNotificationEvent.EnteredHour -> {
-
+                _state.value = state.value.copy(
+                    hour = event.value
+                )
 
             }
             is AddEditNotificationEvent.EnteredMinute -> {
-
-
+                _state.value = state.value.copy(
+                    hour = event.value
+                )
             }
 
 

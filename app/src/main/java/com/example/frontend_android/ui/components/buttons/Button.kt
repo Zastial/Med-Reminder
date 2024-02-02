@@ -12,9 +12,9 @@ import com.example.frontend_android.ui.theme.disabledColor
 import com.example.frontend_android.ui.theme.primaryColor
 
 @Composable
-fun BtnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Unit) {
+fun BtnContinue(modifier: Modifier, enabled : Boolean = true, actionText: String, onClick : () -> Unit) {
     Button(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(containerColor = primaryColor, disabledContainerColor = disabledColor ),
         onClick = { onClick() }
@@ -27,6 +27,6 @@ fun BtnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Un
 @Composable
 fun ButtonPreview() {
     MedreminderTheme {
-        BtnContinue(actionText = "Continuer", onClick = { })
+        BtnContinue(actionText = "Continuer", modifier = Modifier, onClick = { })
     }
 }
