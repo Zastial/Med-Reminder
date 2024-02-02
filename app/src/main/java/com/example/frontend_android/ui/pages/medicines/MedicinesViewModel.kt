@@ -38,6 +38,7 @@ class MedicinesViewModel @Inject constructor(): ViewModel() {
 
     }
 
+
     private fun retrieveMedicines() {
         val requestCall = medicineDao.getMedicines(_state.value.search)
 

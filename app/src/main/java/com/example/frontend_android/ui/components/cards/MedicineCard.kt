@@ -1,39 +1,36 @@
 package com.example.frontend_android.components.cards
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.data.model.entities.Medicine
 import com.example.frontend_android.ui.theme.Black
 import com.example.frontend_android.ui.theme.Grey100
 import com.example.frontend_android.ui.theme.Orange400
-import com.example.frontend_android.ui.theme.White
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MedicineCard(medicine: Medicine, warningMessage: String? = null) {
+fun MedicineCard(navController: NavController, medicine: Medicine, warningMessage: String? = null) {
 
     val textColor = if (warningMessage != null) Orange400 else Black
 
@@ -45,7 +42,7 @@ fun MedicineCard(medicine: Medicine, warningMessage: String? = null) {
             containerColor = MaterialTheme.colorScheme.surface
 
         ),
-        onClick = { Log.e("CLICK", "click medicine") }
+        onClick = { navController.navigate("medicine_informations_screen/${medicine.cis}") }
 
     ) {
         Row(
@@ -87,6 +84,7 @@ fun MedicineCard(medicine: Medicine, warningMessage: String? = null) {
 @Composable
 fun MedicineCardPreview() {
     MedicineCard(
+        navController = rememberNavController(), 
         medicine = Medicine(
             cis = 61266250,
             cip7 = 3000147,
@@ -94,7 +92,9 @@ fun MedicineCardPreview() {
             administration = "cutanée",
             form = "pommade",
             name = "A 313 200 000 UI POUR CENT, pommade",
-            price = "1,61"
+            price = "1,61",
+            dose = "20mg",
+            substanceName = "PHOSPHATE DE CODÉINE HÉMIHYDRATÉ"
         ),
     )
 }
@@ -103,6 +103,7 @@ fun MedicineCardPreview() {
 @Composable
 fun MedicineCardPreviewWithWarningMessage() {
     MedicineCard(
+        navController = rememberNavController(),
         medicine = Medicine(
             cis = 61266250,
             cip7 = 3000147,
@@ -110,7 +111,9 @@ fun MedicineCardPreviewWithWarningMessage() {
             administration = "cutanée",
             form = "pommade",
             name = "A 313 200 000 UI POUR CENT, pommade",
-            price = "1,61"
+            price = "1,61",
+            dose = "20mg",
+            substanceName = "PHOSPHATE DE CODÉINE HÉMIHYDRATÉ"
         ),
         warningMessage = "Attention wola"
     )

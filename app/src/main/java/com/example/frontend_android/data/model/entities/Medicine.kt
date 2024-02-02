@@ -6,11 +6,13 @@ data class Medicine(
     val cis: Long,
     val cip7: Long,
     val cip13: Long,
-    val price: String,
+    val price: String? = null,
+    val dose: String,
     val administration: String,
     val generID: String? = null,
     val generName: String? = null,
     val generType: String? = null,
+    val substanceName: String,
 )
 
 class InvalidMedicineException(message: String): Exception(message)
