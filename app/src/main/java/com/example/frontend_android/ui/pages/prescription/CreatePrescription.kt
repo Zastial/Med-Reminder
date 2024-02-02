@@ -6,12 +6,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.components.layout.BottomBarStepNavigation
 import com.example.frontend_android.components.layout.TopBarPrescriptionNavigation
-import com.example.frontend_android.pages.prescription.creation_pages.FillPrescriptionInfos
-import com.example.frontend_android.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
-import com.example.frontend_android.utils.TextExtractionFromImage
 
 @Composable
 fun CreatePrescriptions(
@@ -21,19 +18,9 @@ fun CreatePrescriptions(
     val context = LocalContext.current
     val state = viewModel.state.value
 
-    @Composable
-    fun PageFromStep(step: Int) {
-        return when (step) {
-            0 -> ImportPrescriptionImage(viewModel)
-            1 -> FillPrescriptionInfos(viewModel)
-            else -> {}
-        }
-    }
-
     fun textExtractionStep() {
-        if (viewModel.state.value.imageUri != null) {
-            val textExtraction = TextExtractionFromImage()
-            textExtraction.onTranslateButtonClick(context, viewModel)
+        if (state.imageUri != null) {
+            viewModel.getImageFromUri(context)
         }
         viewModel.nextPage()
     }
@@ -44,10 +31,6 @@ fun CreatePrescriptions(
             0 -> BottomBarStepNavigation(
                 navController = navController,
                 onClick = { textExtractionStep() },
-            )
-            1 -> BottomBarStepNavigation(
-                navController = navController,
-                onClick = { viewModel.nextPage() },
             )
             6 -> BottomBarValidation(
                 navController = navController,
@@ -77,6 +60,6 @@ fun CreatePrescriptions(
         },
         BottomBar = { BottomBar(state.step) }
     ) {
-        PageFromStep(state.step)
+        viewModel.PageFromStep()
     }
 }

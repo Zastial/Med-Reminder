@@ -1,12 +1,12 @@
 package com.example.frontend_android.utils
 
-import android.content.Context
 import android.util.Log
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
-import java.io.IOException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -34,33 +34,57 @@ val patternsDosage = mutableListOf(
     Regex("(\\d+)\\s*ml"),
 )
 
-class TextExtractionFromImage {
-    var image: InputImage? = null
+data class PrescriptionInfos(
+    var nomDocteur: String,
+    var emailDocteur: String,
+    var medecineAndDosage: MutableList<Pair<String, String>>,
+    var date: LocalDate
+)
 
-    fun onTranslateButtonClick(context : Context, viewModel : CreatePrescriptionViewModel) {
-        try {
-            image = InputImage.fromFilePath(context, viewModel.state.value.imageUri!!)
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        image?.let { it ->
-            TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS).process(it)
-                .addOnSuccessListener { text ->
-                    val listOrdonnance = text.text.split("\n").map { it.trim() }
 
-                    val nameAndEmail = extractNomAndEmailMedecin(listOrdonnance)
-                    viewModel.changeDocteurInformations(nameAndEmail.first, nameAndEmail.second)
+class TextExtractionFromImageService : ITextExtractionFromImageService {
 
-                    val medAndPos = extractMedicineAndDosage(listOrdonnance)
-                    viewModel.changeMedecineAndDosage(medAndPos)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun extractTextFromImage(image: InputImage?): PrescriptionInfos {
+        return suspendCancellableCoroutine { continuation ->
+            val prescriptionInfos = PrescriptionInfos("", "", mutableListOf(), LocalDate.now())
+            val textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 
-                    val date = extractDate(listOrdonnance)
-                    viewModel.changeDate(date)
-                }
+            val process = image?.let {
+                textRecognizer.process(it)
+                    .addOnSuccessListener { textResult ->
+                        val text = textResult.text
+                        val listOrdonnance = text.split("\n").map { it.trim() }
+
+                        val (nomDocteur, emailDocteur) = extractNomAndEmailMedecin(listOrdonnance)
+                        prescriptionInfos.nomDocteur = nomDocteur
+                        prescriptionInfos.emailDocteur = emailDocteur
+
+                        val medecineAndDosage = extractMedicineAndDosage(listOrdonnance)
+                        prescriptionInfos.medecineAndDosage = medecineAndDosage
+
+                        val date = extractDate(listOrdonnance)
+                        prescriptionInfos.date = date
+
+                        continuation.resume(prescriptionInfos) {
+                            // Optional: handle cancellation if needed
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        continuation.resume(prescriptionInfos) {
+                            // Optional: handle cancellation if needed
+                        }
+                    }
+            }
+
+            while (!process!!.isComplete) {
+
+            }
         }
     }
 
-    private fun extractNomAndEmailMedecin(textPrescription: List<String>): Pair<String, String> {
+
+    override fun extractNomAndEmailMedecin(textPrescription: List<String>): Pair<String, String> {
         var doctorName = ""
         var email = ""
         for (line in textPrescription) {
@@ -74,7 +98,7 @@ class TextExtractionFromImage {
         return Pair(doctorName, email)
     }
 
-    private fun extractMedicineAndDosage(lignesOrdonnance: List<String>): MutableList<Pair<String, String>> {
+    override fun extractMedicineAndDosage(lignesOrdonnance: List<String>): MutableList<Pair<String, String>> {
         var posologie = ""
         var medicine = ""
         val medAndPos = mutableListOf<Pair<String, String>>()
@@ -101,7 +125,7 @@ class TextExtractionFromImage {
         return medAndPos
     }
 
-    private fun extractDate(textPrescription: List<String>): LocalDate {
+    override fun extractDate(textPrescription: List<String>): LocalDate {
         val zoneId = ZoneId.of("Europe/Paris")
 
         for (line in textPrescription) {

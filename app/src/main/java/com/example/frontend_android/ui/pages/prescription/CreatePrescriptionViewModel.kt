@@ -1,22 +1,36 @@
 package com.example.frontend_android.ui.pages.prescription
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
 import com.example.frontend_android.data.model.entities.Prescription
+import com.example.frontend_android.pages.prescription.creation_pages.FillPrescriptionInfos
+import com.example.frontend_android.pages.prescription.creation_pages.ImportPrescriptionImage
+import com.example.frontend_android.utils.ITextExtractionFromImageService
+import com.example.frontend_android.utils.PrescriptionInfos
+import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.IOException
 import java.time.LocalDate
 import javax.inject.Inject
 
 
 data class CreatePrescriptionState (
     val step: Int = 0,
+    val btnContinueEnabled : Boolean = true,
+    val loading : Boolean = false,
+
     val imageUri: Uri? = null,
     val date : LocalDate = LocalDate.now(),
     val nom : String = "",
@@ -29,6 +43,7 @@ data class CreatePrescriptionState (
 @HiltViewModel
 class CreatePrescriptionViewModel @Inject constructor(
     private val prescriptionDao: PrescriptionDao,
+    private val textExtractionService : ITextExtractionFromImageService
 ): ViewModel() {
 
     private val _state = mutableStateOf(CreatePrescriptionState())
@@ -93,7 +108,6 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
-
     fun nextPage() {
         if (state.value.step == 6) return
         _state.value = state.value.copy(
@@ -113,6 +127,39 @@ class CreatePrescriptionViewModel @Inject constructor(
         return res / 6f // Changer 6 par nombre de pages dynamiquement
     }
 
+    fun changeBtnContinueEnabled(new_value: Boolean) {
+        viewModelScope.launch {
+            _state.value = state.value.copy(
+                btnContinueEnabled = new_value
+            )
+        }
+    }
 
+    fun changeLoading(new_value: Boolean) {
+        _state.value = state.value.copy(
+            loading = new_value
+        )
+    }
+
+    fun getImageFromUri(context : Context) {
+        val image = InputImage.fromFilePath(context, state.value.imageUri!!)
+        viewModelScope.launch {
+            val result = textExtractionService.extractTextFromImage(image)
+            withContext(viewModelScope.coroutineContext) {
+                changeDate(result.date)
+                changeDocteurInformations(result.nomDocteur, result.emailDocteur)
+                changeMedecineAndDosage(result.medecineAndDosage)
+            }
+        }
+    }
+
+    @Composable
+    fun PageFromStep() {
+        return when (state.value.step) {
+            0 -> ImportPrescriptionImage(this)
+            1 -> FillPrescriptionInfos(this)
+            else -> {}
+        }
+    }
 }
 

@@ -48,6 +48,6 @@ fun BottomBarStepNavigation (
 fun BottomBarStepNavigationPreview() {
     BottomBarStepNavigation(
         onClick = { },
-        navController = rememberNavController()
+        navController = rememberNavController(),
     )
 }

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -27,7 +28,9 @@ import coil.compose.AsyncImage
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 
 @Composable
-fun ImportPrescriptionImage(viewModel: CreatePrescriptionViewModel) {
+fun ImportPrescriptionImage(
+    viewModel: CreatePrescriptionViewModel,
+) {
     val galleryLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
         if (uri != null) {
             viewModel.changeImageUri(uri)
@@ -68,8 +71,8 @@ fun ImportPrescriptionImage(viewModel: CreatePrescriptionViewModel) {
         Button(
             onClick = { galleryLauncher.launch("image/*") },
             modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
+                .width(250.dp)
+                .height(65.dp)
                 .padding(top = 16.dp)
         ) {
             Text(

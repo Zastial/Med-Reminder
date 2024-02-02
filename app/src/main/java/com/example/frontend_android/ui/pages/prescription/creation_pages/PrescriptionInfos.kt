@@ -115,32 +115,24 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
 fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
     val context = LocalContext.current
 
-    val date = remember {
-        mutableStateOf(LocalDate.now())
-    }
-
-    if (viewModel.state.value.date != date.value) {
-        date.value = viewModel.state.value.date
-    } else {
-        viewModel.changeDate(date.value)
-    }
+    var date = viewModel.state.value.date
 
     val datePickerDialog = remember {
         DatePickerDialog(
             context,
             { _, year, month, dayOfMonth ->
-                date.value = LocalDate.of(year, month + 1, dayOfMonth)
+                date = LocalDate.of(year, month + 1, dayOfMonth)
             },
-            date.value.year,
-            date.value.monthValue,
-            date.value.dayOfMonth
+            date.year,
+            date.monthValue,
+            date.dayOfMonth
         )
     }
     // Set the max date to today
     datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
 
     // Import date into the viewModel
-    viewModel.changeDate(date.value)
+    viewModel.changeDate(date)
 
     Button(
         onClick = {
@@ -173,7 +165,7 @@ fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = date.value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                text = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 color = Color.Black,
                 fontSize = 18.sp,
             )
