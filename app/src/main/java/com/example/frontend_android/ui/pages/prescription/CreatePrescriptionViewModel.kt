@@ -18,11 +18,13 @@ import javax.inject.Inject
 data class CreatePrescriptionState (
     val step: Int = 0,
     val imageUri: Uri? = null,
-    val date : String = "",
+    val date : LocalDate = LocalDate.now(),
     val nom : String = "",
     val description : String = "",
+    val nomDocteur : String = "",
+    val emailDocteur : String = "",
+    val medecineAndDosage : MutableList<Pair<String, String>> = mutableListOf()
 )
-
 
 @HiltViewModel
 class CreatePrescriptionViewModel @Inject constructor(
@@ -34,7 +36,6 @@ class CreatePrescriptionViewModel @Inject constructor(
 
     @Throws(InvalidPrescriptionException::class)
     fun insertPrescription() {
-
         viewModelScope.launch {
             try {
                 prescriptionDao.insertPrescription(
@@ -61,7 +62,7 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
-    fun changeDate(new_date: String) {
+    fun changeDate(new_date: LocalDate) {
         _state.value = state.value.copy(
             date = new_date
         )
@@ -78,6 +79,20 @@ class CreatePrescriptionViewModel @Inject constructor(
             description = new_description
         )
     }
+
+    fun changeDocteurInformations(new_nom_docteur: String, new_email_docteur: String) {
+        _state.value = state.value.copy(
+            nomDocteur = new_nom_docteur,
+            emailDocteur = new_email_docteur
+        )
+    }
+
+    fun changeMedecineAndDosage(new_medecineAndDosage: MutableList<Pair<String, String>>) {
+        _state.value = state.value.copy(
+            medecineAndDosage = new_medecineAndDosage
+        )
+    }
+
 
     fun nextPage() {
         if (state.value.step == 6) return

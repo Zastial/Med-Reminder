@@ -1,10 +1,12 @@
 package com.example.frontend_android.pages.prescription.creation_pages
 
 import android.app.DatePickerDialog
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,13 +16,11 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,16 +40,13 @@ import com.example.frontend_android.ui.theme.LightGrey
 import com.example.frontend_android.ui.theme.Purple40
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LinearProgressIndicator(
@@ -87,7 +84,7 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 value = nom.value,
                 onValueChange = { viewModel.changeNom(nom.value) },
                 label = {
-                    Text(text = "Maladie")
+                    Text(text = "Nom de l'ordonnance")
                 },
                 colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Purple40,
@@ -104,9 +101,9 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 value = description.value,
                 onValueChange = { viewModel.changeDescription(description.value) },
                 label = {
-                    Text(text = "Description des symptômes")
+                    Text(text = "Description supplémentaire")
                 },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
+                colors = OutlinedTextFieldDefaults.colors(
                     unfocusedBorderColor = Purple40,
                 ),
             )
@@ -116,30 +113,34 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
 
 @Composable
 fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
-    val calendar = Calendar.getInstance()
-    val currentYear = calendar.get(Calendar.YEAR)
-    val currentMonth = calendar.get(Calendar.MONTH)
-    val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
-
     val context = LocalContext.current
 
-    val date = remember { mutableStateOf(LocalDate.now()) }
+    val date = remember {
+        mutableStateOf(LocalDate.now())
+    }
+
+    if (viewModel.state.value.date != date.value) {
+        date.value = viewModel.state.value.date
+    } else {
+        viewModel.changeDate(date.value)
+    }
+
     val datePickerDialog = remember {
         DatePickerDialog(
             context,
             { _, year, month, dayOfMonth ->
                 date.value = LocalDate.of(year, month + 1, dayOfMonth)
             },
-            currentYear,
-            currentMonth,
-            currentDay
+            date.value.year,
+            date.value.monthValue,
+            date.value.dayOfMonth
         )
     }
     // Set the max date to today
     datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
 
     // Import date into the viewModel
-    viewModel.changeDate(date.value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+    viewModel.changeDate(date.value)
 
     Button(
         onClick = {
@@ -179,6 +180,7 @@ fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
