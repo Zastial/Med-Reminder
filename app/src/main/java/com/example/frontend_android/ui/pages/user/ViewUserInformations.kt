@@ -5,23 +5,30 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.frontend_android.ui.components.layout.BottomBarNavigation
-import com.example.frontend_android.ui.components.layout.TopBar
+import com.example.frontend_android.pages.user.ViewUserInformationsModel
 import com.example.frontend_android.ui.components.layout.BaseLayout
+import com.example.frontend_android.ui.components.layout.BottomBarValidation
+import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.Purple40
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ViewUserInformations(
-    navController: NavController
+    navController: NavController,
+    viewModel: ViewUserInformationsModel = hiltViewModel()
 ) {
+
+    val state = viewModel.state.value
 
     BaseLayout(
         TopBar = {
@@ -32,8 +39,10 @@ fun ViewUserInformations(
             )
         },
         BottomBar = {
-            BottomBarNavigation(
+            BottomBarValidation(
                 navController = navController,
+                onValidation = { viewModel.handleValidation() },
+                onCancellation = {}
             )
         },
     ) {
@@ -47,19 +56,8 @@ fun ViewUserInformations(
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
-                    label = {
-                        Text(text = "Nom")
-                    },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = Purple40,
-                    ),
-                )
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = state.first_name,
+                    onValueChange = { viewModel.changeFirstName(it) },
                     label = {
                         Text(text = "Prénom")
                     },
@@ -69,8 +67,20 @@ fun ViewUserInformations(
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = state.last_name,
+                    onValueChange = { viewModel.changeLastName(it) },
+                    label = {
+                        Text(text = "Nom")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.email,
+                    onValueChange = { viewModel.changeEmail(it) },
                     label = {
                         Text(text = "Email")
                     },
@@ -87,19 +97,8 @@ fun ViewUserInformations(
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
-                    label = {
-                        Text(text = "Nom")
-                    },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = Purple40,
-                    ),
-                )
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = state.doctor_first_name ?: "",
+                    onValueChange = { viewModel.changeDoctorFirstName(it) } ,
                     label = {
                         Text(text = "Prénom")
                     },
@@ -109,8 +108,19 @@ fun ViewUserInformations(
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = state.doctor_last_name ?: "",
+                    onValueChange = { viewModel.changeDoctorLastName(it) },
+                    label = {
+                        Text(text = "Nom")
+                    },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        unfocusedBorderColor = Purple40,
+                    ),
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.doctor_email ?: "",
+                    onValueChange = { viewModel.changeDoctorEmail(it) },
                     label = {
                         Text(text = "Email")
                     },
@@ -129,9 +139,11 @@ fun ViewUserInformations(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 OutlinedTextField(
-                    modifier = Modifier.height(150.dp).fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    modifier = Modifier
+                        .height(150.dp)
+                        .fillMaxWidth(),
+                    value = state.allergies,
+                    onValueChange = { viewModel.changeAllergies(it) },
                     label = {
                         Text(text = "Allergies")
                     },
