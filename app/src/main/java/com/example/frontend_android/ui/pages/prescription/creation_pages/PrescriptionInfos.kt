@@ -20,10 +20,18 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowCircleRight
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
+<<<<<<< Updated upstream
 import androidx.compose.material3.ButtonDefaults
+=======
+import androidx.compose.material3.Divider
+>>>>>>> Stashed changes
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
+<<<<<<< Updated upstream
 import androidx.compose.material3.OutlinedTextFieldDefaults
+=======
+import androidx.compose.material3.OutlinedTextField
+>>>>>>> Stashed changes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -45,10 +53,13 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.frontend_android.components.layout.BottomBarStepNavigation
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
+<<<<<<< Updated upstream
 import com.example.frontend_android.ui.theme.Cyan500
 import com.example.frontend_android.ui.theme.LightGrey
 import com.example.frontend_android.ui.theme.Purple40
 import com.example.frontend_android.ui.theme.PurpleGrey40
+=======
+>>>>>>> Stashed changes
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -100,9 +111,6 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 label = {
                     Text(text = "Maladie")
                 },
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = Purple40,
-                ),
             )
 
             val configuration = LocalConfiguration.current
@@ -117,9 +125,6 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 label = {
                     Text(text = "Description des symptômes")
                 },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    unfocusedBorderColor = Purple40,
-                ),
             )
         }
     }
@@ -160,10 +165,11 @@ fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
             .width(200.dp)
             .height(50.dp)
             .padding(top = 5.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = LightGrey,
-            contentColor = Color.Black
-        ),
+        // TODO
+        //colors = ButtonDefaults.buttonColors(
+        //    containerColor = LightGrey,
+        //    contentColor = Color.Black
+        // ),
         shape = RectangleShape,
     ) {
         Row(

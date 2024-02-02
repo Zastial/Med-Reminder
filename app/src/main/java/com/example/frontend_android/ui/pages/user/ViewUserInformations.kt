@@ -2,21 +2,27 @@ package com.example.frontend_android.ui.pages.user
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+<<<<<<< Updated upstream
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextFieldDefaults
+=======
+>>>>>>> Stashed changes
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
+<<<<<<< Updated upstream
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.theme.Purple40
+=======
+>>>>>>> Stashed changes
 
 @Composable
 fun ViewUserInformations(
@@ -38,7 +44,9 @@ fun ViewUserInformations(
         },
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(20.dp)
+            modifier = Modifier.padding(24.dp, 0.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column() {
                 Text(
@@ -63,20 +71,28 @@ fun ViewUserInformations(
                     label = {
                         Text(text = "Prénom")
                     },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = Purple40,
-                    ),
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
+<<<<<<< Updated upstream
                     value = "",
                     onValueChange = {},
+=======
+                    value = state.last_name,
+                    onValueChange = { viewModel.changeLastName(it) },
+                    label = {
+                        Text(text = "Nom")
+                    },
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.email,
+                    onValueChange = { viewModel.changeEmail(it) },
+>>>>>>> Stashed changes
                     label = {
                         Text(text = "Email")
                     },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = Purple40,
-                    ),
                 )
             }
 
@@ -103,12 +119,10 @@ fun ViewUserInformations(
                     label = {
                         Text(text = "Prénom")
                     },
-                    colors = OutlinedTextFieldDefaults.colors(
-                        unfocusedBorderColor = Purple40,
-                    ),
                 )
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
+<<<<<<< Updated upstream
                     value = "",
                     onValueChange = {},
                     label = {
@@ -138,6 +152,21 @@ fun ViewUserInformations(
                     colors = OutlinedTextFieldDefaults.colors(
                         unfocusedBorderColor = Purple40,
                     ),
+=======
+                    value = state.doctor_last_name ?: "",
+                    onValueChange = { viewModel.changeDoctorLastName(it) },
+                    label = {
+                        Text(text = "Nom")
+                    },
+                )
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.doctor_email ?: "",
+                    onValueChange = { viewModel.changeDoctorEmail(it) },
+                    label = {
+                        Text(text = "Email")
+                    },
+>>>>>>> Stashed changes
                 )
             }
         }
