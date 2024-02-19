@@ -15,15 +15,13 @@ class NotificationsViewModel @Inject constructor(
 
 
 
-    fun onEvent(event : NotificationEvent) {
+    fun onEvent(event : AlarmEvent) {
 
         when(event) {
-            is NotificationEvent.ToggleAlarmState -> {
+            is AlarmEvent.ChangeAlarmState -> {
 
-                event.value
             }
 
         }
-
     }
 }

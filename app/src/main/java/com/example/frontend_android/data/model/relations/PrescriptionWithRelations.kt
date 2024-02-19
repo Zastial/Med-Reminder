@@ -2,7 +2,7 @@ package com.example.frontend_android.data.model.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.example.frontend_android.data.model.entities.Alarm
+import com.example.frontend_android.data.model.entities.AlarmRecord
 import com.example.frontend_android.data.model.entities.Doctor
 import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
@@ -33,7 +33,7 @@ data class PrescriptionWithRelations (
         parentColumn = "id",
         entityColumn = "prescription_id"
     )
-    val alarms: List<Alarm>
+    val alarmRecords: List<AlarmRecord>
 
     ) {
 }

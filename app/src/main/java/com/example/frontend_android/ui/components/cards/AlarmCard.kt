@@ -19,6 +19,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.frontend_android.utils.FormatToStringHour
+import com.example.frontend_android.utils.FormatToStringMinutes
 
 
 @Composable
@@ -27,7 +29,8 @@ fun AlarmCard(
     hour: Int,
     minutes: Int,
     isActive: Boolean,
-    onEvent : () -> Unit
+    dayOfWeek: String,
+    changeAlarmState: (state : Boolean) -> Unit
 ) {
     val isChecked by remember { mutableStateOf(isActive) }
 
@@ -46,14 +49,18 @@ fun AlarmCard(
 
         ) {
             //hour
-            Text(text = "00:10")
+            Row() {
+                Text(text = hour.FormatToStringHour())
+                Text(text = ":")
+                Text(text = minutes.FormatToStringMinutes())
+            }
 
             //date
-            DayOfWeek()
+            DayOfWeek(dayOfWeek)
 
             //is active
 
-            Switch(checked = isChecked, onCheckedChange = onEvent())
+            Switch(checked = isChecked, onCheckedChange = { changeAlarmState(!isChecked) } )
         }
     }
 }
@@ -62,11 +69,10 @@ fun AlarmCard(
 
 
 @Composable
-fun DayOfWeek(){
+fun DayOfWeek(dayOfWeek: String){
 
     Row(horizontalArrangement = Arrangement.Center ) {
-        DayItem(day = "L", isActive = false)
-        DayItem(day = "M", isActive = true)
+        //convert gson to day item with L  M  M J V S D
     }
 
 }
@@ -101,16 +107,9 @@ fun DayItem(day: String, isActive: Boolean) {
 )
 @Composable
 fun AlarmCardPreview() {
-    AlarmCard(modifier = Modifier, hour = 0, minutes= 0, isActive = false)
+    AlarmCard(modifier = Modifier, hour = 0, minutes= 0, isActive = false, dayOfWeek = "", changeAlarmState = { })
 }
 
-@Preview(
-    showBackground = true
-)
-@Composable
-fun DaysOfWeekPreview() {
-    DayOfWeek()
-}
 
 @Preview(
     showBackground = true

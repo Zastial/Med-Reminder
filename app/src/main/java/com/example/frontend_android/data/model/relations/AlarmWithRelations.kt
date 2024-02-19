@@ -2,7 +2,7 @@ package com.example.frontend_android.data.model.relations
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.example.frontend_android.data.model.entities.Alarm
+import com.example.frontend_android.data.model.entities.AlarmRecord
 import com.example.frontend_android.data.model.entities.Prescription
 
 /**
@@ -10,7 +10,7 @@ import com.example.frontend_android.data.model.entities.Prescription
  */
 data class AlarmWithRelations(
     @Embedded
-    val alarm: Alarm,
+    val alarmRecord: AlarmRecord,
 
     @Relation(
         parentColumn = "prescription_id",

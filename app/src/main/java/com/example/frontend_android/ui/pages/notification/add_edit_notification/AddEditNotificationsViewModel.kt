@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.frontend_android.data.model.dao.AlarmDao
 import com.example.frontend_android.data.model.entities.InvalidAlarmException
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -12,6 +13,7 @@ import javax.inject.Inject
 
 
 class AddEditNotificationsViewModel @Inject constructor(
+    private val alarmDao: AlarmDao
 
 ) : ViewModel() {
 
@@ -46,7 +48,10 @@ class AddEditNotificationsViewModel @Inject constructor(
                 viewModelScope.launch {
                     try {
 
-                        // save alarm avec repo
+                        // schedule
+
+
+                        //Save
 
                         _eventFlow.emit(
                             UiEvent.ShowSnackBar(

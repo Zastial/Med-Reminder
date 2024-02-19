@@ -66,7 +66,7 @@ fun AddEditNotificationScreen(
     Scaffold(
         modifier = Modifier.fillMaxHeight(),
         topBar = { TopBar(navController= navController, canGoBack = true, title = "Ajouter une alarme")},
-        bottomBar = { BtnContinue(actionText = "Sauvegarder",modifier = Modifier.padding(40.dp,0.dp,40.dp,20.dp), onClick = { viewModel.onEvent(AddEditNotificationEvent.SaveNotification) })},
+        bottomBar = { BtnContinue(actionText = "Sauvegarder", modifier = Modifier.padding(40.dp,0.dp,40.dp,20.dp), onClick = { viewModel.onEvent(AddEditNotificationEvent.SaveNotification) })},
         snackbarHost = { SnackbarHost(hostState = snackbarHostState)  }
     ) {
 

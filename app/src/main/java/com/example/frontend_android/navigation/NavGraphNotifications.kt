@@ -1,12 +1,15 @@
 package com.example.frontend_android.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.frontend_android.ui.pages.notification.add_edit_notification.AddEditNotificationScreen
+import com.example.frontend_android.ui.pages.notification.notifications.AlarmEvent
 import com.example.frontend_android.ui.pages.notification.notifications.NotificationScreen
+import com.example.frontend_android.ui.pages.notification.notifications.NotificationsViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -24,7 +27,8 @@ fun NavGraphBuilder.notificationGraph(
     ) {
 
         composable(route = Screen.viewNotifications.route) {
-            NotificationScreen(navController = navController)
+            val viewModel = hiltViewModel<NotificationsViewModel>()
+            NotificationScreen(navController = navController, viewModel.state.value, { viewModel.onEvent(AlarmEvent.ChangeAlarmState(it)) })
         }
 
         composable(route = Screen.createAlarm.route) {

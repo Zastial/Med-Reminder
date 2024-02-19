@@ -1,7 +1,7 @@
 package com.example.frontend_android.ui.pages.notification.notifications
 
-import android.app.Notification
+import com.example.frontend_android.data.model.entities.AlarmRecord
 
 data class NotificationState(
-    val notification: List<Notification> = emptyList()
+    val notificationList: List<AlarmRecord> = emptyList()
 )
