@@ -15,6 +15,7 @@ import com.example.frontend_android.ui.pages.prescription.creation_pages.FillPre
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.utils.ITextExtractionFromImageService
 import com.google.mlkit.vision.common.InputImage
+//import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

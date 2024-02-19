@@ -1,6 +1,7 @@
 package com.example.frontend_android.ui.pages.prescription.creation_pages
 
 import android.app.DatePickerDialog
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,6 +42,7 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
+    val state = viewModel.state.value
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -75,13 +77,13 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray,
             )
-            val nom = remember { mutableStateOf("") }
+
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 5.dp, bottom = 20.dp),
-                value = nom.value,
-                onValueChange = { viewModel.changeNom(nom.value) },
+                value = state.nom,
+                onValueChange = { viewModel.changeNom(it) },
                 label = {
                     Text(text = "Nom de l'ordonnance")
                 },
@@ -89,13 +91,12 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
 
             val configuration = LocalConfiguration.current
             val screenHeight = configuration.screenHeightDp.dp
-            val description = remember { mutableStateOf("") }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(screenHeight / 1.5f),
-                value = description.value,
-                onValueChange = { viewModel.changeDescription(description.value) },
+                value = state.description,
+                onValueChange = { viewModel.changeDescription(it) },
                 label = {
                     Text(text = "Description supplémentaire")
                 },
@@ -113,6 +114,7 @@ fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
         context,
         { _, year, month, dayOfMonth ->
             date = LocalDate.of(year, month, dayOfMonth)
+            viewModel.changeDate(date)
         },
         date.year,
         date.monthValue,
