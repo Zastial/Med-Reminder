@@ -18,12 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.R
-import com.example.frontend_android.components.cards.MedicineCard
+import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.components.forms.SearchTextField
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
-import com.example.frontend_android.ui.theme.Grey100
 
 @Composable
 fun ViewMedicines(
@@ -73,9 +72,8 @@ fun ViewMedicines(
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost_smile),
                         contentDescription = "sad smiley",
-                        tint = Grey100
                     )
-                    Text(text = "Rechercher un médicament", color = Grey100)
+                    Text(text = "Rechercher un médicament")
                 }
             } else if (!state.searching) {
                 Column(
@@ -86,9 +84,8 @@ fun ViewMedicines(
                     Icon(
                         imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost),
                         contentDescription = "sad smiley",
-                        tint = Grey100
                     )
-                    Text(text = "Aucun médicament trouvé", color = Grey100)
+                    Text(text = "Aucun médicament trouvé")
                 }
 
 

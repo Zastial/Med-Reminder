@@ -1,4 +1,4 @@
-package com.example.frontend_android.components.cards
+package com.example.frontend_android.ui.components.cards
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,23 +24,16 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.data.model.entities.Medicine
-import com.example.frontend_android.ui.theme.Black
-import com.example.frontend_android.ui.theme.Grey100
-import com.example.frontend_android.ui.theme.Orange400
+import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MedicineCard(navController: NavController, medicine: Medicine, warningMessage: String? = null) {
 
-    val textColor = if (warningMessage != null) Orange400 else Black
 
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-
         ),
         onClick = { navController.navigate("medicine_informations_screen/${medicine.cis}") }
 
@@ -53,7 +46,11 @@ fun MedicineCard(navController: NavController, medicine: Medicine, warningMessag
 
             Surface(modifier = Modifier.width(30.dp)) {
                 if (warningMessage != null) {
-                    Icon(imageVector = Icons.Outlined.Warning, contentDescription = "Warning", tint = Orange400)
+                    Icon(
+                        imageVector = Icons.Outlined.Warning,
+                        contentDescription = "Warning",
+                        tint= md_theme_common_primaryWarning
+                    )
                 }
             }
 
@@ -64,10 +61,9 @@ fun MedicineCard(navController: NavController, medicine: Medicine, warningMessag
                     style = MaterialTheme.typography.titleMedium,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = textColor
                 )
 
-                Text(text =  "Administration ${medicine.administration}", style = MaterialTheme.typography.labelMedium, color = Grey100)
+                Text(text =  "Administration ${medicine.administration}", style = MaterialTheme.typography.labelMedium)
 
             }
 
