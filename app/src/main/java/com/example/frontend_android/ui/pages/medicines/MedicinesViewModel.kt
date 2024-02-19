@@ -13,9 +13,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-data class MedicinesState (
-    val medicines: List<Medicine> = emptyList()
-)
 
 
 @HiltViewModel

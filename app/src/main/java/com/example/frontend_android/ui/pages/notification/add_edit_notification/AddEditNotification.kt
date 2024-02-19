@@ -82,7 +82,7 @@ fun AddEditNotificationScreen(
             ) {
 
 
-                val timePickerState = rememberTimePickerState(state.hour.toInt(), initialMinute = state.minutes.toInt(), is24Hour = true)
+                val timePickerState = rememberTimePickerState(initialHour =  state.hour, initialMinute = state.minutes, is24Hour = true)
                 TimeInput(state = timePickerState)
 
 
