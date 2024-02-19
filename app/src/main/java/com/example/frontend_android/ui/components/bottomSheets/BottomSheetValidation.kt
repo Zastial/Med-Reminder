@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.frontend_android.ui.components.forms.buttons.BtnContinue
+import com.example.frontend_android.ui.components.forms.BtnContinue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

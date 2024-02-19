@@ -1,4 +1,4 @@
-package com.example.frontend_android.data.model
+package com.example.frontend_android.data.model.entities
 
 data class User (
     val first_name: String,

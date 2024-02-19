@@ -25,6 +25,10 @@ sealed class Screen(val route: String) {
         route = "medicine_screen"
     )
 
+    object viewMedicineInformations: Screen(
+        route = "medicine_informations_screen/{medicine_cis}",
+    )
+
     object viewUser: Screen(
         route = "user_screen"
     )
