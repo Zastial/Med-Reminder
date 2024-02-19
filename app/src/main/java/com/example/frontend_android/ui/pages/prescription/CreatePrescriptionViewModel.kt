@@ -6,22 +6,18 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
 import com.example.frontend_android.data.model.entities.Prescription
-import com.example.frontend_android.pages.prescription.creation_pages.FillPrescriptionInfos
-import com.example.frontend_android.pages.prescription.creation_pages.ImportPrescriptionImage
+import com.example.frontend_android.ui.pages.prescription.creation_pages.FillPrescriptionInfos
+import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.utils.ITextExtractionFromImageService
-import com.example.frontend_android.utils.PrescriptionInfos
 import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.IOException
 import java.time.LocalDate
 import javax.inject.Inject
 

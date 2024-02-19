@@ -1,5 +1,6 @@
-package com.example.frontend_android.pages.prescription
+package com.example.frontend_android.ui.pages.prescription
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -8,7 +9,6 @@ import com.example.frontend_android.components.layout.BottomBarStepNavigation
 import com.example.frontend_android.components.layout.TopBarPrescriptionNavigation
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
-import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 
 @Composable
 fun CreatePrescriptions(
@@ -19,7 +19,7 @@ fun CreatePrescriptions(
     val state = viewModel.state.value
 
     fun textExtractionStep() {
-        if (state.imageUri != null) {
+        if (!Uri.EMPTY.equals(state.imageUri) && state.imageUri != null) {
             viewModel.getImageFromUri(context)
         }
         viewModel.nextPage()

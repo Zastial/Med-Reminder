@@ -1,7 +1,6 @@
-package com.example.frontend_android.pages.prescription.creation_pages
+package com.example.frontend_android.ui.pages.prescription.creation_pages
 
 import android.app.DatePickerDialog
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -114,20 +113,18 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
 @Composable
 fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
     val context = LocalContext.current
-
     var date = viewModel.state.value.date
 
-    val datePickerDialog = remember {
-        DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                date = LocalDate.of(year, month + 1, dayOfMonth)
-            },
-            date.year,
-            date.monthValue,
-            date.dayOfMonth
-        )
-    }
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            date = LocalDate.of(year, month, dayOfMonth)
+        },
+        date.year,
+        date.monthValue,
+        date.dayOfMonth
+    )
+
     // Set the max date to today
     datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
 

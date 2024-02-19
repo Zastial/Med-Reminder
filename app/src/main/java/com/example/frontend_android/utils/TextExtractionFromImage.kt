@@ -10,6 +10,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.TimeZone
 
 
 val patterns = mutableListOf(
@@ -126,7 +127,7 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
     }
 
     override fun extractDate(textPrescription: List<String>): LocalDate {
-        val zoneId = ZoneId.of("Europe/Paris")
+        val zoneId = TimeZone.getDefault().toZoneId()
 
         for (line in textPrescription) {
             val potentialDate = line.split(Regex("\\s+")).find { it.contains("/") }
