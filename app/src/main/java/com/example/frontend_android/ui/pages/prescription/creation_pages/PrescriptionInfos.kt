@@ -1,11 +1,13 @@
-package com.example.frontend_android.pages.prescription.creation_pages
+package com.example.frontend_android.ui.pages.prescription.creation_pages
 
 import android.app.DatePickerDialog
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +18,6 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -38,16 +39,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Calendar
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
+    val state = viewModel.state.value
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .fillMaxWidth()
-            .fillMaxHeight(),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LinearProgressIndicator(
@@ -78,30 +77,29 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 fontWeight = FontWeight.Bold,
                 color = Color.Gray,
             )
-            val nom = remember { mutableStateOf("") }
+
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 5.dp, bottom = 20.dp),
-                value = nom.value,
-                onValueChange = { viewModel.changeNom(nom.value) },
+                value = state.nom,
+                onValueChange = { viewModel.changeNom(it) },
                 label = {
-                    Text(text = "Maladie")
-                }
+                    Text(text = "Nom de l'ordonnance")
+                },
             )
 
             val configuration = LocalConfiguration.current
             val screenHeight = configuration.screenHeightDp.dp
-            val description = remember { mutableStateOf("") }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(screenHeight / 1.5f),
-                value = description.value,
-                onValueChange = { viewModel.changeDescription(description.value) },
+                value = state.description,
+                onValueChange = { viewModel.changeDescription(it) },
                 label = {
-                    Text(text = "Description des symptômes")
-                }
+                    Text(text = "Description supplémentaire")
+                },
             )
         }
     }
@@ -109,32 +107,25 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
 
 @Composable
 fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
-    val calendar = Calendar.getInstance()
-    val currentYear = calendar.get(Calendar.YEAR)
-    val currentMonth = calendar.get(Calendar.MONTH)
-    val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
-
     val context = LocalContext.current
+    var date = viewModel.state.value.date
 
-    val date = remember { mutableStateOf(LocalDate.now()) }
-    val datePickerDialog = remember {
-        DatePickerDialog(
-            context,
-            { _, year, month, dayOfMonth ->
-                date.value = LocalDate.of(year, month + 1, dayOfMonth)
-            },
-            currentYear,
-            currentMonth,
-            currentDay
-        )
-    }
-
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _, year, month, dayOfMonth ->
+            date = LocalDate.of(year, month, dayOfMonth)
+            viewModel.changeDate(date)
+        },
+        date.year,
+        date.monthValue,
+        date.dayOfMonth
+    )
 
     // Set the max date to today
     datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
 
     // Import date into the viewModel
-    viewModel.changeDate(date.value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")))
+    viewModel.changeDate(date)
 
     Button(
         onClick = {
@@ -167,13 +158,14 @@ fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = date.value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                text = date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onTertiaryContainer
             )
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable

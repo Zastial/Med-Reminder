@@ -1,30 +1,28 @@
-package com.example.frontend_android.pages.prescription
+package com.example.frontend_android.ui.pages.prescription
 
+import android.net.Uri
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.frontend_android.components.layout.BottomBarStepNavigation
+import com.example.frontend_android.ui.components.layout.BottomBarStepNavigation
 import com.example.frontend_android.components.layout.TopBarPrescriptionNavigation
-import com.example.frontend_android.pages.prescription.creation_pages.FillPrescriptionInfos
-import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.components.layout.BaseLayout
-import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 
 @Composable
 fun CreatePrescriptions(
     navController: NavController,
     viewModel: CreatePrescriptionViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val state = viewModel.state.value
 
-    @Composable
-    fun PageFromStep(step: Int) {
-        return when (step) {
-            0 -> ImportPrescriptionImage(viewModel)
-            1 -> FillPrescriptionInfos(viewModel)
-            else -> {}
+    fun textExtractionStep() {
+        if (!Uri.EMPTY.equals(state.imageUri) && state.imageUri != null) {
+            viewModel.getImageFromUri(context)
         }
+        viewModel.nextPage()
     }
 
     @Composable
@@ -32,7 +30,7 @@ fun CreatePrescriptions(
         when (step) {
             0 -> BottomBarStepNavigation(
                 navController = navController,
-                onClick = { viewModel.nextPage() },
+                onClick = { textExtractionStep() },
             )
             6 -> BottomBarValidation(
                 navController = navController,
@@ -62,6 +60,6 @@ fun CreatePrescriptions(
         },
         BottomBar = { BottomBar(state.step) }
     ) {
-        PageFromStep(state.step)
+        viewModel.PageFromStep()
     }
 }
