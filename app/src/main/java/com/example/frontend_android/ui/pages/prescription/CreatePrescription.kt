@@ -2,27 +2,36 @@ package com.example.frontend_android.ui.pages.prescription
 
 import android.net.Uri
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.frontend_android.ui.components.layout.BottomBarStepNavigation
 import com.example.frontend_android.components.layout.TopBarPrescriptionNavigation
-import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.components.layout.BaseLayout
+import com.example.frontend_android.ui.components.layout.BottomBarStepNavigation
+import com.example.frontend_android.ui.components.layout.BottomBarValidation
+import java.time.LocalDate
 
 @Composable
 fun CreatePrescriptions(
     navController: NavController,
     viewModel: CreatePrescriptionViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
     val state = viewModel.state.value
 
-    fun textExtractionStep() {
-        if (!Uri.EMPTY.equals(state.imageUri) && state.imageUri != null) {
-            viewModel.getImageFromUri(context)
+    fun returnToFirstPage() {
+        viewModel.changeNom("")
+        viewModel.changeDescription("")
+        viewModel.changeDate(LocalDate.now())
+        viewModel.changenomDocteur("")
+        viewModel.changeEmailDocteur("")
+        viewModel.changeStep(0)
+    }
+
+    fun loadingPage() {
+        if (Uri.EMPTY.equals(state.imageUri) || state.imageUri == null) {
+            viewModel.changeStep(2)
+        } else {
+            viewModel.nextPage()
         }
-        viewModel.nextPage()
     }
 
     @Composable
@@ -30,8 +39,9 @@ fun CreatePrescriptions(
         when (step) {
             0 -> BottomBarStepNavigation(
                 navController = navController,
-                onClick = { textExtractionStep() },
+                onClick = { loadingPage() },
             )
+            1 -> {}
             6 -> BottomBarValidation(
                 navController = navController,
                 onValidation = { viewModel.insertPrescription() },
@@ -50,10 +60,10 @@ fun CreatePrescriptions(
                 navController = navController,
                 title = "Ajouter une ordonnance",
                 onClick = {
-                    if (state.step == 0) {
-                        navController.navigateUp()
-                    } else {
-                        viewModel.previousPage()
+                    when (state.step) {
+                        0 -> navController.navigateUp()
+                        2 -> returnToFirstPage()
+                        else -> viewModel.previousPage()
                     }
                 }
             )

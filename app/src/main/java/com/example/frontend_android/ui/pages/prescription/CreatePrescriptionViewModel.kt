@@ -11,8 +11,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
 import com.example.frontend_android.data.model.entities.Prescription
+import com.example.frontend_android.ui.pages.prescription.creation_pages.FillAdditionalInfos
 import com.example.frontend_android.ui.pages.prescription.creation_pages.FillPrescriptionInfos
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
+import com.example.frontend_android.ui.pages.prescription.creation_pages.Loading
 import com.example.frontend_android.utils.ITextExtractionFromImageService
 import com.google.mlkit.vision.common.InputImage
 //import com.google.mlkit.vision.common.InputImage
@@ -99,6 +101,18 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
+    fun changenomDocteur(new_nom_docteur: String) {
+        _state.value = state.value.copy(
+            nomDocteur = new_nom_docteur
+        )
+    }
+
+    fun changeEmailDocteur(new_email_docteur: String) {
+        _state.value = state.value.copy(
+            emailDocteur = new_email_docteur
+        )
+    }
+
     fun changeMedecineAndDosage(new_medecineAndDosage: MutableList<Pair<String, String>>) {
         _state.value = state.value.copy(
             medecineAndDosage = new_medecineAndDosage
@@ -119,9 +133,20 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
+    fun changeStep(new_step: Int) {
+        _state.value = state.value.copy(
+            step = new_step
+        )
+    }
+
     fun stepToProgress() : Float {
+        // We ignore the loading page as a step
+
         val res = state.value.step + 1
-        return res / 6f // Changer 6 par nombre de pages dynamiquement
+        if (state.value.step == 0) {
+            return res / 7f
+        }
+        return (res-1)/ 7f // Changer 7 par nombre de pages dynamiquement
     }
 
     fun changeBtnContinueEnabled(new_value: Boolean) {
@@ -139,14 +164,18 @@ class CreatePrescriptionViewModel @Inject constructor(
     }
 
     fun getImageFromUri(context : Context) {
-        val image = InputImage.fromFilePath(context, state.value.imageUri!!)
         viewModelScope.launch {
+            val image = InputImage.fromFilePath(context, state.value.imageUri!!)
+
             val result = textExtractionService.extractTextFromImage(image)
             withContext(viewModelScope.coroutineContext) {
                 changeDate(result.date)
-                changeDocteurInformations(result.nomDocteur, result.emailDocteur)
+                changenomDocteur(result.nomDocteur)
+                changeEmailDocteur(result.emailDocteur)
                 changeMedecineAndDosage(result.medecineAndDosage)
             }
+        }.invokeOnCompletion {
+            nextPage()
         }
     }
 
@@ -154,7 +183,9 @@ class CreatePrescriptionViewModel @Inject constructor(
     fun PageFromStep() {
         return when (state.value.step) {
             0 -> ImportPrescriptionImage(this)
-            1 -> FillPrescriptionInfos(this)
+            1 -> Loading(viewModel = this)
+            2 -> FillPrescriptionInfos(this)
+            3 -> FillAdditionalInfos(this)
             else -> {}
         }
     }

@@ -23,6 +23,8 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -122,11 +124,13 @@ fun ImportPrescriptionImage(
             }
 
             Button(
-                onClick = { viewModel.changeImageUri(Uri.EMPTY) },
+                onClick = {
+                    viewModel.changeImageUri(Uri.EMPTY)
+                },
                 modifier = Modifier
                     .width(250.dp)
                     .padding(6.dp),
-                colors = ButtonDefaults.buttonColors(Color.Red)
+                colors = ButtonDefaults.buttonColors(Color.Red),
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_delete),

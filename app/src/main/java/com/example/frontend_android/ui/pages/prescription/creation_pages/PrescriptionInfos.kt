@@ -1,7 +1,6 @@
 package com.example.frontend_android.ui.pages.prescription.creation_pages
 
 import android.app.DatePickerDialog
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,8 +23,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -78,6 +75,14 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 color = Color.Gray,
             )
 
+            val prescriptionName : String
+            if (state.nomDocteur.isEmpty()) {
+                val date = state.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                viewModel.changeNom("Ordonnance du $date")
+            } else {
+                prescriptionName = state.nomDocteur + "_" + state.date
+                viewModel.changeNom(prescriptionName.replace(" ", "_"))
+            }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()
