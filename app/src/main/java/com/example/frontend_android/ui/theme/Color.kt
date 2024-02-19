@@ -67,31 +67,3 @@ val md_theme_dark_outline = Color(0xFF0393A5)
 val md_theme_dark_surfaceTint = Color(0xFFE7E7E7)
 // val md_theme_light_outlineVariant = Color(0xFFFF0000)
 // val md_theme_light_scrim = Color(0xFFFF0000)
-
-
-
-/*
-
-val Cyan500 = Color(0xFF00FF00)
-val Orange400 = Color(0xFF00FF00)
-
-val White = Color(0xFF00FF00)
-val Black = Color(0xFF00FF00)
-val LightGrey = Color(0xFF00FF00)
-
-
-val Red700 = Color(0xFF00FF00)
-val Green600 = Color(0xFF00FF00)
-
-val Purple80 = Color(0xFF00FF00)
-val PurpleGrey80 = Color(0xFF00FF00)
-val Pink80 = Color(0xFF00FF00)
-
-val Purple40 = Color(0xFF00FF00)
-val PurpleGrey40 = Color(0xFF00FF00)
-val Pink40 = Color(0xFF00FF00)
-
-val primaryColor(0xFF00FF00)
-
-
-val disabledColor(0xFF00FF00) */

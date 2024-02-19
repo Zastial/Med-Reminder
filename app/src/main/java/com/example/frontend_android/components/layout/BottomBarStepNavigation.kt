@@ -32,8 +32,6 @@ fun BottomBarStepNavigation (
             modifier = Modifier
                 .width(300.dp)
                 .padding(6.dp),
-                // TODO
-                // .background(White),
         ) {
             Text(text = "Continuer")
         }
