@@ -1,6 +1,7 @@
 package com.example.frontend_android.pages.prescription.creation_pages
 
 import android.app.DatePickerDialog
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Button
@@ -17,17 +19,15 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -36,8 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
-import com.example.frontend_android.ui.theme.LightGrey
-import com.example.frontend_android.ui.theme.Purple40
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -55,6 +53,7 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
         LinearProgressIndicator(
             progress = viewModel.stepToProgress(),
             modifier = Modifier.fillMaxWidth(),
+            trackColor = MaterialTheme.colorScheme.tertiary
         )
 
         Text(
@@ -88,10 +87,7 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 onValueChange = { viewModel.changeNom(nom.value) },
                 label = {
                     Text(text = "Maladie")
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    unfocusedBorderColor = Purple40,
-                ),
+                }
             )
 
             val configuration = LocalConfiguration.current
@@ -105,10 +101,7 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 onValueChange = { viewModel.changeDescription(description.value) },
                 label = {
                     Text(text = "Description des symptômes")
-                },
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    unfocusedBorderColor = Purple40,
-                ),
+                }
             )
         }
     }
@@ -135,6 +128,8 @@ fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
             currentDay
         )
     }
+
+
     // Set the max date to today
     datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
 
@@ -150,31 +145,31 @@ fun ShowCalendar(viewModel: CreatePrescriptionViewModel) {
             .height(50.dp)
             .padding(top = 5.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = LightGrey,
-            contentColor = Color.Black
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer
         ),
-        shape = RectangleShape,
+        shape = RoundedCornerShape(5.dp),
     ) {
         Row(
+            modifier = Modifier.background(MaterialTheme.colorScheme.tertiaryContainer),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 imageVector = Icons.Filled.DateRange,
                 contentDescription = "Date",
-                tint = Color.Black
+                tint = MaterialTheme.colorScheme.onTertiaryContainer
             )
             Spacer(modifier = Modifier.width(10.dp))
             Divider(
                 modifier = Modifier
                     .width(1.dp)
                     .fillMaxHeight(),
-                color = Color.Black
+                color = MaterialTheme.colorScheme.onTertiaryContainer
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = date.value.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                color = Color.Black,
                 fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.onTertiaryContainer
             )
         }
     }

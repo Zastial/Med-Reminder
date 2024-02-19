@@ -1,21 +1,27 @@
 package com.example.frontend_android.ui.components.layout
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.frontend_android.ui.theme.md_theme_light_onPrimaryCancel
+import com.example.frontend_android.ui.theme.md_theme_light_primaryCancel
 
 @Composable
 fun BottomBarValidation (
@@ -24,45 +30,44 @@ fun BottomBarValidation (
     onCancellation: () -> Unit,
 ) {
 
-    BottomAppBar() {
-
-        Button(
-            modifier = Modifier.background(Color.Transparent),
-            onClick = {
-                onCancellation()
-                navController.navigateUp()
-            },
+    BottomAppBar(
+        modifier = Modifier
+            .height(70.dp),
+        contentPadding = PaddingValues(16.dp, 8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Button(
+                onClick = {
+                    onCancellation()
+                    navController.navigateUp()
+                },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = md_theme_light_primaryCancel
+                )
+            ) {
                 Icon(
                     imageVector = Icons.Filled.Cancel,
                     contentDescription = "Cancel",
-
-                    // TODO
-                    // tint = Red700
+                    tint = md_theme_light_onPrimaryCancel
                 )
-                Text(text = "Annuler")
             }
-        }
 
-        Button(
-            modifier = Modifier.background(Color.Transparent),
-            onClick = {
-                onValidation()
-                navController.navigateUp()
-            },
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Button(
+                modifier = Modifier.background(Color.Transparent),
+                onClick = {
+                    onValidation()
+                    navController.navigateUp()
+                },
+            ) {
                 Icon(
                     imageVector = Icons.Default.Done,
                     contentDescription = "Done",
-                    // TODO
-                    // tint = Green600
                 )
-                Text(text = "Sauvegarder")
             }
         }
-
     }
 }
 

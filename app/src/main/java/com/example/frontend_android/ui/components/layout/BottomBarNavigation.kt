@@ -2,6 +2,7 @@ package com.example.frontend_android.ui.components.layout
 
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -39,20 +40,17 @@ fun BottomBarNavigation(
         val currentDestination = navBackStackEntry?.destination
         bottomNavigationItem.forEach { screen ->
             val isSelected = isSelected(currentDestination, screen.route)
-            // TODO
-            // val colorNavItem = if (isSelected) MaterialTheme.colorScheme.primary else Color.Black
             NavigationBarItem(
                 icon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = screen.icon),
                         contentDescription = null,
-                        // tint = colorNavItem
                     )
                 },
                 label = {
                     Text(
                         text = stringResource(id = screen.ressourceID),
-                        // color = colorNavItem,
+                        color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface ,
                         fontSize = 10.sp
                     )
                 },
