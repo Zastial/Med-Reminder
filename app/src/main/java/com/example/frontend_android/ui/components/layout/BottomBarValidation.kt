@@ -20,8 +20,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontend_android.ui.theme.md_theme_light_onPrimaryCancel
-import com.example.frontend_android.ui.theme.md_theme_light_primaryCancel
+import com.example.frontend_android.ui.theme.md_theme_common_onPrimaryCancel
+import com.example.frontend_android.ui.theme.md_theme_common_primaryCancel
 
 @Composable
 fun BottomBarValidation (
@@ -45,13 +45,13 @@ fun BottomBarValidation (
                     navController.navigateUp()
                 },
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = md_theme_light_primaryCancel
+                    containerColor = md_theme_common_primaryCancel
                 )
             ) {
                 Icon(
                     imageVector = Icons.Filled.Cancel,
                     contentDescription = "Cancel",
-                    tint = md_theme_light_onPrimaryCancel
+                    tint = md_theme_common_onPrimaryCancel
                 )
             }
 
