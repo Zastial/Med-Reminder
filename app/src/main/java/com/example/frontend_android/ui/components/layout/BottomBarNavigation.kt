@@ -1,7 +1,6 @@
 package com.example.frontend_android.ui.components.layout
 
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -10,7 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -22,7 +20,6 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.frontend_android.navigation.RootScreen
-import com.example.frontend_android.ui.theme.White
 
 val bottomNavigationItem: List<RootScreen> = listOf(
     RootScreen.prescription,
@@ -43,19 +40,17 @@ fun BottomBarNavigation(
         val currentDestination = navBackStackEntry?.destination
         bottomNavigationItem.forEach { screen ->
             val isSelected = isSelected(currentDestination, screen.route)
-            val colorNavItem = if (isSelected) MaterialTheme.colorScheme.primary else Color.Black
             NavigationBarItem(
                 icon = {
                     Icon(
                         imageVector = ImageVector.vectorResource(id = screen.icon),
                         contentDescription = null,
-                        tint = colorNavItem
                     )
                 },
                 label = {
                     Text(
                         text = stringResource(id = screen.ressourceID),
-                        color = colorNavItem,
+                        color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface ,
                         fontSize = 10.sp
                     )
                 },

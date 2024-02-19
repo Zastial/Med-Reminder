@@ -7,6 +7,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.components.layout.BottomBarStepNavigation
 import com.example.frontend_android.components.layout.TopBarPrescriptionNavigation
+import com.example.frontend_android.pages.prescription.creation_pages.FillPrescriptionInfos
+import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
+import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 
