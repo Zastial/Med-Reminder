@@ -30,7 +30,6 @@ import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 @Composable
 fun MedicineCard(navController: NavController, medicine: Medicine, warningMessage: String? = null) {
 
-
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp

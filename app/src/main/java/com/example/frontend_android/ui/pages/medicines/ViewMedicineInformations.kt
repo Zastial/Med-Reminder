@@ -85,15 +85,6 @@ fun ViewMedicineInformations(
                     Text(text = lines[it], fontWeight = fontWeight)
                 }
             }
-
-
-
-
-
         }
-
-        
     }
-
-
 }

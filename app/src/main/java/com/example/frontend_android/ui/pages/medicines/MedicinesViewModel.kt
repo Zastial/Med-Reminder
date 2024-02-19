@@ -24,7 +24,7 @@ data class MedicinesState (
 @HiltViewModel
 class MedicinesViewModel @Inject constructor(): ViewModel() {
 
-    val medicineDao  = ServiceBuilder.buildService(MedicineDao::class.java)
+    private val medicineDao  = ServiceBuilder.buildService(MedicineDao::class.java)
 
     private val _state = mutableStateOf(MedicinesState())
     val state: State<MedicinesState> = _state
@@ -37,7 +37,6 @@ class MedicinesViewModel @Inject constructor(): ViewModel() {
         }
 
     }
-
 
     private fun retrieveMedicines() {
         val requestCall = medicineDao.getMedicines(_state.value.search)

@@ -18,12 +18,17 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchTextField(value: String, onValueChange: (value: String) -> Unit) {
-    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = value,
             onValueChange = onValueChange,
             placeholder = { Text(text = "Rechercher un médicament...") },
+            maxLines = 1,
             prefix = {
                 Icon(
                     modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),

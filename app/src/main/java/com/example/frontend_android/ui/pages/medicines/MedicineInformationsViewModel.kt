@@ -24,7 +24,7 @@ class MedicineInformationsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
 ): ViewModel() {
 
-    val medicineDao  = ServiceBuilder.buildService(MedicineDao::class.java)
+    private val medicineDao  = ServiceBuilder.buildService(MedicineDao::class.java)
 
     private val medicineCis: Long = checkNotNull(savedStateHandle["medicine_cis"])
 
@@ -33,12 +33,10 @@ class MedicineInformationsViewModel @Inject constructor(
     val state: State<MedicineInformationsState> = _state
 
     init {
-        println(medicineCis)
         retrieveOneMedicine(medicineCis)
     }
 
     fun retrieveOneMedicine(cis: Long) {
-        println(cis)
         val requestCall = medicineDao.getMedicine(cis)
 
         requestCall.enqueue(object : Callback<Medicine> {
