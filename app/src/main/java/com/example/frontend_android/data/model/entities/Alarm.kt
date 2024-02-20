@@ -9,7 +9,7 @@ import com.google.gson.reflect.TypeToken
 @Entity(tableName = "Alarm")
 data class AlarmRecord(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Long?,
     val title: String,
     val description: String,
     var hour: Int = 0,
@@ -30,7 +30,7 @@ data class AlarmRecord(
     ),
     val prescription_id: Long?,
 ) {
-    val daysSelected: Map<String, Boolean>
+   val daysSelected: Map<String, Boolean>
         get() = Gson().fromJson(
             daysSelectedJson,
             object : TypeToken<Map<String, Boolean>>() {}.type
@@ -46,9 +46,9 @@ class InvalidAlarmException(message: String): Exception(message)
 
 
 val defaultAlarmRecord = AlarmRecord(
+    id = 0,
     title ="Default title Alarm",
     description = "Default description Alarm",
     medicineName = "medicine name",
-    prescription_id = null,
-    id = 0
+    prescription_id = null
 )

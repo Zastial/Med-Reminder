@@ -10,9 +10,9 @@ import com.example.frontend_android.ui.theme.MedreminderTheme
 
 
 @Composable
-fun BtnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Unit) {
+fun BtnContinue(enabled : Boolean = true, modifier : Modifier, actionText: String, onClick : () -> Unit) {
     Button(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         enabled = enabled,
         onClick = { onClick() }
     ) {
@@ -24,6 +24,6 @@ fun BtnContinue(enabled : Boolean = true, actionText: String, onClick : () -> Un
 @Composable
 fun ButtonPreview() {
     MedreminderTheme {
-        BtnContinue(actionText = "Continuer", onClick = { })
+        BtnContinue(actionText = "Continuer", modifier = Modifier, onClick = { })
     }
 }

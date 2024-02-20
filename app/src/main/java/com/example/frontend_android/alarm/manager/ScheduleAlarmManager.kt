@@ -26,6 +26,9 @@ class ScheduleAlarmManager @Inject constructor(
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     override fun schedule(alarmRecord: AlarmRecord) {
+        if (alarmRecord.id == null) {
+            throw IllegalArgumentException("L'id de l'alarme est nulle")
+        }
 
         val alarmIntent =  Intent(context, AlarmBroadcastReceiver::class.java).apply {
             putExtra(IS_RECURRING, alarmRecord.isRecurring)
@@ -36,7 +39,7 @@ class ScheduleAlarmManager @Inject constructor(
 
         val alarmPendingIntent = PendingIntent.getBroadcast(
             context,
-            alarmRecord.id,
+            alarmRecord.id.toInt(),
             alarmIntent,
             pendingIntentFlags
         )
@@ -55,13 +58,17 @@ class ScheduleAlarmManager @Inject constructor(
     }
 
     override fun cancel(alarmRecord: AlarmRecord) {
+        if (alarmRecord.id == null) {
+            throw IllegalArgumentException("L'id de l'alarme est nulle")
+        }
+
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val alamIntent = Intent(context, AlarmBroadcastReceiver::class.java)
 
         val alarmPendingIntent = PendingIntent.getBroadcast(
             context,
-            alarmRecord.id,
+            alarmRecord.id.toInt(),
             alamIntent,
             pendingIntentFlags,
         )

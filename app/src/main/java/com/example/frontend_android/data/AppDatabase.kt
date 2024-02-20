@@ -8,7 +8,6 @@ import com.example.frontend_android.data.model.dao.MedicinePosologyDao
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.dao.SideEffectDao
 import com.example.frontend_android.data.model.entities.AlarmRecord
-import com.example.frontend_android.data.model.entities.Doctor
 import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
 import com.example.frontend_android.data.model.entities.SideEffect

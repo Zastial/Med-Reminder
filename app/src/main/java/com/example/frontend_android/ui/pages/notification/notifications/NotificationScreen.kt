@@ -54,7 +54,7 @@ fun NotificationScreen(
                     hour = alarm.hour,
                     minutes = alarm.minute ,
                     isActive = alarm.isScheduled,
-                    dayOfWeek = alarm.daysSelectedJson,
+                    dayOfWeek = "",
                     changeAlarmState = { changeAlarmState(it) }
                 )
 

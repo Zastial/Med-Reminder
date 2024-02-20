@@ -3,7 +3,6 @@ package com.example.frontend_android.data.model.relations
 import androidx.room.Embedded
 import androidx.room.Relation
 import com.example.frontend_android.data.model.entities.AlarmRecord
-import com.example.frontend_android.data.model.entities.Doctor
 import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
 

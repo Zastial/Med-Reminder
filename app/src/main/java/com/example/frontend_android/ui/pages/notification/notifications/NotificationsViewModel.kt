@@ -3,17 +3,26 @@ package com.example.frontend_android.ui.pages.notification.notifications
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.frontend_android.data.model.dao.AlarmDao
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-
+@HiltViewModel
 class NotificationsViewModel @Inject constructor(
-
+        private val alarmDao: AlarmDao
 ) : ViewModel() {
 
     private val _state = mutableStateOf(NotificationState())
     val state: State<NotificationState> = _state
 
 
+
+    init {
+        getAlarms()
+    }
 
     fun onEvent(event : AlarmEvent) {
 
@@ -23,5 +32,16 @@ class NotificationsViewModel @Inject constructor(
             }
 
         }
+    }
+
+    private fun getAlarms() {
+        val alarmList = alarmDao.getAllAlarms()
+        alarmList.onEach { alarm ->
+            _state.value = _state.value.copy(
+                notificationList = alarm
+            )
+        }.launchIn(viewModelScope)
+
+
     }
 }

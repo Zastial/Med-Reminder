@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontend_android.ui.components.buttons.BtnContinue
+import com.example.frontend_android.ui.components.forms.BtnContinue
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -34,6 +34,7 @@ import kotlinx.coroutines.launch
 fun AddEditNotificationScreen(
     navController: NavController,
     viewModel: AddEditNotificationsViewModel = hiltViewModel()
+
 ) {
     val state = viewModel.state.value
     val scope = rememberCoroutineScope()
@@ -70,10 +71,10 @@ fun AddEditNotificationScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState)  }
     ) {
 
-        Surface(modifier = Modifier
-            .padding(it)) {
-
-
+        Surface(
+            modifier = Modifier
+            .padding(it)
+        ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -81,13 +82,8 @@ fun AddEditNotificationScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-
-                val timePickerState = rememberTimePickerState(initialHour =  state.hour, initialMinute = state.minutes, is24Hour = true)
+                val timePickerState = rememberTimePickerState(initialHour =  state.timePickerState.hour, initialMinute = state.timePickerState.minute, is24Hour = true)
                 TimeInput(state = timePickerState)
-
-
-
-
 
 
             }
