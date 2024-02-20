@@ -1,7 +1,6 @@
 package com.example.frontend_android.ui.pages.prescription.creation_pages
 
 import android.app.DatePickerDialog
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,8 +23,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,7 +38,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
+fun PrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
     val state = viewModel.state.value
     Column(
         modifier = Modifier
@@ -67,7 +64,6 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
             Text(
                 text = "Date de délivrance",
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
             )
             ShowCalendar(viewModel)
 
@@ -75,7 +71,6 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 text = "Informations de l'ordonnance",
                 modifier = Modifier.padding(top = 20.dp),
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
             )
 
             OutlinedTextField(

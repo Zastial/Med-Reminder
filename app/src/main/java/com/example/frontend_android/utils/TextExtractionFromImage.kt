@@ -84,7 +84,6 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
         }
     }
 
-
     override fun extractNomAndEmailMedecin(textPrescription: List<String>): Pair<String, String> {
         var doctorName = ""
         var email = ""

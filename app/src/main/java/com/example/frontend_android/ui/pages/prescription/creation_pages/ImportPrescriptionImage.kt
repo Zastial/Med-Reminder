@@ -1,16 +1,13 @@
 package com.example.frontend_android.ui.pages.prescription.creation_pages
 
 import android.net.Uri
-import android.widget.ImageButton
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -122,11 +119,13 @@ fun ImportPrescriptionImage(
             }
 
             Button(
-                onClick = { viewModel.changeImageUri(Uri.EMPTY) },
+                onClick = {
+                    viewModel.resetState()
+                },
                 modifier = Modifier
                     .width(250.dp)
                     .padding(6.dp),
-                colors = ButtonDefaults.buttonColors(Color.Red)
+                colors = ButtonDefaults.buttonColors(Color.Red),
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_delete),

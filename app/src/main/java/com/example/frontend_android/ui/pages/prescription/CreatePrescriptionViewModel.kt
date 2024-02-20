@@ -11,15 +11,18 @@ import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
 import com.example.frontend_android.data.model.entities.Prescription
-import com.example.frontend_android.ui.pages.prescription.creation_pages.FillPrescriptionInfos
+import com.example.frontend_android.ui.pages.prescription.creation_pages.AdditionalInfos
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
+import com.example.frontend_android.ui.pages.prescription.creation_pages.Loading
+import com.example.frontend_android.ui.pages.prescription.creation_pages.PrescriptionInfos
 import com.example.frontend_android.utils.ITextExtractionFromImageService
 import com.google.mlkit.vision.common.InputImage
-//import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
@@ -30,7 +33,8 @@ data class CreatePrescriptionState (
 
     val imageUri: Uri? = null,
     val date : LocalDate = LocalDate.now(),
-    val nom : String = "",
+    val nom : String = "Ordonnance du " +
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy à HH:mm")),
     val description : String = "",
     val nomDocteur : String = "",
     val emailDocteur : String = "",
@@ -68,6 +72,10 @@ class CreatePrescriptionViewModel @Inject constructor(
         }
     }
 
+    fun resetState() {
+        _state.value = CreatePrescriptionState()
+    }
+
     fun changeImageUri(new_uri: Uri) {
         _state.value = state.value.copy(
             imageUri = new_uri
@@ -92,9 +100,14 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
-    fun changeDocteurInformations(new_nom_docteur: String, new_email_docteur: String) {
+    fun changenomDocteur(new_nom_docteur: String) {
         _state.value = state.value.copy(
-            nomDocteur = new_nom_docteur,
+            nomDocteur = new_nom_docteur
+        )
+    }
+
+    fun changeEmailDocteur(new_email_docteur: String) {
+        _state.value = state.value.copy(
             emailDocteur = new_email_docteur
         )
     }
@@ -119,34 +132,38 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
-    fun stepToProgress() : Float {
-        val res = state.value.step + 1
-        return res / 6f // Changer 6 par nombre de pages dynamiquement
-    }
-
-    fun changeBtnContinueEnabled(new_value: Boolean) {
-        viewModelScope.launch {
-            _state.value = state.value.copy(
-                btnContinueEnabled = new_value
-            )
-        }
-    }
-
-    fun changeLoading(new_value: Boolean) {
+    fun changeStep(new_step: Int) {
         _state.value = state.value.copy(
-            loading = new_value
+            step = new_step
         )
     }
 
-    fun getImageFromUri(context : Context) {
-        val image = InputImage.fromFilePath(context, state.value.imageUri!!)
+    fun stepToProgress() : Float {
+        // We ignore the loading page as a step
+
+        val res = state.value.step + 1
+        if (state.value.step == 0) {
+            return res / 7f
+        }
+        return (res-1)/ 7f // Changer 7 par nombre de pages dynamiquement
+    }
+
+    fun getInformationsFromUri(context : Context) {
         viewModelScope.launch {
+            val image = InputImage.fromFilePath(context, state.value.imageUri!!)
+
             val result = textExtractionService.extractTextFromImage(image)
             withContext(viewModelScope.coroutineContext) {
                 changeDate(result.date)
-                changeDocteurInformations(result.nomDocteur, result.emailDocteur)
+                changenomDocteur(result.nomDocteur)
+                changeEmailDocteur(result.emailDocteur)
                 changeMedecineAndDosage(result.medecineAndDosage)
+
+                val prescriptionName = state.value.nomDocteur + "_" + state.value.date
+                changeNom(prescriptionName.replace(" ", "_"))
             }
+        }.invokeOnCompletion {
+            nextPage()
         }
     }
 
@@ -154,9 +171,10 @@ class CreatePrescriptionViewModel @Inject constructor(
     fun PageFromStep() {
         return when (state.value.step) {
             0 -> ImportPrescriptionImage(this)
-            1 -> FillPrescriptionInfos(this)
+            1 -> Loading(this) // Not a concrete page, to integrate into the process
+            2 -> PrescriptionInfos(this)
+            3 -> AdditionalInfos(this)
             else -> {}
         }
     }
 }
-
