@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.frontend_android.ui.components.buttons.BtnContinue
+import com.example.frontend_android.ui.components.forms.BtnContinue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,6 +60,6 @@ fun DefaultBottomSheetPreview() {
         isOpen = false,
         title = "Votre ordonnance à été correctement enregistrée",
         description = "L'opération c'est terminée avec succès",
-        actionButton = { BtnContinue(actionText = "Continuer", modifier = Modifier, onClick = { }) }
+        actionButton = { BtnContinue(actionText = "Continuer", onClick = { }) }
     )
 }

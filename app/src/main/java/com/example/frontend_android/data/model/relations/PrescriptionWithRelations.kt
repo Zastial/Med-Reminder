@@ -10,7 +10,6 @@ import com.example.frontend_android.data.model.entities.Prescription
 /**
  * Ceci est un object représentant l'ordonance avec ses relations:
  * - medicine_posologies
- * - doctor
  * - alarm
  */
 data class PrescriptionWithRelations (
@@ -24,16 +23,9 @@ data class PrescriptionWithRelations (
     val medicine_posologies: List<MedicinePosology>,
 
     @Relation(
-        parentColumn = "doctor_id",
-        entityColumn = "id"
-    )
-    val doctor: Doctor,
-
-    @Relation(
         parentColumn = "id",
         entityColumn = "prescription_id"
     )
     val alarmRecords: List<AlarmRecord>
 
-    ) {
-}
+)

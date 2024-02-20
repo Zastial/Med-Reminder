@@ -4,10 +4,11 @@ import android.app.Application
 import androidx.room.Room
 import com.example.frontend_android.data.AppDatabase
 import com.example.frontend_android.data.model.dao.AlarmDao
-import com.example.frontend_android.data.model.dao.PrescriptionDao
-import com.example.frontend_android.data.model.dao.DoctorDao
 import com.example.frontend_android.data.model.dao.MedicinePosologyDao
+import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.dao.SideEffectDao
+import com.example.frontend_android.utils.ITextExtractionFromImageService
+import com.example.frontend_android.utils.TextExtractionFromImageService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,12 +37,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDoctorDao(database: AppDatabase): DoctorDao {
-        return database.doctorDao()
-    }
-
-    @Provides
-    @Singleton
     fun provideMedicinePosologyDao(database: AppDatabase): MedicinePosologyDao {
         return database.medicinePosologyDao()
     }
@@ -56,6 +51,12 @@ object AppModule {
     @Singleton
     fun provideAlarmDao(database: AppDatabase): AlarmDao {
         return database.alarmDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTextExtractionService(): ITextExtractionFromImageService {
+        return TextExtractionFromImageService()
     }
 
 }
