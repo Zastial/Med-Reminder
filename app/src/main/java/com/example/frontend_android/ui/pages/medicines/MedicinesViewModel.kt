@@ -39,7 +39,7 @@ class MedicinesViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun retrieveMedicines() {
-        val requestCall = medicineDao.getMedicines(_state.value.search)
+        val requestCall = medicineDao.getMedicines(_state.value.search, null)
 
         requestCall.enqueue(object : Callback<List<Medicine>> {
             override fun onResponse(

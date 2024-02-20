@@ -2,8 +2,7 @@ package com.example.frontend_android.ui.pages.user
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -12,10 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.frontend_android.pages.user.ViewUserInformationsModel
+import com.example.frontend_android.ui.components.forms.MultiSelectDropdown
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.components.layout.TopBar
+
 
 @Composable
 fun ViewUserInformations(
@@ -24,6 +24,7 @@ fun ViewUserInformations(
 ) {
 
     val state = viewModel.state.value
+    val scrollState = rememberScrollState()
 
     BaseLayout(
         TopBar = {
@@ -40,6 +41,7 @@ fun ViewUserInformations(
                 onCancellation = {}
             )
         },
+        scrollState = scrollState
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(20.dp)
@@ -105,27 +107,28 @@ fun ViewUserInformations(
                         Text(text = "Email")
                     }
                 )
+
+
             }
 
-            Column() {
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text(
-                    modifier = Modifier
-                        .width(350.dp),
-                    text = "Écrivez ci-dessous vos allergies, séparées par une virgule. \n" +
-                            "Si vous n’en avez pas, passez à la suite.",
-                    style = MaterialTheme.typography.titleMedium,
+                    text = "Allergies",
+                    style = MaterialTheme.typography.titleMedium
                 )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .height(150.dp)
-                        .fillMaxWidth(),
-                    value = state.allergies,
-                    onValueChange = { viewModel.changeAllergies(it) },
-                    label = {
-                        Text(text = "Allergies")
-                    }
+
+                MultiSelectDropdown(
+                    scrollState = scrollState,
+                    search = state.allergies_search,
+                    onSearchChange = { viewModel.changeAllergiesSearch(it) },
+                    onClearClick = { viewModel.changeAllergiesSearch("") },
+                    onItemClick = { viewModel.changeSelectedAllergies(it) },
+                    predictions = state.allergies
                 )
             }
+
+
+
         }
 
 

@@ -12,7 +12,7 @@ import retrofit2.http.Query
 interface MedicineDao {
 
     @GET("medicines")
-    fun getMedicines(@Query("search") search: String?): Call<List<Medicine>>
+    fun getMedicines(@Query("search") search: String? = null, @Query("substanceOnly") substanceOnly: Boolean? = null): Call<List<Medicine>>
 
     @GET("medicines/{cis}")
     fun getMedicine(@Path("cis") cis: Long): Call<Medicine>
