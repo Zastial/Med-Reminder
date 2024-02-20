@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -23,6 +25,7 @@ import com.example.frontend_android.utils.FormatToStringHour
 import com.example.frontend_android.utils.FormatToStringMinutes
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlarmCard(
     modifier: Modifier,
@@ -30,14 +33,19 @@ fun AlarmCard(
     minutes: Int,
     isActive: Boolean,
     dayOfWeek: String,
-    changeAlarmState: (state : Boolean) -> Unit
+    changeAlarmState: (state : Boolean) -> Unit,
+    onClick : () -> Unit
 ) {
     val isChecked by remember { mutableStateOf(isActive) }
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(16.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        ),
+        onClick = { onClick()}
     ) {
         Row(
             modifier = Modifier
@@ -107,7 +115,15 @@ fun DayItem(day: String, isActive: Boolean) {
 )
 @Composable
 fun AlarmCardPreview() {
-    AlarmCard(modifier = Modifier, hour = 0, minutes= 0, isActive = false, dayOfWeek = "", changeAlarmState = { })
+    AlarmCard(
+        modifier = Modifier,
+        hour = 0,
+        minutes = 0,
+        isActive = false,
+        dayOfWeek = "",
+        changeAlarmState = { },
+        onClick = { }
+    )
 }
 
 

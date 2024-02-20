@@ -3,5 +3,5 @@ sealed class AddEditNotificationEvent {
     data class EnteredHour(val value: Int): AddEditNotificationEvent()
     data class EnteredMinute(val value: Int): AddEditNotificationEvent()
 
-    object SaveNotification: AddEditNotificationEvent()
+    data class SaveNotification(val hours: Int, val minutes: Int): AddEditNotificationEvent()
 }

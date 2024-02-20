@@ -1,6 +1,4 @@
 package com.example.frontend_android.navigation
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -8,14 +6,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.example.frontend_android.ui.pages.notification.add_edit_notification.AddEditNotificationScreen
 import com.example.frontend_android.ui.pages.notification.notifications.AlarmEvent
-import com.example.frontend_android.ui.pages.notification.notifications.NotificationScreen
+import com.example.frontend_android.ui.pages.notification.notifications.NotificationsScreen
 import com.example.frontend_android.ui.pages.notification.notifications.NotificationsViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 fun NavGraphBuilder.notificationGraph(
     navController: NavHostController
@@ -28,7 +20,11 @@ fun NavGraphBuilder.notificationGraph(
 
         composable(route = Screen.viewNotifications.route) {
             val viewModel = hiltViewModel<NotificationsViewModel>()
-            NotificationScreen(navController = navController, viewModel.state.value, { viewModel.onEvent(AlarmEvent.ChangeAlarmState(it)) })
+            NotificationsScreen(
+                navController = navController,
+                state = viewModel.state.value,
+                changeAlarmState = { viewModel.onEvent(AlarmEvent.ChangeAlarmState(it)) }
+            )
         }
 
         composable(route = Screen.createAlarm.route) {
@@ -39,14 +35,4 @@ fun NavGraphBuilder.notificationGraph(
 
     }
 
-}
-
-@Composable
-fun <T> Flow<T>.collectAsEffect(
-    context: CoroutineContext = EmptyCoroutineContext,
-    block: (T) -> Unit
-) {
-    LaunchedEffect(key1 = Unit) {
-        onEach(block).flowOn(context).launchIn(this)
-    }
 }

@@ -32,8 +32,8 @@ class ScheduleAlarmManager @Inject constructor(
 
         val alarmIntent =  Intent(context, AlarmBroadcastReceiver::class.java).apply {
             putExtra(IS_RECURRING, alarmRecord.isRecurring)
-            putExtra(HOUR, alarmRecord.hour)
-            putExtra(MINUTE, alarmRecord.minute)
+            putExtra(HOUR, alarmRecord.hours)
+            putExtra(MINUTE, alarmRecord.minutes)
             putExtra(TITLE, alarmRecord.title)
         }
 
@@ -45,8 +45,8 @@ class ScheduleAlarmManager @Inject constructor(
         )
 
         val calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, alarmRecord.hour)
-            set(Calendar.MINUTE, alarmRecord.minute)
+            set(Calendar.HOUR_OF_DAY, alarmRecord.hours)
+            set(Calendar.MINUTE, alarmRecord.minutes)
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
@@ -73,7 +73,7 @@ class ScheduleAlarmManager @Inject constructor(
             pendingIntentFlags,
         )
 
-        val toastText = "Alarm canceled for ${alarmRecord.hour}:${alarmRecord.minute}"
+        val toastText = "Alarm canceled for ${alarmRecord.hours}:${alarmRecord.minutes}"
 
         Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
 

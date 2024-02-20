@@ -35,13 +35,13 @@ class AddEditNotificationsViewModel @Inject constructor(
         when(event){
             is AddEditNotificationEvent.EnteredHour -> {
                 _state.value = state.value.copy(
-                    hour = event.value
+                    hours = event.value
                 )
 
             }
             is AddEditNotificationEvent.EnteredMinute -> {
                 _state.value = state.value.copy(
-                    hour = event.value
+                    minutes = event.value
                 )
             }
 
@@ -52,19 +52,22 @@ class AddEditNotificationsViewModel @Inject constructor(
                     try {
 
                         //insert
-                        val alarm = AlarmRecord(
+                        val alarmToInsert = AlarmRecord(
                             id = null,
                             title = "",
                             description = "",
                             medicineName = "",
+                            hours = event.hours,
+                            minutes = event.minutes,
                             isScheduled = true,
                             isRecurring = false,
                             prescription_id = null
                         )
-                        alarmDao.insertAlarm(alarm)
-                        // schedule
+                        val alarmId = alarmDao.insertAlarm(alarmToInsert)
+                        val alarmToSchedule = alarmDao.getAlarmById(alarmId)
+                            ?: throw InvalidAlarmException("L'alarme a planifiée est nulle")
 
-                        //scheduler.schedule(alarm)
+                        scheduler.schedule(alarmToSchedule)
 
                         _eventFlow.emit(
                             UiEvent.ShowSnackBar(

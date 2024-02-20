@@ -10,10 +10,10 @@ import com.google.gson.reflect.TypeToken
 data class AlarmRecord(
     @PrimaryKey(autoGenerate = true)
     val id: Long?,
-    val title: String,
-    val description: String,
-    var hour: Int = 0,
-    var minute: Int = 0,
+    var title: String,
+    var description: String,
+    var hours: Int = 0,
+    var minutes: Int = 0,
     var medicineName: String?,
     var isScheduled: Boolean = false,
     var isRecurring: Boolean = false,

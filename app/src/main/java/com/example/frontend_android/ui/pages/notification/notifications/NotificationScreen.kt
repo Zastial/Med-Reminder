@@ -20,7 +20,7 @@ import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
 
 @Composable
-fun NotificationScreen(
+fun NotificationsScreen(
     navController: NavController,
     state: NotificationState,
     changeAlarmState: (state : Boolean) -> Unit
@@ -51,11 +51,12 @@ fun NotificationScreen(
             state.notificationList.forEach { alarm ->
                 AlarmCard(
                     modifier = Modifier,
-                    hour = alarm.hour,
-                    minutes = alarm.minute ,
+                    hour = alarm.hours,
+                    minutes = alarm.minutes ,
                     isActive = alarm.isScheduled,
                     dayOfWeek = "",
-                    changeAlarmState = { changeAlarmState(it) }
+                    changeAlarmState = { changeAlarmState(it) },
+                    onClick = { }
                 )
 
             }
@@ -76,7 +77,7 @@ fun NotificationScreen(
 fun NotificationPreview() {
     val navController = rememberNavController()
     MedreminderTheme {
-        NotificationScreen(
+        NotificationsScreen(
             navController = navController,
             state = NotificationState(),
             changeAlarmState = { }

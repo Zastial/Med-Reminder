@@ -39,6 +39,11 @@ fun AddEditNotificationScreen(
     val state = viewModel.state.value
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
+    val timePickerState = rememberTimePickerState(
+        initialHour =  state.hours,
+        initialMinute = state.minutes,
+        is24Hour = true
+    )
 
 
 
@@ -66,8 +71,23 @@ fun AddEditNotificationScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxHeight(),
-        topBar = { TopBar(navController= navController, canGoBack = true, title = "Ajouter une alarme")},
-        bottomBar = { BtnContinue(actionText = "Sauvegarder", modifier = Modifier.padding(40.dp,0.dp,40.dp,20.dp), onClick = { viewModel.onEvent(AddEditNotificationEvent.SaveNotification) })},
+        topBar = {
+            TopBar(
+                navController= navController,
+                canGoBack = true,
+                title = "Ajouter une alarme"
+            )},
+        bottomBar = {
+            BtnContinue(
+                actionText = "Sauvegarder",
+                modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 20.dp),
+                onClick = {
+                    viewModel.onEvent(
+                        AddEditNotificationEvent.SaveNotification(timePickerState.hour, timePickerState.minute)
+                    )
+                    navController.navigateUp()
+                }
+            )},
         snackbarHost = { SnackbarHost(hostState = snackbarHostState)  }
     ) {
 
@@ -81,11 +101,7 @@ fun AddEditNotificationScreen(
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                val timePickerState = rememberTimePickerState(initialHour =  state.timePickerState.hour, initialMinute = state.timePickerState.minute, is24Hour = true)
                 TimeInput(state = timePickerState)
-
-
             }
         }
 
