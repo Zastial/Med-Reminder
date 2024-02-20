@@ -21,7 +21,7 @@ import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionView
 
 
 @Composable
-fun FillAdditionalInfos(viewModel: CreatePrescriptionViewModel) {
+fun AdditionalInfos(viewModel: CreatePrescriptionViewModel) {
     val state = viewModel.state.value
     Column(
         modifier = Modifier

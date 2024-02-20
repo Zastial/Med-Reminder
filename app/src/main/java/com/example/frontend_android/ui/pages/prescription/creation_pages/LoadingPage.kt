@@ -70,7 +70,7 @@ fun Loading(viewModel: CreatePrescriptionViewModel) {
         key1 = state.imageUri,
         ) {
         if (!Uri.EMPTY.equals(state.imageUri) && state.imageUri != null) {
-            viewModel.getImageFromUri(context)
+            viewModel.getInformationsFromUri(context)
         }
     }
 }

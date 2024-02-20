@@ -38,7 +38,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
+fun PrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
     val state = viewModel.state.value
     Column(
         modifier = Modifier
@@ -64,7 +64,6 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
             Text(
                 text = "Date de délivrance",
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
             )
             ShowCalendar(viewModel)
 
@@ -72,17 +71,8 @@ fun FillPrescriptionInfos(viewModel: CreatePrescriptionViewModel) {
                 text = "Informations de l'ordonnance",
                 modifier = Modifier.padding(top = 20.dp),
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray,
             )
 
-            val prescriptionName : String
-            if (state.nomDocteur.isEmpty()) {
-                val date = state.date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                viewModel.changeNom("Ordonnance du $date")
-            } else {
-                prescriptionName = state.nomDocteur + "_" + state.date
-                viewModel.changeNom(prescriptionName.replace(" ", "_"))
-            }
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth()

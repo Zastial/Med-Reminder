@@ -8,7 +8,6 @@ import com.example.frontend_android.components.layout.TopBarPrescriptionNavigati
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarStepNavigation
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
-import java.time.LocalDate
 
 @Composable
 fun CreatePrescriptions(
@@ -16,15 +15,6 @@ fun CreatePrescriptions(
     viewModel: CreatePrescriptionViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-
-    fun returnToFirstPage() {
-        viewModel.changeNom("")
-        viewModel.changeDescription("")
-        viewModel.changeDate(LocalDate.now())
-        viewModel.changenomDocteur("")
-        viewModel.changeEmailDocteur("")
-        viewModel.changeStep(0)
-    }
 
     fun loadingPage() {
         if (Uri.EMPTY.equals(state.imageUri) || state.imageUri == null) {
@@ -62,7 +52,7 @@ fun CreatePrescriptions(
                 onClick = {
                     when (state.step) {
                         0 -> navController.navigateUp()
-                        2 -> returnToFirstPage()
+                        2 -> viewModel.changeStep(0)
                         else -> viewModel.previousPage()
                     }
                 }
