@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import com.example.frontend_android.GlobalProperties.pendingIntentFlags
 import com.example.frontend_android.alarm.receiver.AlarmBroadcastReceiver
@@ -39,7 +40,7 @@ class ScheduleAlarmManager @Inject constructor(
 
         val alarmPendingIntent = PendingIntent.getBroadcast(
             context,
-            alarmRecord.id.toInt(),
+            alarmRecord.hashCode(),
             alarmIntent,
             pendingIntentFlags
         )
@@ -50,6 +51,8 @@ class ScheduleAlarmManager @Inject constructor(
             set(Calendar.SECOND, 0)
             set(Calendar.MILLISECOND, 0)
         }
+
+        Log.d("ALARM", "Alarm schedule : ${calendar.time}")
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,

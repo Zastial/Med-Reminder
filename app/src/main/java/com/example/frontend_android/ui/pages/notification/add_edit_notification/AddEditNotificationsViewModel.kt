@@ -1,5 +1,6 @@
 package com.example.frontend_android.ui.pages.notification.add_edit_notification
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -34,12 +35,15 @@ class AddEditNotificationsViewModel @Inject constructor(
 
         when(event){
             is AddEditNotificationEvent.EnteredHour -> {
+                Log.d("ALARM", "entered hour: $event")
                 _state.value = state.value.copy(
                     hours = event.value
                 )
 
             }
             is AddEditNotificationEvent.EnteredMinute -> {
+                Log.d("ALARM", "entered minutes: $event")
+
                 _state.value = state.value.copy(
                     minutes = event.value
                 )
@@ -48,6 +52,8 @@ class AddEditNotificationsViewModel @Inject constructor(
 
 
             is AddEditNotificationEvent.SaveNotification -> {
+                Log.d("ALARM", "VM save notification: $event")
+
                 viewModelScope.launch {
                     try {
 
@@ -68,13 +74,15 @@ class AddEditNotificationsViewModel @Inject constructor(
                             ?: throw InvalidAlarmException("L'alarme a planifiée est nulle")
 
                         scheduler.schedule(alarmToSchedule)
+                        Log.d("ALARM", "ALARM viewModel scheduled : ${alarmToSchedule}")
 
                         _eventFlow.emit(
                             UiEvent.ShowSnackBar(
                                 message = "Alarme sauvegardée"
                             )
                         )
-                        //_eventFlow.emit(UiEvent.SaveNotification)
+
+                        _eventFlow.emit(UiEvent.SaveNotification)
                     } catch (e : InvalidAlarmException) {
 
                         _eventFlow.emit(

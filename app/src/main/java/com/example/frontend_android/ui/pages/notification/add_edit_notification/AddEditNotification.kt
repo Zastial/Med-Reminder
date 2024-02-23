@@ -85,7 +85,6 @@ fun AddEditNotificationScreen(
                     viewModel.onEvent(
                         AddEditNotificationEvent.SaveNotification(timePickerState.hour, timePickerState.minute)
                     )
-                    navController.navigateUp()
                 }
             )},
         snackbarHost = { SnackbarHost(hostState = snackbarHostState)  }
