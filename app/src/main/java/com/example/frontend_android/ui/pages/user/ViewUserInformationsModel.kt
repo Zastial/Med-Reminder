@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.frontend_android.ServiceBuilder
 import com.example.frontend_android.data.model.dao.MedicineDao
-import com.example.frontend_android.data.model.entities.Medicine
+import com.example.frontend_android.data.model.entities.Substance
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import retrofit2.Call
@@ -24,7 +24,7 @@ data class UserInformationsState (
     val doctor_email: String = "",
     val selected_allergies: Set<String> = setOf(),
     val allergies_search: String = "",
-    val allergies: List<String> = listOf(),
+    val subtances: List<Substance> = listOf(),
     val searching: Boolean = false,
 )
 
@@ -44,26 +44,24 @@ class ViewUserInformationsModel @Inject constructor(@ApplicationContext context 
     }
 
     private fun retrieveMedicines() {
-        println(_state.value.allergies_search)
-        val requestCall = medicineDao.getMedicines(_state.value.allergies_search, true)
+        val requestCall = medicineDao.getSubstances(_state.value.allergies_search)
 
-        requestCall.enqueue(object : Callback<List<Medicine>> {
+        requestCall.enqueue(object : Callback<List<Substance>> {
             override fun onResponse(
-                call: Call<List<Medicine>>,
-                response: Response<List<Medicine>>
+                call: Call<List<Substance>>,
+                response: Response<List<Substance>>
             ) {
                 if (response.isSuccessful) {
-                    val medicineList = response.body()!!
-                    val substanceList = medicineList.map { medicine -> medicine.substanceName }
+                    val substanceList = response.body()!!
                     _state.value = state.value.copy(
-                        allergies = substanceList,
+                        subtances = substanceList,
                     )
                 }
                 changeSearching(false)
 
             }
 
-            override fun onFailure(call: Call<List<Medicine>>, t: Throwable) {
+            override fun onFailure(call: Call<List<Substance>>, t: Throwable) {
                 Log.d("Error", "onError: ${t.message}")
                 changeSearching(false)
             }
@@ -81,7 +79,7 @@ class ViewUserInformationsModel @Inject constructor(@ApplicationContext context 
             doctor_first_name = (userInfos["doctor_first_name"] ?: "") as String,
             doctor_last_name = (userInfos["doctor_last_name"] ?: "") as String,
             doctor_email = (userInfos["doctor_email"] ?: "") as String,
-            selected_allergies = (userInfos["selected_allergies"] ?: setOf<String>()) as Set<String>
+            selected_allergies = ((userInfos["allergies"] ?: setOf<String>()) as Set<String>)
         )
     }
 
@@ -93,7 +91,7 @@ class ViewUserInformationsModel @Inject constructor(@ApplicationContext context 
             putString("doctor_first_name", _state.value.doctor_first_name)
             putString("doctor_last_name", _state.value.doctor_last_name)
             putString("doctor_email", _state.value.doctor_email)
-            putStringSet("allergies", _state.value.selected_allergies)
+            putStringSet("allergies", _state.value.selected_allergies.toSet())
             apply()
         }
 
@@ -142,7 +140,7 @@ class ViewUserInformationsModel @Inject constructor(@ApplicationContext context 
         if (new_allergies_search != "") {
             retrieveMedicines()
         } else {
-            changeAllergies(emptyList())
+            changeSubstances(emptyList())
         }
     }
 
@@ -152,21 +150,16 @@ class ViewUserInformationsModel @Inject constructor(@ApplicationContext context 
         )
     }
 
-    fun changeAllergies(new_allergies: List<String>) {
+    fun changeSubstances(new_substances: List<Substance>) {
         _state.value = state.value.copy(
-            allergies = new_allergies
+            subtances = new_substances
         )
     }
 
-    fun changeSelectedAllergies(new_selected_allergy: String) {
-        val new_selected_allergies: MutableList<String> = state.value.copy().selected_allergies.toMutableList()
-        if (new_selected_allergies.contains(new_selected_allergy)) {
-            new_selected_allergies.remove(new_selected_allergy)
-        } else {
-            new_selected_allergies.add(new_selected_allergy)
-        }
+    fun changeSelectedAllergies(new_selected_allergies: Set<String>) {
         _state.value = state.value.copy(
-            selected_allergies = new_selected_allergies.toSet()
+            selected_allergies = new_selected_allergies
+
         )
     }
 

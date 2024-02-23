@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.frontend_android.ui.components.forms.DropDownItem
 import com.example.frontend_android.ui.components.forms.MultiSelectDropdown
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
@@ -118,12 +119,19 @@ fun ViewUserInformations(
                 )
 
                 MultiSelectDropdown(
+                    label="Allergies",
                     scrollState = scrollState,
                     search = state.allergies_search,
                     onSearchChange = { viewModel.changeAllergiesSearch(it) },
+                    defaultSelectedItems = state.selected_allergies.map { allergy -> DropDownItem(allergy, allergy) },
                     onClearClick = { viewModel.changeAllergiesSearch("") },
-                    onItemClick = { viewModel.changeSelectedAllergies(it) },
-                    predictions = state.allergies
+                    items = state.subtances.map { substance -> DropDownItem(substance.substanceName, substance.substanceName) },
+                    onItemAdded = { item ->
+                        viewModel.changeSelectedAllergies(state.selected_allergies.plus(item.value))
+                    },
+                    onItemRemove = { item ->
+                        viewModel.changeSelectedAllergies(state.selected_allergies.minus(item.value))
+                    },
                 )
             }
 
