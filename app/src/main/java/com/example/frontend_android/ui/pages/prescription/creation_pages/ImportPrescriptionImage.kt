@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -23,9 +24,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -53,6 +56,7 @@ import com.example.frontend_android.ui.components.bottomSheets.BottomSheetImport
 import com.example.frontend_android.ui.components.bottomSheets.BottomSheetSurface
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ImportPrescriptionImage(navController : NavController, viewModel: CreatePrescriptionViewModel) {
     val configuration = LocalConfiguration.current
@@ -178,6 +182,7 @@ fun ImportPrescriptionImage(navController : NavController, viewModel: CreatePres
             }
         }
     }
+
     BottomSheetImportImage(
         isOpen = viewModel.state.value.isBottomSheetOpen,
         openCamera = {
