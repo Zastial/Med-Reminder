@@ -21,6 +21,7 @@ fun NavigationGraph() {
         notificationGraph(navController = navController)
         medicineGraph(navController = navController)
         userGraph(navController = navController)
+        //cameraGraph(navController = navController)
     }
 }
 

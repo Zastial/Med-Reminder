@@ -9,6 +9,8 @@ import com.example.frontend_android.data.model.dao.MedicineDao
 import com.example.frontend_android.data.model.dao.MedicinePosologyDao
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.dao.SideEffectDao
+import com.example.frontend_android.utils.ITextExtractionFromImageService
+import com.example.frontend_android.utils.TextExtractionFromImageService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -57,6 +59,12 @@ object AppModule {
     @Singleton
     fun provideMedicineDao(): MedicineDao {
         return ServiceBuilder.buildService(MedicineDao::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTextExtractionService(): ITextExtractionFromImageService {
+        return TextExtractionFromImageService()
     }
 
 }

@@ -14,6 +14,9 @@ sealed class Screen(val route: String) {
     object modifyPrescription: Screen(
         route = "modify_prescription_screen"
     )
+    object viewPhotoModule: Screen(
+        route = "prescription_photo_module_screen"
+    )
 
     // Screen pour toutes les alarmes
     object viewNotifications: Screen(
