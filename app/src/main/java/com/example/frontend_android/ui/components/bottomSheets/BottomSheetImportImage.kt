@@ -22,13 +22,8 @@ fun BottomSheetImportImage(
     openGalerie: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    val sheetState = rememberModalBottomSheetState(
-        confirmValueChange = { false }
-    )
-
     if (isOpen) {
         ModalBottomSheet(
-            sheetState = sheetState,
             onDismissRequest = {
                 onDismiss()
             },
