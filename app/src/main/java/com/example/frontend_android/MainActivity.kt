@@ -1,12 +1,17 @@
 package com.example.frontend_android
 
+import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.example.frontend_android.alarm.receiver.AlarmBroadcastReceiver
+import com.example.frontend_android.alarm.receiver.INTENT_FILTER_MED_AP
 import com.example.frontend_android.navigation.NavigationGraph
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,8 +20,12 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        registerReceiver(AlarmBroadcastReceiver(), IntentFilter(INTENT_FILTER_MED_AP), RECEIVER_NOT_EXPORTED)
+
 
 
 

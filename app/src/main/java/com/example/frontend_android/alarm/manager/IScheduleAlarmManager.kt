@@ -7,7 +7,14 @@ import com.example.frontend_android.data.model.entities.AlarmRecord
  */
 interface IScheduleAlarmManager {
 
+    /**
+     * Schedule exact alarm
+     */
     fun schedule(alarmRecord : AlarmRecord)
 
+
+    /**
+     * Cancel alarm
+     */
     fun cancel(alarmRecord: AlarmRecord)
 }

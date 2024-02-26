@@ -13,12 +13,12 @@ class AlarmBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
         val alarmService = AlarmService(context = context)
         try {
-            val title = intent?.getStringExtra(TITLE) ?: return
-            val text = intent?.getStringExtra(CONTENT) ?: return
+            val title = intent?.getStringExtra(TITLE) ?: "Default title"
+            val text = intent?.getStringExtra(CONTENT) ?: "Default content"
             alarmService.showNotification(title, text)
-            Log.d("ALARM", "Alarm recieve at : ${Calendar.getInstance().time},  title : ${title}")
+            Log.d("ALARM", "Alarm recieve at : ${Calendar.getInstance().time},  title : $title")
         } catch (e : Exception) {
-            Log.d("ALARM", "Fail to recieve alarm in broadCast Reciever : ${e.printStackTrace()}")
+            Log.d("ALARM", "Fail to recieve alarm in broadCast Reciever : ${e}")
         }
     }
 
@@ -35,3 +35,4 @@ const val TITLE = "TITLE"
 const val CONTENT = "CONTENT"
 const val HOUR = "HOUR"
 const val MINUTE = "MINUTE"
+const val INTENT_FILTER_MED_AP = "MED_APP_INTENT_FILTER_ALARM"

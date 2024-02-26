@@ -5,8 +5,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.frontend_android.MainActivity
+import com.example.frontend_android.R
+import kotlin.random.Random
 
 
 class AlarmService(
@@ -24,14 +27,19 @@ class AlarmService(
         )
 
         val notification = NotificationCompat.Builder(context, COUNTER_CHANNEL_ID)
-            //.setSmallIcon()
+            .setSmallIcon(R.drawable.ic_notifications)
             .setContentTitle(title)
             .setContentText(content)
             .setContentIntent(activityPendingIntent)
             //.addAction()
             .build()
 
-        notificationManager.notify(1, notification)
+        Log.e("ALARM", "Notification send : $notification")
+
+        notificationManager.notify(
+            Random.nextInt(),
+            notification
+        )
     }
 
     companion object {
