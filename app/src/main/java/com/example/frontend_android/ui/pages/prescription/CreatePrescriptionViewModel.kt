@@ -8,11 +8,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
 import com.example.frontend_android.data.model.entities.Prescription
-import com.example.frontend_android.ui.pages.prescription.creation_pages.AdditionalInfos
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
+import com.example.frontend_android.ui.pages.prescription.creation_pages.AdditionalInfos
 import com.example.frontend_android.ui.pages.prescription.creation_pages.Loading
 import com.example.frontend_android.ui.pages.prescription.creation_pages.PrescriptionInfos
 import com.example.frontend_android.utils.ITextExtractionFromImageService
@@ -38,7 +39,8 @@ data class CreatePrescriptionState (
     val description : String = "",
     val nomDocteur : String = "",
     val emailDocteur : String = "",
-    val medecineAndDosage : MutableList<Pair<String, String>> = mutableListOf()
+    val medecineAndDosage : MutableList<Pair<String, String>> = mutableListOf(),
+    var isBottomSheetOpen : Boolean = false
 )
 
 @HiltViewModel
@@ -132,9 +134,15 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
-    fun changeStep(new_step: Int) {
+    fun changeStep(newStep: Int) {
         _state.value = state.value.copy(
-            step = new_step
+            step = newStep
+        )
+    }
+
+    fun changeBottomSheetBool(new_value: Boolean){
+        _state.value = state.value.copy(
+            isBottomSheetOpen = new_value
         )
     }
 
@@ -159,8 +167,10 @@ class CreatePrescriptionViewModel @Inject constructor(
                 changeEmailDocteur(result.emailDocteur)
                 changeMedecineAndDosage(result.medecineAndDosage)
 
-                val prescriptionName = state.value.nomDocteur + "_" + state.value.date
-                changeNom(prescriptionName.replace(" ", "_"))
+                if (state.value.nomDocteur.isNotEmpty()) {
+                    val prescriptionName = state.value.nomDocteur + "_" + state.value.date
+                    changeNom(prescriptionName.replace(" ", "_"))
+                }
             }
         }.invokeOnCompletion {
             nextPage()
@@ -168,12 +178,13 @@ class CreatePrescriptionViewModel @Inject constructor(
     }
 
     @Composable
-    fun PageFromStep() {
+    fun PageFromStep(navcontroller : NavController) {
         return when (state.value.step) {
-            0 -> ImportPrescriptionImage(this)
+            0 -> ImportPrescriptionImage(navcontroller, this)
             1 -> Loading(this) // Not a concrete page, to integrate into the process
             2 -> PrescriptionInfos(this)
             3 -> AdditionalInfos(this)
+            7 -> ViewCameraScreen(navcontroller, this)
             else -> {}
         }
     }
