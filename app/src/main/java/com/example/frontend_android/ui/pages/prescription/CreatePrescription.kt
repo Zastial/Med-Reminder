@@ -15,7 +15,7 @@ fun CreatePrescriptions(
     viewModel: CreatePrescriptionViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
-
+    
     fun loadingPage() {
         if (Uri.EMPTY.equals(state.imageUri) || state.imageUri == null) {
             viewModel.changeStep(2)
@@ -37,6 +37,7 @@ fun CreatePrescriptions(
                 onValidation = { viewModel.insertPrescription() },
                 onCancellation = { viewModel.previousPage() }
             )
+            7 -> {}
             else -> BottomBarStepNavigation(
                 navController = navController,
                 onClick = { viewModel.nextPage() },
@@ -53,6 +54,7 @@ fun CreatePrescriptions(
                     when (state.step) {
                         0 -> navController.navigateUp()
                         2 -> viewModel.changeStep(0)
+                        7 -> viewModel.changeStep(0)
                         else -> viewModel.previousPage()
                     }
                 }
@@ -60,6 +62,6 @@ fun CreatePrescriptions(
         },
         BottomBar = { BottomBar(state.step) }
     ) {
-        viewModel.PageFromStep()
+        viewModel.PageFromStep(navController)
     }
 }
