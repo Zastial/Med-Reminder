@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.frontend_android.ServiceBuilder
 import com.example.frontend_android.data.model.dao.MedicineDao
 import com.example.frontend_android.data.model.entities.Substance
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,9 +28,11 @@ data class UserInformationsState (
 )
 
 @HiltViewModel
-class ViewUserInformationsModel @Inject constructor(@ApplicationContext context : Context): ViewModel() {
+class ViewUserInformationsModel @Inject constructor(
+    @ApplicationContext context : Context,
+    private val medicineDao: MedicineDao
+): ViewModel() {
 
-    private val medicineDao  = ServiceBuilder.buildService(MedicineDao::class.java)
 
     private val sharedPreferences = context.getSharedPreferences("user_infos", Context.MODE_PRIVATE)
 
@@ -137,7 +138,7 @@ class ViewUserInformationsModel @Inject constructor(@ApplicationContext context 
         _state.value = state.value.copy(
             allergies_search = new_allergies_search
         )
-        if (new_allergies_search != "") {
+        if (new_allergies_search.isNotEmpty()) {
             retrieveMedicines()
         } else {
             changeSubstances(emptyList())

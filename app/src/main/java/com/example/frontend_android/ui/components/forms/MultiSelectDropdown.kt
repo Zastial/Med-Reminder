@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 @Composable
-fun DropDownItemRender(
+private fun DropDownSelectedItemRenderer(
     item: DropDownItem,
     onRemoveClick: (DropDownItem) -> Unit = {}
 ) {
@@ -135,7 +135,7 @@ fun MultiSelectDropdown(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             selectedItemValues.map { item ->
-                DropDownItemRender(item) { p1 ->
+                DropDownSelectedItemRenderer(item) { p1 ->
                     onItemRemove(p1)
                     selectedItemValues.remove(p1)
                 }
@@ -172,161 +172,9 @@ fun MultiSelectDropdown(
                             if (alreadySelected) Icon(imageVector = Icons.Rounded.Done, contentDescription = "already selected")
                             Text(text = prediction.label)
                         }
-
                     }
-
-
-                }
-            }
-
-        }
-    }
-
-
-
-
-}
-
-
-/*
-var isExpanded by remember {
-    mutableStateOf(false)
-}
-
-val selectedItems = remember {
-    mutableStateListOf<String>()
-}
-
-var search by remember {
-    mutableStateOf(TextFieldValue(""))
-}
-var category by remember { mutableStateOf("") }
-var textFieldSize by remember { mutableStateOf(Zeo) }
-val interactionSource = remember { MutableInteractionSource() }
-
-@Composable
-fun renderSelectedItems(items: List<String>) {
-    for (item in items) {
-        DropdownSelectedItem(item)
-    }
-}
-
-
-Column(
-modifier = Modifier
-.fillMaxWidth()
-.clickable(
-interactionSource = interactionSource,
-indication = null,
-onClick = {
-    expanded = false
-}
-)
-) {
-    Text(
-        modifier = Modifier.padding(start = 3.dp, bottom = 2.dp),
-        text = "Animals",
-        fontSize = 16.sp,
-        color = Color.Black,
-        fontWeight = FontWeight.Medium
-    )
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            AutoCompleteTextField(
-                value = category,
-                onValueChange = {
-                    category = it
-                    expanded = true
-                },
-                placeholder = "Enter any Animal Name",
-                animals = animals,
-                textFieldSize = { size -> textFieldSize = size }
-            ) {
-                expanded = !expanded
-            }
-        }
-
-        AnimatedVisibility(visible = expanded) {
-            AutoCompleteDropdown(
-                modifier = Modifier.padding(horizontal = 5.dp),
-                textFieldWidth = textFieldSize.width.dp,
-                items = if (category.isNotEmpty()) {
-                    animals.filter {
-                        it.lowercase().contains(category.lowercase())
-                    }.sorted()
-                } else {
-                    animals.sorted()
-                }
-            ) { item ->
-                category = item
-                expanded = false
-            }
-        }
-    }
-}
-
-ExposedDropdownMenuBox(
-expanded = isExpanded,
-onExpandedChange = { isExpanded = it }
-) {
-
-    OutlinedTextField(
-        prefix = { renderSelectedItems(selectedItems) },
-        value = search,
-        onValueChange = {
-            onSearchChange(it.text)
-            search = it
-        },
-        placeholder = {
-            if (selectedItems.isEmpty()) {
-                Text(text = "Sélectionnez une allergie")
-            }
-        },
-        trailingIcon = {
-            ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpanded)
-        },
-        colors = ExposedDropdownMenuDefaults.textFieldColors(),
-        modifier = Modifier
-            .fillMaxWidth() // Needed to anchor the dropdown menu
-    )
-
-    ExposedDropdownMenu(
-        expanded = isExpanded && search.text.length >= 3,
-        onDismissRequest = { isExpanded = false }
-    ) {
-        items.forEach { name ->
-            AnimatedContent(
-                targetState = selectedItems.contains(name),
-                label = "Animate the selected item"
-            ) { isSelected ->
-                if (isSelected) {
-                    DropdownMenuItem(
-                        text = {
-                            Text(text = name)
-                        },
-                        onClick = {
-                            selectedItems.remove(name)
-                        },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Rounded.Check,
-                                contentDescription = null
-                            )
-                        }
-                    )
-                } else {
-                    DropdownMenuItem(
-                        text = {
-                            Text(text = name)
-                        },
-                        onClick = {
-                            search = TextFieldValue()
-                            selectedItems.add(name)
-                        },
-                    )
                 }
             }
         }
     }
-} */
+}

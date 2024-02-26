@@ -2,8 +2,10 @@ package com.example.frontend_android.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.frontend_android.ServiceBuilder
 import com.example.frontend_android.data.AppDatabase
 import com.example.frontend_android.data.model.dao.AlarmDao
+import com.example.frontend_android.data.model.dao.MedicineDao
 import com.example.frontend_android.data.model.dao.MedicinePosologyDao
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.dao.SideEffectDao
@@ -49,6 +51,12 @@ object AppModule {
     @Singleton
     fun provideAlarmDao(database: AppDatabase): AlarmDao {
         return database.alarmDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMedicineDao(): MedicineDao {
+        return ServiceBuilder.buildService(MedicineDao::class.java)
     }
 
 }

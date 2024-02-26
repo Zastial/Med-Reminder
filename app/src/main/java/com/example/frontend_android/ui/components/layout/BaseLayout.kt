@@ -33,8 +33,8 @@ fun BaseLayout(
     ) {
         Box(modifier = scrollModifier
             .fillMaxHeight()
-            .padding(8.dp, 16.dp)
             .padding(it)
+            .padding(8.dp, 16.dp)
         ) {
             if (Content != null) {
                 Content()

@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class HeaderInterceptor : Interceptor {
 
-    private val credentials = Credentials.basic("android", "Pa9_Veb9-Vu2")
+    private val credentials = Credentials.basic(GlobalProperties.apiUsername, GlobalProperties.apiPassword)
 
     override fun intercept(chain: Interceptor.Chain): Response = chain.run {
         proceed(
@@ -22,7 +22,6 @@ class HeaderInterceptor : Interceptor {
 }
 
 object ServiceBuilder {
-    private const val URL ="https://api.medreminder.eaji.software/"
     //CREATE HTTP CLIENT
     private val headerInterceptor = HeaderInterceptor()
 
@@ -34,7 +33,7 @@ object ServiceBuilder {
 
 
     //retrofit builder
-    private val builder = Retrofit.Builder().baseUrl(URL)
+    private val builder = Retrofit.Builder().baseUrl(GlobalProperties.apiUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttp.build())
 
@@ -44,9 +43,7 @@ object ServiceBuilder {
 
     //we will use this class to create an anonymous inner class function that
     //implements Country service Interface
-
-
-    fun <T> buildService (serviceType :Class<T>):T{
+    fun <T> buildService (serviceType: Class<T>): T {
         return retrofit.create(serviceType)
     }
 
