@@ -4,6 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,7 +43,8 @@ fun NotificationsScreen(
         }
     ) {
         Column(
-            modifier = Modifier,
+            modifier = Modifier
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center
         ) {
             Button(onClick = { navController.navigate(Screen.createAlarm.route) }) {
@@ -48,18 +52,22 @@ fun NotificationsScreen(
             }
             Spacer(modifier = Modifier.size(12.dp))
 
-            state.notificationList.forEach { alarm ->
-                AlarmCard(
-                    modifier = Modifier,
-                    hour = alarm.hours,
-                    minutes = alarm.minutes ,
-                    isActive = alarm.isScheduled,
-                    dayOfWeek = "",
-                    changeAlarmState = { changeAlarmState(it) },
-                    onClick = { }
-                )
-
+            LazyColumn {
+                state.notificationList.forEach { alarm ->
+                    item {
+                        AlarmCard(
+                            modifier = Modifier,
+                            hour = alarm.hours,
+                            minutes = alarm.minutes,
+                            isActive = alarm.isScheduled,
+                            dayOfWeek = "",
+                            changeAlarmState = { changeAlarmState(it) },
+                            onClick = { }
+                        )
+                    }
+                }
             }
+
         }
 
     }
