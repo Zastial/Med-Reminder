@@ -39,39 +39,41 @@ fun BottomBarNavigation(
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
         bottomNavigationItem.forEach { screen ->
-            val isSelected = isSelected(currentDestination, screen.route)
-            NavigationBarItem(
-                icon = {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = screen.icon),
-                        contentDescription = null,
-                    )
-                },
-                label = {
-                    Text(
-                        text = stringResource(id = screen.ressourceID),
-                        color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface ,
-                        fontSize = 10.sp
-                    )
-                },
-                selected = isSelected,
-                onClick = {
-                    navController.navigate(screen.route) {
-                        // gestion du graph de navigation (pile de destinations à partir d'un noeud de départ)
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
+            if (screen.isInBottomBar) {
+                val isSelected = isSelected(currentDestination, screen.route)
+                NavigationBarItem(
+                    icon = {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = screen.icon),
+                            contentDescription = null,
+                        )
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(id = screen.ressourceID),
+                            color = if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface ,
+                            fontSize = 10.sp
+                        )
+                    },
+                    selected = isSelected,
+                    onClick = {
+                        navController.navigate(screen.route) {
+                            // gestion du graph de navigation (pile de destinations à partir d'un noeud de départ)
+                            // Pop up to the start destination of the graph to
+                            // avoid building up a large stack of destinations
+                            // on the back stack as users select items
+                            popUpTo(navController.graph.findStartDestination().id) {
+                                saveState = true
+                            }
+                            // Avoid multiple copies of the same destination when
+                            // reselecting the same item
+                            launchSingleTop = true
+                            // Restore state when reselecting a previously selected item
+                            restoreState = true
                         }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
                     }
-                }
-            )
+                )
+            }
         }
     }
 }
