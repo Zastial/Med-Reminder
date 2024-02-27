@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import com.example.frontend_android.data.model.entities.Medicine
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
@@ -44,7 +45,7 @@ val patternsDosage = mutableListOf(
 data class PrescriptionInfos(
     var nomDocteur: String,
     var emailDocteur: String,
-    var medecineAndDosage: MutableList<Pair<String, String>>,
+    var medecineAndDosage: MutableList<Pair<Medicine, String>>,
     var date: LocalDate
 )
 
@@ -99,16 +100,16 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
         return Pair(doctorName, email)
     }
 
-    override fun extractMedicineAndDosage(lignesOrdonnance: List<String>): MutableList<Pair<String, String>> {
+    override fun extractMedicineAndDosage(lignesOrdonnance: List<String>): MutableList<Pair<Medicine, String>> {
         var posologie = ""
-        var medicine = ""
-        val medAndPos = mutableListOf<Pair<String, String>>()
+        var medicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
+        val medAndPos = mutableListOf<Pair<Medicine, String>>()
 
         for (line in lignesOrdonnance) {
             for (pattern in patternsDosage) {
                 val dosage = pattern.find(line.lowercase())
                 if (dosage != null) {
-                    medicine = line
+                    medicine.name = line
                 }
             }
             for (pattern in patterns) {
@@ -117,9 +118,9 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
                 }
             }
 
-            if (medicine.isNotEmpty() && posologie.isNotEmpty()) {
+            if (medicine.name.isNotEmpty() && posologie.isNotEmpty()) {
                 medAndPos += Pair(medicine, posologie)
-                medicine = ""
+                medicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
                 posologie = ""
             }
         }

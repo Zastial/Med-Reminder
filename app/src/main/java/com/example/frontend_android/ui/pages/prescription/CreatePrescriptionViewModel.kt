@@ -13,10 +13,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
+import com.example.frontend_android.data.model.entities.Medicine
 import com.example.frontend_android.data.model.entities.Prescription
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.ui.pages.prescription.creation_pages.AdditionalInfos
 import com.example.frontend_android.ui.components.Loading
+import com.example.frontend_android.ui.pages.prescription.creation_pages.MedicinesAssociated
 import com.example.frontend_android.ui.pages.prescription.creation_pages.PrescriptionInfos
 import com.example.frontend_android.utils.ITextExtractionFromImageService
 import com.google.mlkit.vision.common.InputImage
@@ -33,7 +35,6 @@ data class CreatePrescriptionState (
     val step: Int = 0,
     val btnContinueEnabled : Boolean = true,
     val loading : Boolean = false,
-    var isBottomSheetOpen : Boolean = false,
 
     val imageUri: Uri? = null,
     val date : LocalDate = LocalDate.now(),
@@ -42,7 +43,8 @@ data class CreatePrescriptionState (
     val description : String = "",
     val nomDocteur : String = "",
     val emailDocteur : String = "",
-    val medecineAndDosage : MutableList<Pair<String, String>> = mutableListOf(),
+    val medecineAndDosage : MutableList<Pair<Medicine, String>> = mutableListOf(),
+    var isBottomSheetOpen : Boolean = false
 )
 
 @HiltViewModel
@@ -116,7 +118,7 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
-    fun changeMedecineAndDosage(new_medecineAndDosage: MutableList<Pair<String, String>>) {
+    fun changeMedecineAndDosage(new_medecineAndDosage: MutableList<Pair<Medicine, String>>) {
         _state.value = state.value.copy(
             medecineAndDosage = new_medecineAndDosage
         )
@@ -199,6 +201,7 @@ class CreatePrescriptionViewModel @Inject constructor(
             1 -> Loading(customLaunchedEffect) // Not a concrete page, to integrate into the process
             2 -> PrescriptionInfos(this)
             3 -> AdditionalInfos(this)
+            4 -> MedicinesAssociated(navcontroller, this)
             7 -> ViewCameraScreen(navcontroller, this)
             else -> {}
         }
