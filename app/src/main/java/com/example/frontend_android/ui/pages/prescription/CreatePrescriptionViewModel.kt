@@ -34,6 +34,7 @@ data class CreatePrescriptionState (
     val step: Int = 0,
     val btnContinueEnabled : Boolean = true,
     val loading : Boolean = false,
+    var isBottomSheetOpen : Boolean = false,
 
     val imageUri: Uri? = null,
     val date : LocalDate = LocalDate.now(),
@@ -43,7 +44,6 @@ data class CreatePrescriptionState (
     val nomDocteur : String = "",
     val emailDocteur : String = "",
     val medecineAndDosage : MutableList<Pair<Medicine, String>> = mutableListOf(),
-    var isBottomSheetOpen : Boolean = false
 )
 
 @HiltViewModel

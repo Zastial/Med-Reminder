@@ -1,11 +1,17 @@
-package com.example.frontend_android.pages.user
+package com.example.frontend_android.ui.pages.user
 
 import android.content.Context
+import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.compose.runtime.State
+import com.example.frontend_android.data.model.dao.MedicineDao
+import com.example.frontend_android.data.model.entities.Substance
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import javax.inject.Inject
 
 data class UserInformationsState (
@@ -15,35 +21,66 @@ data class UserInformationsState (
     val doctor_first_name: String = "",
     val doctor_last_name: String = "",
     val doctor_email: String = "",
-    val allergies: String = "",
+    val selected_allergies: Set<String> = setOf(),
+    val allergies_search: String = "",
+    val subtances: List<Substance> = listOf(),
+    val searching: Boolean = false,
 )
 
 @HiltViewModel
-class ViewUserInformationsModel @Inject constructor(@ApplicationContext context : Context): ViewModel() {
+class ViewUserInformationsModel @Inject constructor(
+    @ApplicationContext context : Context,
+    private val medicineDao: MedicineDao
+): ViewModel() {
 
 
-
-    val sharedPreferences = context.getSharedPreferences("user_infos", Context.MODE_PRIVATE)
+    private val sharedPreferences = context.getSharedPreferences("user_infos", Context.MODE_PRIVATE)
 
     private val _state = mutableStateOf(UserInformationsState())
     val state: State<UserInformationsState> = _state
 
-
     init {
         retrieveUserInfos()
+        retrieveMedicines()
+    }
+
+    private fun retrieveMedicines() {
+        val requestCall = medicineDao.getSubstances(_state.value.allergies_search)
+
+        requestCall.enqueue(object : Callback<List<Substance>> {
+            override fun onResponse(
+                call: Call<List<Substance>>,
+                response: Response<List<Substance>>
+            ) {
+                if (response.isSuccessful) {
+                    val substanceList = response.body()!!
+                    _state.value = state.value.copy(
+                        subtances = substanceList,
+                    )
+                }
+                changeSearching(false)
+
+            }
+
+            override fun onFailure(call: Call<List<Substance>>, t: Throwable) {
+                Log.d("Error", "onError: ${t.message}")
+                changeSearching(false)
+            }
+
+        })
     }
 
     private fun retrieveUserInfos() {
-        val user_infos = sharedPreferences.all
+        val userInfos = sharedPreferences.all
 
         _state.value = state.value.copy(
-            first_name = (user_infos["first_name"] ?: "") as String,
-            last_name = (user_infos["last_name"] ?: "") as String,
-            email = (user_infos["email"] ?: "") as String,
-            doctor_first_name = (user_infos["doctor_first_name"] ?: "") as String,
-            doctor_last_name = (user_infos["doctor_last_name"] ?: "") as String,
-            doctor_email = (user_infos["doctor_email"] ?: "") as String,
-            allergies = (user_infos["allergies"] ?: "") as String
+            first_name = (userInfos["first_name"] ?: "") as String,
+            last_name = (userInfos["last_name"] ?: "") as String,
+            email = (userInfos["email"] ?: "") as String,
+            doctor_first_name = (userInfos["doctor_first_name"] ?: "") as String,
+            doctor_last_name = (userInfos["doctor_last_name"] ?: "") as String,
+            doctor_email = (userInfos["doctor_email"] ?: "") as String,
+            selected_allergies = ((userInfos["allergies"] ?: setOf<String>()) as Set<String>)
         )
     }
 
@@ -55,7 +92,7 @@ class ViewUserInformationsModel @Inject constructor(@ApplicationContext context 
             putString("doctor_first_name", _state.value.doctor_first_name)
             putString("doctor_last_name", _state.value.doctor_last_name)
             putString("doctor_email", _state.value.doctor_email)
-            putString("allergies", _state.value.allergies)
+            putStringSet("allergies", _state.value.selected_allergies.toSet())
             apply()
         }
 
@@ -97,9 +134,33 @@ class ViewUserInformationsModel @Inject constructor(@ApplicationContext context 
         )
     }
 
-    fun changeAllergies(new_allergies: String) {
+    fun changeAllergiesSearch(new_allergies_search: String) {
         _state.value = state.value.copy(
-            allergies = new_allergies
+            allergies_search = new_allergies_search
+        )
+        if (new_allergies_search.isNotEmpty()) {
+            retrieveMedicines()
+        } else {
+            changeSubstances(emptyList())
+        }
+    }
+
+    fun changeSearching(new_searching: Boolean) {
+        _state.value = state.value.copy(
+            searching = new_searching
+        )
+    }
+
+    fun changeSubstances(new_substances: List<Substance>) {
+        _state.value = state.value.copy(
+            subtances = new_substances
+        )
+    }
+
+    fun changeSelectedAllergies(new_selected_allergies: Set<String>) {
+        _state.value = state.value.copy(
+            selected_allergies = new_selected_allergies
+
         )
     }
 
