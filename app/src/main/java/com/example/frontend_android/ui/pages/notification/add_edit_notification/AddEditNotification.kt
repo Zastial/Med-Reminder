@@ -13,8 +13,11 @@ import androidx.compose.material3.TimeInput
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.ui.components.forms.BtnContinue
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -45,12 +48,19 @@ fun AddEditNotificationScreen(
         is24Hour = true
     )
 
+    var enabled by remember { mutableStateOf(true) }
+
+    LaunchedEffect(enabled) {
+        if (enabled) return@LaunchedEffect
+        else delay(1000L)
+
+    }
 
 
 
     // observeur permettant de récupéré les evenement du viewModel
     LaunchedEffect(key1 = true) {
-        viewModel.eventFlow.collectLatest { event ->
+        viewModel.eventFlow.collect { event ->
             when(event) {
                 is AddEditNotificationsViewModel.UiEvent.ShowSnackBar -> {
                     scope.launch {
@@ -60,7 +70,10 @@ fun AddEditNotificationScreen(
                     }
                 }
                 is AddEditNotificationsViewModel.UiEvent.SaveNotification -> {
-                    navController.navigateUp()
+                    scope.launch {
+                        navController.navigateUp()
+                    }
+
                 }
 
             }
@@ -81,7 +94,9 @@ fun AddEditNotificationScreen(
             BtnContinue(
                 actionText = "Sauvegarder",
                 modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 20.dp),
+                enabled = enabled,
                 onClick = {
+                    enabled = false
                     viewModel.onEvent(
                         AddEditNotificationEvent.SaveNotification(timePickerState.hour, timePickerState.minute)
                     )
@@ -94,12 +109,14 @@ fun AddEditNotificationScreen(
             modifier = Modifier
             .padding(it)
         ) {
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                //Content of screen
                 TimeInput(state = timePickerState)
             }
         }

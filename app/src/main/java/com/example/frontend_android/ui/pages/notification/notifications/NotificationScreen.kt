@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,16 +41,12 @@ fun NotificationsScreen(
         }
     ) {
         Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState()),
+            modifier = Modifier,
             verticalArrangement = Arrangement.Center
         ) {
-            Button(onClick = { navController.navigate(Screen.createAlarm.route) }) {
-                Text(text = "Ajouter une notification")
-            }
-            Spacer(modifier = Modifier.size(12.dp))
-
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.weight(1f)
+            ) {
                 state.notificationList.forEach { alarm ->
                     item {
                         AlarmCard(
@@ -66,6 +60,13 @@ fun NotificationsScreen(
                         )
                     }
                 }
+            }
+            Spacer(modifier = Modifier.size(12.dp))
+            Button(
+                modifier = Modifier,
+                onClick = { navController.navigate(Screen.createAlarm.route) }
+            ) {
+                Text(text = "Ajouter une notification")
             }
 
         }

@@ -10,6 +10,7 @@ import com.example.frontend_android.data.model.dao.AlarmDao
 import com.example.frontend_android.data.model.entities.AlarmRecord
 import com.example.frontend_android.data.model.entities.InvalidAlarmException
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -74,15 +75,16 @@ class AddEditNotificationsViewModel @Inject constructor(
                             ?: throw InvalidAlarmException("L'alarme a planifiée est nulle")
 
                         scheduler.schedule(alarmToSchedule)
-                        Log.d("ALARM", "ALARM viewModel scheduled : ${alarmToSchedule}")
 
                         _eventFlow.emit(
                             UiEvent.ShowSnackBar(
                                 message = "Alarme sauvegardée"
                             )
                         )
-
-                        _eventFlow.emit(UiEvent.SaveNotification)
+                        delay(1000)
+                        _eventFlow.emit(
+                            UiEvent.SaveNotification
+                        )
                     } catch (e : InvalidAlarmException) {
 
                         _eventFlow.emit(
