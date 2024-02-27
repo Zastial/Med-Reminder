@@ -9,6 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -36,8 +37,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun AddEditNotificationScreen(
     navController: NavController,
-    viewModel: AddEditNotificationsViewModel = hiltViewModel()
-
+    viewModel: AddEditNotificationsViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
     val scope = rememberCoroutineScope()
@@ -55,7 +55,6 @@ fun AddEditNotificationScreen(
         else delay(1000L)
 
     }
-
 
 
     // observeur permettant de récupéré les evenement du viewModel
@@ -118,6 +117,7 @@ fun AddEditNotificationScreen(
             ) {
                 //Content of screen
                 TimeInput(state = timePickerState)
+                Text(text = state.alarmId.toString())
             }
         }
 

@@ -3,6 +3,7 @@ package com.example.frontend_android.ui.pages.notification.add_edit_notification
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.alarm.manager.IScheduleAlarmManager
@@ -19,7 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditNotificationsViewModel @Inject constructor(
     private val alarmDao: AlarmDao,
-    private val scheduler: IScheduleAlarmManager
+    private val scheduler: IScheduleAlarmManager,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _state =   mutableStateOf(AddEditNotificationState())
@@ -32,6 +34,16 @@ class AddEditNotificationsViewModel @Inject constructor(
     val eventFlow = _eventFlow.asSharedFlow()
 
 
+
+    init {
+        savedStateHandle.get<Long>("alarmId")?.let { alarmId ->
+            if (alarmId != -1L) {
+                getCurrentAlarm(alarmId)
+            }
+        }
+    }
+
+
     fun onEvent(event : AddEditNotificationEvent) {
 
         when(event){
@@ -40,7 +52,6 @@ class AddEditNotificationsViewModel @Inject constructor(
                 _state.value = state.value.copy(
                     hours = event.value
                 )
-
             }
             is AddEditNotificationEvent.EnteredMinute -> {
                 Log.d("ALARM", "entered minutes: $event")
@@ -49,15 +60,10 @@ class AddEditNotificationsViewModel @Inject constructor(
                     minutes = event.value
                 )
             }
-
-
-
             is AddEditNotificationEvent.SaveNotification -> {
                 Log.d("ALARM", "VM save notification: $event")
-
                 viewModelScope.launch {
                     try {
-
                         //insert
                         val alarmToInsert = AlarmRecord(
                             id = null,
@@ -101,6 +107,22 @@ class AddEditNotificationsViewModel @Inject constructor(
 
 
     }
+
+    private fun getCurrentAlarm(alarmId: Long) {
+        viewModelScope.launch {
+            alarmDao.getAlarmById(alarmId)?.also {
+                _state.value = _state.value.copy(
+                    alarmId = it.id ?: alarmId,
+                    hours = it.hours,
+                    minutes = it.minutes,
+                    isScheduled = it.isScheduled,
+
+                )
+            }
+        }
+    }
+
+
 
     sealed class UiEvent {
         data class ShowSnackBar(val message: String): UiEvent()

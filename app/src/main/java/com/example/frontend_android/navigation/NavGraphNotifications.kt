@@ -2,8 +2,10 @@ package com.example.frontend_android.navigation
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
 import com.example.frontend_android.ui.pages.notification.add_edit_notification.AddEditNotificationScreen
 import com.example.frontend_android.ui.pages.notification.notifications.AlarmEvent
 import com.example.frontend_android.ui.pages.notification.notifications.NotificationsScreen
@@ -27,9 +29,20 @@ fun NavGraphBuilder.notificationGraph(
             )
         }
 
-        composable(route = Screen.createAlarm.route) {
+        composable(
+            route = Screen.AddEditAlarm.route + "?alarmId={alarmId}",
+            arguments = listOf(
+                navArgument(
+                    name = "alarmId"
+                ) {
+                    type = NavType.LongType
+                    defaultValue = -1L
+                }
+            )
+
+        ) {
             AddEditNotificationScreen(
-                navController = navController
+                navController = navController,
             )
         }
 

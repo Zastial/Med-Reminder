@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,8 @@ fun NotificationsScreen(
     ) {
         Column(
             modifier = Modifier,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             LazyColumn(
                 modifier = Modifier.weight(1f)
@@ -56,15 +58,16 @@ fun NotificationsScreen(
                             isActive = alarm.isScheduled,
                             dayOfWeek = "",
                             changeAlarmState = { changeAlarmState(it) },
-                            onClick = { }
+                            onClick = { navController.navigate(
+                                Screen.AddEditAlarm.route + "?alarmId=${alarm.id}")
+                            }
                         )
                     }
                 }
             }
             Spacer(modifier = Modifier.size(12.dp))
             Button(
-                modifier = Modifier,
-                onClick = { navController.navigate(Screen.createAlarm.route) }
+                onClick = { navController.navigate(Screen.AddEditAlarm.route) }
             ) {
                 Text(text = "Ajouter une notification")
             }
