@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cancel
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -49,7 +49,7 @@ fun BottomBarValidation (
                 )
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Cancel,
+                    imageVector = Icons.Default.Close,
                     contentDescription = "Cancel",
                     tint = md_theme_common_onPrimaryCancel
                 )
