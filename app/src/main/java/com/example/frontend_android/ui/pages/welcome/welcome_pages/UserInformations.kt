@@ -30,7 +30,6 @@ import com.example.frontend_android.ui.pages.welcome.ViewWelcomeModel
 fun UserInformations(
     viewModel: ViewWelcomeModel
 ) {
-
     val state = viewModel.state.value
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -53,7 +52,6 @@ fun UserInformations(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-
 
             Text(
                 text = "Vos informations",
@@ -89,7 +87,6 @@ fun UserInformations(
                 )
             }
 
-
             Button(
                 onClick = { viewModel.nextPage() }
             ) {
@@ -101,7 +98,4 @@ fun UserInformations(
             }
         }
     }
-
-
-
 }

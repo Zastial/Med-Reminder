@@ -33,7 +33,6 @@ import com.example.frontend_android.ui.pages.welcome.ViewWelcomeModel
 fun AllergiesInformations(
     viewModel: ViewWelcomeModel
 ) {
-
     val scrollState = rememberScrollState()
     val state = viewModel.state.value
 
@@ -86,7 +85,6 @@ fun AllergiesInformations(
                         viewModel.changeSelectedAllergies(state.selected_allergies.minus(item.value))
                     },
                 )
-
             }
 
             Button(
@@ -100,5 +98,4 @@ fun AllergiesInformations(
             }
         }
     }
-
 }

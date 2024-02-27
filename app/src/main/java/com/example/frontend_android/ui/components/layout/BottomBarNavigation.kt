@@ -58,7 +58,7 @@ fun BottomBarNavigation(
                     selected = isSelected,
                     onClick = {
                         navController.navigate(screen.route) {
-                            // gestion du graph de navigation (pile de destinations à partir d'un noeud de départ)
+                            // Navigation graph management (stack of destinations from a start node)
                             // Pop up to the start destination of the graph to
                             // avoid building up a large stack of destinations
                             // on the back stack as users select items

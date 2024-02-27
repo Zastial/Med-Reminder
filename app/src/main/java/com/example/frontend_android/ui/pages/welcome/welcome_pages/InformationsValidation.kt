@@ -35,7 +35,6 @@ fun InformationsValidation(
     viewModel: ViewWelcomeModel,
     navController: NavController,
 ) {
-
     val state = viewModel.state.value
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -93,5 +92,4 @@ fun InformationsValidation(
             }
         }
     }
-
 }

@@ -31,7 +31,6 @@ import com.example.frontend_android.ui.pages.welcome.ViewWelcomeModel
 fun DoctorInformations(
     viewModel: ViewWelcomeModel
 ) {
-
     val state = viewModel.state.value
 
     Box(modifier = Modifier.fillMaxSize()) {

@@ -41,7 +41,6 @@ class ViewWelcomeModel @Inject constructor(
     @ApplicationContext context : Context,
     private val medicineDao: MedicineDao
 ): ViewModel() {
-
     private val sharedPreferences = context.getSharedPreferences("user_infos", Context.MODE_PRIVATE)
 
     private val _state = mutableStateOf(ViewUserInformationsState())
@@ -66,14 +65,12 @@ class ViewWelcomeModel @Inject constructor(
                     )
                 }
                 changeSearching(false)
-
             }
 
             override fun onFailure(call: Call<List<Substance>>, t: Throwable) {
                 Log.d("Error", "onError: ${t.message}")
                 changeSearching(false)
             }
-
         })
     }
 

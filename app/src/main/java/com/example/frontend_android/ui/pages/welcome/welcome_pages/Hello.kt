@@ -27,11 +27,9 @@ import com.example.frontend_android.ui.pages.welcome.ViewWelcomeModel
 fun Hello(
     viewModel: ViewWelcomeModel
 ) {
-
     val context = LocalContext.current
 
     Box(modifier = Modifier.fillMaxSize()) {
-
 
         Image(
             modifier = Modifier.alpha(0.5f).matchParentSize(),
@@ -69,8 +67,5 @@ fun Hello(
                 )
             }
         }
-
     }
-
-
 }
