@@ -1,14 +1,20 @@
 package com.example.frontend_android.utils
 
-import android.util.Log
-import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
+import android.content.ContentValues
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Bitmap.CompressFormat
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
+import java.io.IOException
 import java.time.LocalDate
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 
@@ -44,7 +50,6 @@ data class PrescriptionInfos(
 
 
 class TextExtractionFromImageService : ITextExtractionFromImageService {
-
     @OptIn(ExperimentalCoroutinesApi::class)
     override suspend fun extractTextFromImage(image: InputImage?): PrescriptionInfos {
         return suspendCancellableCoroutine { continuation ->
@@ -77,13 +82,8 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
                         }
                     }
             }
-
-            while (!process!!.isComplete) {
-
-            }
         }
     }
-
 
     override fun extractNomAndEmailMedecin(textPrescription: List<String>): Pair<String, String> {
         var doctorName = ""

@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import com.example.frontend_android.alarm.receiver.AlarmBroadcastReceiver
 import com.example.frontend_android.alarm.receiver.INTENT_FILTER_MED_AP
 import com.example.frontend_android.alarm.service.AlarmService
+
 import com.example.frontend_android.navigation.NavigationGraph
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,10 +44,11 @@ class MainActivity : ComponentActivity() {
                 ) {
                     NavigationGraph()
                 }
-
-
             }
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
     private fun createNotificationChanel() {
