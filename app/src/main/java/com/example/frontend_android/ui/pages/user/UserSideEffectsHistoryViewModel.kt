@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 data class SideEffectsState (
+    var isLoading: Boolean = true,
     val sideEffects: List<SideEffect> = emptyList()
 )
 
@@ -30,13 +31,14 @@ class SideEffectsHistoryViewModel  @Inject constructor (
         retrieveSideEffects()
     }
 
-    private fun retrieveSideEffects() {
+    fun retrieveSideEffects() {
         getsideEffectsJob?.cancel()
         getsideEffectsJob = SideEffectsHistoryDao.getSideEffects()
-            .onEach { prescriptions ->
+            .onEach { sideEffects ->
                 _state.value = state.value.copy(
-                    sideEffects = prescriptions,
+                    sideEffects = sideEffects,
                 )
+                state.value.isLoading = false
             }
             .launchIn(viewModelScope)
     }
