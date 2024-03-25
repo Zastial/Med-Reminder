@@ -1,5 +1,6 @@
 package com.example.frontend_android.ui.pages.notification.add_edit_notification
 
+import DayCard
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +32,7 @@ import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -119,6 +121,13 @@ fun AddEditNotificationScreen(
                 TimeInput(state = timePickerState)
                 Text(text = state.alarmId.toString())
             }
+
+
+            for (day in DaysOfWeek.values()) {
+
+            }
+
+
         }
 
 
