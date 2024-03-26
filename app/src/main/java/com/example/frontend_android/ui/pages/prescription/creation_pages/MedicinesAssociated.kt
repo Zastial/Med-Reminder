@@ -1,5 +1,6 @@
 package com.example.frontend_android.ui.pages.prescription.creation_pages
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -35,7 +36,9 @@ import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionView
 
 @Composable
 fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescriptionViewModel) {
-
+    val userInfos = viewModel.sharedPreferences.all
+    //var userAllergies = userInfos["allergies"] as Set<String>
+    //Log.d("test", "TEST $userAllergies")
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -84,7 +87,8 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
 
         ) {
             items(viewModel.state.value.medecineAndDosage) {
-                    medicine -> MedicineCard(navController = navController, medicine = medicine.first, "Test de warning")
+                    medicine ->
+                MedicineCard(navController = navController, medicine = medicine.first, true)
             }
         }
     }

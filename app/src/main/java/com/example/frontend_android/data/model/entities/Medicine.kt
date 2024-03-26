@@ -16,3 +16,18 @@ data class Medicine(
 )
 
 class InvalidMedicineException(message: String): Exception(message)
+
+var defaultMedicine = Medicine(
+    name = "ABILIFY 15 mg, comprimé",
+    form = "comprimé",
+    cis = 64224801,
+    cip7 = 4950021,
+    cip13 = 3400949500215,
+    price = "22,65",
+    dose = "15 mg",
+    administration = "orale",
+    generID = "1248",
+    generName = "ARIPIPRAZOLE 15 mg - ABILIFY 15 mg, comprimé",
+    generType = "0",
+    substanceName = "PARACÉTAMOL",
+)

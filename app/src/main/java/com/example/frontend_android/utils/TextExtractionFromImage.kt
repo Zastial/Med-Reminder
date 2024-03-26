@@ -8,12 +8,19 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
+import com.example.frontend_android.ServiceBuilder
+import com.example.frontend_android.data.model.dao.MedicineDao
 import com.example.frontend_android.data.model.entities.Medicine
+import com.example.frontend_android.data.model.entities.defaultMedicine
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -24,6 +31,7 @@ val patterns = mutableListOf(
     "matin",
     "midi",
     "soir",
+    "jour",
     "jours",
     "coucher",
     "réveil",
@@ -34,6 +42,7 @@ val patterns = mutableListOf(
     "pendant",
     "heure",
     "heures",
+    "fois",
 )
 
 val patternsDosage = mutableListOf(
@@ -101,29 +110,36 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
     }
 
     override fun extractMedicineAndDosage(lignesOrdonnance: List<String>): MutableList<Pair<Medicine, String>> {
-        var posologie = ""
-        var medicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
         val medAndPos = mutableListOf<Pair<Medicine, String>>()
 
         for (line in lignesOrdonnance) {
+            val medicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
+            var posologie = ""
+
             for (pattern in patternsDosage) {
                 val dosage = pattern.find(line.lowercase())
                 if (dosage != null) {
                     medicine.name = line
                 }
             }
+
             for (pattern in patterns) {
                 if (line.lowercase().contains(pattern)) {
                     posologie = line
                 }
             }
 
-            if (medicine.name.isNotEmpty() && posologie.isNotEmpty()) {
-                medAndPos += Pair(medicine, posologie)
-                medicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
-                posologie = ""
+            if (medicine.name.isNotEmpty()) {
+                Log.d("test", medicine.name)
+                val DBmedicine = retrieveMedicine(medicine.name)
+                if (DBmedicine != null) {
+                    Log.d("test", DBmedicine.toString())
+                    medAndPos += Pair(DBmedicine, posologie)
+                }
             }
         }
+
+        Log.d("size", medAndPos.size.toString())
         return medAndPos
     }
 
@@ -145,3 +161,37 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
 
 }
 
+fun retrieveMedicine(name : String): Medicine? {
+    val medicineDao = ServiceBuilder.buildService(MedicineDao::class.java)
+    var DBmedicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
+
+    Log.d("medecine", name)
+
+    val requestCall = medicineDao.getMedicines(name)
+    requestCall.enqueue(object : Callback<List<Medicine>> {
+        override fun onResponse(
+            call: Call<List<Medicine>>,
+            response: Response<List<Medicine>>
+        ) {
+            if (response.isSuccessful) {
+                val medicineList = response.body()!!
+                Log.d("medecine", medicineList.toString())
+
+                if (medicineList.isNotEmpty()) {
+                    DBmedicine = medicineList[0]
+                }
+
+            }
+        }
+        override fun onFailure(call: Call<List<Medicine>>, t: Throwable) {
+            Log.d("Error", "onError: ${t.message}")
+        }
+    })
+
+    Log.d("medecine", DBmedicine.toString())
+
+    if (DBmedicine.name.isNotEmpty()) {
+        return DBmedicine
+    }
+    return null
+}
