@@ -28,7 +28,7 @@ import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MedicineCard(navController: NavController, medicine: Medicine, warningMessage: String? = null) {
+fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: Boolean? = null) {
 
     Card(
         elevation = CardDefaults.cardElevation(
@@ -44,7 +44,7 @@ fun MedicineCard(navController: NavController, medicine: Medicine, warningMessag
         ) {
 
             Surface(modifier = Modifier.width(30.dp)) {
-                if (warningMessage != null) {
+                if (hasWarning != false) {
                     Icon(
                         imageVector = Icons.Outlined.Warning,
                         contentDescription = "Warning",
@@ -110,6 +110,6 @@ fun MedicineCardPreviewWithWarningMessage() {
             dose = "20mg",
             substanceName = "PHOSPHATE DE CODÉINE HÉMIHYDRATÉ"
         ),
-        warningMessage = "Attention wola"
+        hasWarning = true
     )
 }
