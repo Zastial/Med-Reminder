@@ -38,6 +38,9 @@ class AddEditNotificationsViewModel @Inject constructor(
     init {
         savedStateHandle.get<Long>("alarmId")?.let { alarmId ->
             if (alarmId != -1L) {
+                viewModelScope.launch {
+
+                }
                 getCurrentAlarm(alarmId)
             }
         }
@@ -102,6 +105,17 @@ class AddEditNotificationsViewModel @Inject constructor(
 
                 }
             }
+            is AddEditNotificationEvent.SelectDayToSchedule -> {
+                Log.d("ALARM", "day clicked: $event")
+                val copyValue = state.value.copy()
+                if (state.value.scheduledDays.contains(event.day)) {
+                    copyValue.scheduledDays.remove(event.day)
+                } else {
+                    copyValue.scheduledDays.add(event.day)
+                }
+                _state.value = copyValue
+                Log.d("ALARM", "days states: ${_state.value.scheduledDays}")
+            }
         }
 
 
@@ -116,7 +130,7 @@ class AddEditNotificationsViewModel @Inject constructor(
                     hours = it.hours,
                     minutes = it.minutes,
                     isScheduled = it.isScheduled,
-
+                    //scheduledDays = it.daysSelectedJson
                 )
             }
         }

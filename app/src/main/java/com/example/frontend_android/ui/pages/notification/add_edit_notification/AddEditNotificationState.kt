@@ -7,5 +7,6 @@ data class AddEditNotificationState constructor(
     val alarmId : Long = -1L,
     val hours: Int = 0,
     val minutes: Int = 0,
-    val isScheduled: Boolean = false
+    val isScheduled: Boolean = false,
+    val scheduledDays : MutableList<DaysOfWeek> = mutableListOf()
 )

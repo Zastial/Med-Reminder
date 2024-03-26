@@ -9,3 +9,18 @@ enum class DaysOfWeek {
     SAMEDI,
     DIMANCHE
 }
+
+/**
+ * Retourne la lettre correspondant au jour
+ */
+fun DaysOfWeek.display() : String {
+    return when (this) {
+        DaysOfWeek.LUNDI -> "L"
+        DaysOfWeek.MARDI ->  "M"
+        DaysOfWeek.MERCREDI -> "M"
+        DaysOfWeek.JEUDI -> "J"
+        DaysOfWeek.VENDREDI -> "V"
+        DaysOfWeek.SAMEDI -> "S"
+        DaysOfWeek.DIMANCHE ->"D"
+    }
+}
