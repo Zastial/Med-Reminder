@@ -1,16 +1,19 @@
 package com.example.frontend_android.ui.pages.notification.add_edit_notification
 
-import DayCard
+import Week
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.TimeInput
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -32,7 +35,6 @@ import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.time.DayOfWeek
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -119,13 +121,20 @@ fun AddEditNotificationScreen(
             ) {
                 //Content of screen
                 TimeInput(state = timePickerState)
-                Text(text = state.alarmId.toString())
+
+                Spacer(Modifier.size(15.dp))
+
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Week( onSelectDay = {  })
+                }
+
+
             }
 
 
-            for (day in DaysOfWeek.values()) {
 
-            }
 
 
         }
