@@ -4,7 +4,23 @@ import androidx.annotation.StringRes
 import com.example.frontend_android.R
 
 
-sealed class RootScreen(val route : String, @StringRes val ressourceID: Int, val icon : Int) {
+/*
+ * This is the screens that are displayed on the bottom bar of
+ * the application.
+ */
+sealed class RootScreen(
+    val route: String,
+    @StringRes val ressourceID: Int,
+    val icon: Int,
+    val isInBottomBar: Boolean = true
+) {
+
+    object welcome : RootScreen(
+        route = "root_welcome",
+        ressourceID = R.string.nav_bar_label_welcome,
+        icon = R.drawable.ic_welcome,
+        isInBottomBar = false,
+    )
 
     object prescription : RootScreen(
         route = "root_prescription",
