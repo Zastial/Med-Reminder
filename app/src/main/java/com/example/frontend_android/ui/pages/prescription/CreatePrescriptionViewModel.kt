@@ -19,6 +19,7 @@ import com.example.frontend_android.ui.pages.prescription.creation_pages.Loading
 import com.example.frontend_android.ui.pages.prescription.creation_pages.MedicinesAssociated
 import com.example.frontend_android.ui.pages.prescription.creation_pages.PrescriptionInfos
 import com.example.frontend_android.utils.ITextExtractionFromImageService
+import com.example.frontend_android.utils.retrieveMedicine
 import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -166,11 +167,20 @@ class CreatePrescriptionViewModel @Inject constructor(
             val image = InputImage.fromFilePath(context, state.value.imageUri!!)
 
             val result = textExtractionService.extractTextFromImage(image)
+
+            val medAndPos = mutableListOf<Pair<Medicine, String>>()
+            for (med in result.medecineAndDosage) {
+                val medicine = retrieveMedicine(med.first.name)
+                if (medicine != null) {
+                    medAndPos.add(Pair(medicine, med.second))
+                }
+            }
+
             withContext(viewModelScope.coroutineContext) {
                 changeDate(result.date)
                 changenomDocteur(result.nomDocteur)
                 changeEmailDocteur(result.emailDocteur)
-                changeMedecineAndDosage(result.medecineAndDosage)
+                changeMedecineAndDosage(medAndPos)
 
                 if (state.value.nomDocteur.isNotEmpty()) {
                     val prescriptionName = state.value.nomDocteur + "_" + state.value.date

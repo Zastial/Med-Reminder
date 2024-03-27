@@ -1,18 +1,9 @@
 package com.example.frontend_android.utils
 
-import android.content.ContentValues
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Bitmap.CompressFormat
-import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
 import android.util.Log
 import com.example.frontend_android.ServiceBuilder
 import com.example.frontend_android.data.model.dao.MedicineDao
 import com.example.frontend_android.data.model.entities.Medicine
-import com.example.frontend_android.data.model.entities.defaultMedicine
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
@@ -21,7 +12,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
@@ -130,12 +120,7 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
             }
 
             if (medicine.name.isNotEmpty()) {
-                Log.d("test", medicine.name)
-                val DBmedicine = retrieveMedicine(medicine.name)
-                if (DBmedicine != null) {
-                    Log.d("test", DBmedicine.toString())
-                    medAndPos += Pair(DBmedicine, posologie)
-                }
+                medAndPos += Pair(medicine, posologie)
             }
         }
 
@@ -161,37 +146,38 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
 
 }
 
-fun retrieveMedicine(name : String): Medicine? {
-    val medicineDao = ServiceBuilder.buildService(MedicineDao::class.java)
-    var DBmedicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
+@OptIn(ExperimentalCoroutinesApi::class)
+suspend fun retrieveMedicine(name : String): Medicine? {
+    return suspendCancellableCoroutine { continuation ->
+        val medicineDao = ServiceBuilder.buildService(MedicineDao::class.java)
+        var DBmedicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
 
-    Log.d("medecine", name)
+        val requestCall = medicineDao.getMedicines(name)
+        requestCall.enqueue(object : Callback<List<Medicine>> {
+            override fun onResponse(
+                call: Call<List<Medicine>>,
+                response: Response<List<Medicine>>
+            ) {
+                if (response.isSuccessful) {
+                    val medicineList = response.body()!!
+                    Log.d("Med", medicineList.toString())
 
-    val requestCall = medicineDao.getMedicines(name)
-    requestCall.enqueue(object : Callback<List<Medicine>> {
-        override fun onResponse(
-            call: Call<List<Medicine>>,
-            response: Response<List<Medicine>>
-        ) {
-            if (response.isSuccessful) {
-                val medicineList = response.body()!!
-                Log.d("medecin", medicineList.toString())
+                    if (medicineList.isNotEmpty()) {
+                        DBmedicine = medicineList[0]
+                    }
 
-                if (medicineList.isNotEmpty()) {
-                    DBmedicine = medicineList[0]
+                    if (DBmedicine.name.isNotEmpty()) {
+                        continuation.resume(DBmedicine) {
+                        }
+                    } else {
+                        continuation.resume(null) {
+                        }
+                    }
                 }
-                Log.d("medecin", DBmedicine.toString())
             }
-        }
-        override fun onFailure(call: Call<List<Medicine>>, t: Throwable) {
-            Log.d("Error", "onError: ${t.message}")
-        }
-    })
-
-    Log.d("medecine", DBmedicine.toString())
-
-    if (DBmedicine.name.isNotEmpty()) {
-        return DBmedicine
+            override fun onFailure(call: Call<List<Medicine>>, t: Throwable) {
+                Log.d("Error", "onError: ${t.message}")
+            }
+        })
     }
-    return null
 }
