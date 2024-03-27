@@ -36,7 +36,6 @@ import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionView
 
 @Composable
 fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescriptionViewModel) {
-    val userInfos = viewModel.sharedPreferences.all
     //var userAllergies = userInfos["allergies"] as Set<String>
     //Log.d("test", "TEST $userAllergies")
     Column(
