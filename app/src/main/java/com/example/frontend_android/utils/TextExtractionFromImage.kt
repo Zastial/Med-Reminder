@@ -175,12 +175,12 @@ fun retrieveMedicine(name : String): Medicine? {
         ) {
             if (response.isSuccessful) {
                 val medicineList = response.body()!!
-                Log.d("medecine", medicineList.toString())
+                Log.d("medecin", medicineList.toString())
 
                 if (medicineList.isNotEmpty()) {
                     DBmedicine = medicineList[0]
                 }
-
+                Log.d("medecin", DBmedicine.toString())
             }
         }
         override fun onFailure(call: Call<List<Medicine>>, t: Throwable) {
