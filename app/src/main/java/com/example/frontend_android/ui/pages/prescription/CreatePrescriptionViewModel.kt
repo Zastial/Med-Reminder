@@ -11,9 +11,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.frontend_android.data.model.dao.MedicinePosologyDao
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
 import com.example.frontend_android.data.model.entities.Medicine
+import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.ui.pages.prescription.creation_pages.AdditionalInfos
@@ -52,6 +54,7 @@ data class CreatePrescriptionState (
 @HiltViewModel
 class CreatePrescriptionViewModel @Inject constructor(
     private val prescriptionDao: PrescriptionDao,
+    private val medicinePosologyDao: MedicinePosologyDao,
     private val textExtractionService : ITextExtractionFromImageService
 ): ViewModel() {
 
@@ -62,7 +65,7 @@ class CreatePrescriptionViewModel @Inject constructor(
     fun insertPrescription() {
         viewModelScope.launch {
             try {
-                prescriptionDao.insertPrescription(
+                val prescriptionID = prescriptionDao.insertPrescription(
                     Prescription(
                         id = null,
                         title = state.value.nom,
@@ -70,9 +73,20 @@ class CreatePrescriptionViewModel @Inject constructor(
                         delivered_at = state.value.date,
                         doctor_name = state.value.nomDocteur,
                         doctor_email = state.value.emailDocteur,
-
                     )
                 )
+
+                for (med in state.value.medecineAndDosage) {
+                    medicinePosologyDao.insertMedicinePosology(
+                        MedicinePosology(
+                            id = null,
+                            description = med.second,
+                            medicine_id = med.first.cis,
+                            prescription_id = prescriptionID
+                        )
+                    )
+                }
+
             } catch (e: InvalidPrescriptionException) {
                 Log.d("ErrorInvalidPrescription", e.message!!)
             }
@@ -126,14 +140,12 @@ class CreatePrescriptionViewModel @Inject constructor(
     }
 
     fun nextPage() {
-//        if (state.value.step == 5) return
         _state.value = state.value.copy(
             step = state.value.step + 1
         )
     }
 
     fun previousPage() {
-//        if (state.value.step == 0) return
         _state.value = state.value.copy(
             step = state.value.step - 1
         )

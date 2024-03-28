@@ -24,8 +24,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,7 +43,8 @@ import com.example.frontend_android.utils.detectAllergies
 @Composable
 fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescriptionViewModel) {
     val context = LocalContext.current
-    var ciMedicines = detectAllergies(viewModel.state.value.medecineAndDosage, context)
+    val state = viewModel.state.value
+    val ciMedicines = detectAllergies(state.medecineAndDosage, context)
 
     Column(
         modifier = Modifier
@@ -80,23 +83,43 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
                     tint = Color.Red
                 )
                 Spacer(modifier = Modifier.width(width = 10.dp))
-                Text(
-                    text = "Vous avez ${ciMedicines.size} médicament(s) en contre indication avec vos allergies",
-                    textAlign = TextAlign.Left,
-                )
+                if (ciMedicines.size == 1) {
+                    Text(
+                        text = "Vous avez ${ciMedicines.size} médicament en contre indication avec vos allergies",
+                        textAlign = TextAlign.Left,
+                    )
+                } else {
+                    Text(
+                        text = "Vous avez ${ciMedicines.size} médicaments en contre indication avec vos allergies",
+                        textAlign = TextAlign.Left,
+                    )
+                }
             }
-
         }
 
-        LazyColumn(
-            modifier = Modifier.padding(16.dp, 0.dp).fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        if (state.medecineAndDosage.size > 0) {
+            LazyColumn(
+                modifier = Modifier.padding(16.dp, 0.dp).fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
 
-        ) {
-            items(viewModel.state.value.medecineAndDosage) {
-                    medicine ->
-                MedicineCard(navController = navController, medicine = medicine.first, hasWarning = ciMedicines.contains(medicine.first.name))
-                Spacer(modifier = Modifier.height(height = 10.dp))
+            ) {
+                items(state.medecineAndDosage) {
+                        medicine ->
+                    MedicineCard(navController = navController, medicine = medicine.first, hasWarning = ciMedicines.contains(medicine.first.name))
+                    Spacer(modifier = Modifier.height(height = 10.dp))
+                }
+            }
+        } else {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost),
+                    contentDescription = "ghost smiley",
+                )
+                Text(text = "Aucun médicament associé")
             }
         }
     }

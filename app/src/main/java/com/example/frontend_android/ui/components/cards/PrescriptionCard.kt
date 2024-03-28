@@ -97,12 +97,10 @@ fun PrescriptionCard(
             ) {
                 Text(text = "${prescriptionWithRelations.medicine_posologies.size} médicaments")
 
-                Row() {
-                    Text(text = "Dr. ")
-                    prescriptionWithRelations.prescription.doctor_name?.let { Text(text = it) }
+                if (prescriptionWithRelations.prescription.doctor_name != "") {
+                    prescriptionWithRelations.prescription.doctor_name?.let { Text(text = "Dr. $it") }
                 }
             }
-
         }
     }
 }

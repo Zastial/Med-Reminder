@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,11 +38,15 @@ import coil.compose.AsyncImage
 import com.example.frontend_android.R
 import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
+import com.example.frontend_android.utils.detectAllergies
 
 @Composable
 fun RecapPresciption(navController: NavController, viewModel: CreatePrescriptionViewModel) {
     val state = viewModel.state.value
     val scrollState = rememberScrollState()
+
+    val context = LocalContext.current
+    val ciMedicines = detectAllergies(viewModel.state.value.medecineAndDosage, context)
 
     Column(
         modifier = Modifier
@@ -183,8 +188,8 @@ fun RecapPresciption(navController: NavController, viewModel: CreatePrescription
                     fontSize = 15.sp,
                 )
             } else {
-                for (medecine in it) {
-                    MedicineCard(navController = navController, medicine = medecine.first, true)
+                for (medicine in it) {
+                    MedicineCard(navController = navController, medicine = medicine.first, ciMedicines.contains(medicine.first.name))
                     Spacer(modifier = Modifier.height(10.dp))
                 }
             }
