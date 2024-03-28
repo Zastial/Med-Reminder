@@ -23,6 +23,7 @@ import com.example.frontend_android.ui.components.forms.SearchTextField
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
+import com.example.frontend_android.ui.components.ressourceNotFound.NotFound
 
 @Composable
 fun ViewMedicines(
@@ -64,17 +65,7 @@ fun ViewMedicines(
                     }
                 }
             } else if (state.search == "") {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost_smile),
-                        contentDescription = "sad smiley",
-                    )
-                    Text(text = "Rechercher un médicament")
-                }
+                NotFound("Rechercher un médicament")
             } else if (!state.searching) {
                 Column(
                     modifier = Modifier.weight(1f),
@@ -87,8 +78,6 @@ fun ViewMedicines(
                     )
                     Text(text = "Aucun médicament trouvé")
                 }
-
-
             }
         }
    }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">frontend-android</string>
+    <string name="app_name">MedReminder</string>
 
 
     <string name="default_name"> Défaut</string>
@@ -12,6 +12,7 @@
 
 
     <!-- Nav Bar Label -->
+    <string name="nav_bar_label_welcome">Bienvenue</string>
     <string name="nav_bar_label_prescriptions">Ordonnances</string>
     <string name="nav_bar_label_notification">Notifications</string>
     <string name="nav_bar_label_medicine">Medicaments</string>

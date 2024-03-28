@@ -4,8 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -14,7 +16,7 @@ import com.example.frontend_android.data.model.entities.InvalidPrescriptionExcep
 import com.example.frontend_android.data.model.entities.Prescription
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.ui.pages.prescription.creation_pages.AdditionalInfos
-import com.example.frontend_android.ui.pages.prescription.creation_pages.Loading
+import com.example.frontend_android.ui.components.Loading
 import com.example.frontend_android.ui.pages.prescription.creation_pages.PrescriptionInfos
 import com.example.frontend_android.utils.ITextExtractionFromImageService
 import com.google.mlkit.vision.common.InputImage
@@ -179,9 +181,22 @@ class CreatePrescriptionViewModel @Inject constructor(
 
     @Composable
     fun PageFromStep(navcontroller : NavController) {
+        val context = LocalContext.current
+
+        // if URI is present then wait till image is loaded
+        val customLaunchedEffect: @Composable () -> Unit = {
+            LaunchedEffect(
+                key1 = state.value.imageUri,
+            ) {
+                if (!Uri.EMPTY.equals(state.value.imageUri) && state.value.imageUri != null) {
+                    getInformationsFromUri(context)
+                }
+            }
+        }
+
         return when (state.value.step) {
             0 -> ImportPrescriptionImage(navcontroller, this)
-            1 -> Loading(this) // Not a concrete page, to integrate into the process
+            1 -> Loading(customLaunchedEffect) // Not a concrete page, to integrate into the process
             2 -> PrescriptionInfos(this)
             3 -> AdditionalInfos(this)
             7 -> ViewCameraScreen(navcontroller, this)

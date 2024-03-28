@@ -3,9 +3,13 @@ package com.example.frontend_android.navigation
 
 sealed class Screen(val route: String) {
 
+    object viewWelcome: Screen(
+        route = "welcome_screen"
+    )
+
     //Screen pour toutes les ordonnances
     object viewPrescriptions: Screen(
-        route ="prescriptions_screen"
+        route = "prescriptions_screen"
     )
     //Screen pour une seule ordonnance
     object createPrescription: Screen(
