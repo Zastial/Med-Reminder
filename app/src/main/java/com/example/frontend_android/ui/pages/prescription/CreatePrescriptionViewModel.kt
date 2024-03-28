@@ -20,6 +20,7 @@ import com.example.frontend_android.ui.pages.prescription.creation_pages.Additio
 import com.example.frontend_android.ui.components.Loading
 import com.example.frontend_android.ui.pages.prescription.creation_pages.MedicinesAssociated
 import com.example.frontend_android.ui.pages.prescription.creation_pages.PrescriptionInfos
+import com.example.frontend_android.ui.pages.prescription.creation_pages.RecapPresciption
 import com.example.frontend_android.utils.ITextExtractionFromImageService
 import com.example.frontend_android.utils.retrieveMedicine
 import com.google.mlkit.vision.common.InputImage
@@ -64,12 +65,11 @@ class CreatePrescriptionViewModel @Inject constructor(
                 prescriptionDao.insertPrescription(
                     Prescription(
                         id = null,
-                        title = "",
-                        description = "",
-                        delivered_at = LocalDate.now(),
-                        doctor_first_name = null,
-                        doctor_last_name = null,
-                        doctor_email = null,
+                        title = state.value.nom,
+                        description = state.value.description,
+                        delivered_at = state.value.date,
+                        doctor_name = state.value.nomDocteur,
+                        doctor_email = state.value.emailDocteur,
 
                     )
                 )
@@ -126,14 +126,14 @@ class CreatePrescriptionViewModel @Inject constructor(
     }
 
     fun nextPage() {
-        if (state.value.step == 6) return
+//        if (state.value.step == 5) return
         _state.value = state.value.copy(
             step = state.value.step + 1
         )
     }
 
     fun previousPage() {
-        if (state.value.step == 0) return
+//        if (state.value.step == 0) return
         _state.value = state.value.copy(
             step = state.value.step - 1
         )
@@ -156,9 +156,9 @@ class CreatePrescriptionViewModel @Inject constructor(
 
         val res = state.value.step + 1
         if (state.value.step == 0) {
-            return res / 7f
+            return res / 6f
         }
-        return (res-1)/ 7f // Changer 7 par nombre de pages dynamiquement
+        return (res-1)/ 6f // Changer 7 par nombre de pages dynamiquement
     }
 
     fun getInformationsFromUri(context : Context) {
@@ -212,7 +212,8 @@ class CreatePrescriptionViewModel @Inject constructor(
             2 -> PrescriptionInfos(this)
             3 -> AdditionalInfos(this)
             4 -> MedicinesAssociated(navcontroller, this)
-            7 -> ViewCameraScreen(navcontroller, this)
+            5 -> RecapPresciption(navcontroller, this)
+            6 -> ViewCameraScreen(navcontroller, this)
             else -> {}
         }
     }

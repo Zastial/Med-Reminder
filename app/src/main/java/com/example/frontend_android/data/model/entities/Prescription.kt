@@ -14,8 +14,7 @@ data class Prescription (
     val title: String,
     val description: String,
     val delivered_at: LocalDate,
-    val doctor_first_name: String?,
-    val doctor_last_name: String?,
+    val doctor_name: String?,
     val doctor_email: String?
 ) {
     val formatDate : String

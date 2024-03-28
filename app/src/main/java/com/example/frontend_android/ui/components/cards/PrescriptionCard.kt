@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -54,9 +55,11 @@ fun PrescriptionCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
+                    modifier = Modifier.width(200.dp)
+                        .padding(end = 16.dp),
                     text = prescriptionWithRelations.prescription.title,
                     style = MaterialTheme.typography.titleMedium,
-                    maxLines = 1,
+                    maxLines = 2,
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
@@ -96,10 +99,8 @@ fun PrescriptionCard(
 
                 Row() {
                     Text(text = "Dr. ")
-                    prescriptionWithRelations.prescription.doctor_last_name?.let { Text(text = it) }
+                    prescriptionWithRelations.prescription.doctor_name?.let { Text(text = it) }
                 }
-
-
             }
 
         }
@@ -122,8 +123,7 @@ fun PrescriptionPreview() {
                         "normal distribution of letters, as opposed to using 'Content here," +
                         " content here', making it look like readable English.",
                 LocalDate.now(),
-                doctor_first_name = "Jean",
-                doctor_last_name = "Dupont",
+                doctor_name = "Jean Dupont",
                 doctor_email = "jean.dupont@medecine.com",
             ),
             listOf(
