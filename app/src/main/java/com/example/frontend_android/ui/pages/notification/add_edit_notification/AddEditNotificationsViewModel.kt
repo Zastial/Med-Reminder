@@ -77,7 +77,8 @@ class AddEditNotificationsViewModel @Inject constructor(
                             minutes = event.minutes,
                             isScheduled = true,
                             isRecurring = false,
-                            prescription_id = null
+                            prescription_id = null,
+                            daysSelectedJson = ""
                         )
                         val alarmId = alarmDao.insertAlarm(alarmToInsert)
                         val alarmToSchedule = alarmDao.getAlarmById(alarmId)

@@ -2,6 +2,7 @@ package com.example.frontend_android.data.model.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.frontend_android.ui.pages.notification.add_edit_notification.DaysOfWeek
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -19,13 +20,13 @@ data class AlarmRecord(
     var isRecurring: Boolean = false,
     var daysSelectedJson: String = Gson().toJson(
         mapOf(
-            "Mon" to false,
-            "Tue" to false,
-            "Wed" to false,
-            "Thu" to false,
-            "Fri" to false,
-            "Sat" to false,
-            "Sun" to false,
+            DaysOfWeek.LUNDI to false,
+            DaysOfWeek.MARDI to false,
+            DaysOfWeek.MERCREDI to false,
+            DaysOfWeek.JEUDI to false,
+            DaysOfWeek.VENDREDI to false,
+            DaysOfWeek.SAMEDI to false,
+            DaysOfWeek.DIMANCHE to false,
         ),
     ),
     val prescription_id: Long?,
