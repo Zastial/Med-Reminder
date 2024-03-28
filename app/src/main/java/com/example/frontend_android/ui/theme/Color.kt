@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 val md_theme_common_primaryCancel = Color(0xFFDF042C)
 val md_theme_common_onPrimaryCancel = Color(0xFFFFFFFF)
 val md_theme_common_primaryWarning = Color(0xFFFF9500)
+val md_theme_common_primaryDelete = Color(0xFFFF0000)
 
 val md_theme_light_primary = Color(0xFF00BCD4)
 val md_theme_light_onPrimary = Color(0xFFFFFFFF)
