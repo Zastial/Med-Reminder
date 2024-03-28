@@ -32,12 +32,12 @@ fun CreatePrescriptions(
                 onClick = { loadingPage() },
             )
             1 -> {}
-            6 -> BottomBarValidation(
+            5 -> BottomBarValidation(
                 navController = navController,
                 onValidation = { viewModel.insertPrescription() },
                 onCancellation = { viewModel.previousPage() }
             )
-            7 -> {}
+            6 -> {}
             else -> BottomBarStepNavigation(
                 navController = navController,
                 onClick = { viewModel.nextPage() },
@@ -54,7 +54,7 @@ fun CreatePrescriptions(
                     when (state.step) {
                         0 -> navController.navigateUp()
                         2 -> viewModel.changeStep(0)
-                        7 -> viewModel.changeStep(0)
+                        6 -> viewModel.changeStep(0)
                         else -> viewModel.previousPage()
                     }
                 }

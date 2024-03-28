@@ -35,7 +35,8 @@ class PrescriptionsViewModel  @Inject constructor (
         getPrescriptionsJob = prescriptionDao.getPrescriptionsWithRelations()
             .onEach { prescriptionsWithRelations ->
                 _state.value = state.value.copy(
-                    prescriptionsWithRelations = prescriptionsWithRelations,
+                    prescriptionsWithRelations = prescriptionsWithRelations.sortedBy { it.prescription.formatDate }.reversed()
+                    ,
                 )
             }
             .launchIn(viewModelScope)
