@@ -21,6 +21,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.frontend_android.ui.pages.notification.add_edit_notification.DaysOfWeek
+import com.example.frontend_android.ui.pages.notification.add_edit_notification.display
 import com.example.frontend_android.utils.FormatToStringHour
 import com.example.frontend_android.utils.FormatToStringMinutes
 
@@ -32,7 +34,7 @@ fun AlarmCard(
     hour: Int,
     minutes: Int,
     isActive: Boolean,
-    dayOfWeek: String,
+    dayOfWeek: MutableList<DaysOfWeek>,
     changeAlarmState: (state : Boolean) -> Unit,
     onClick : () -> Unit
 ) {
@@ -77,10 +79,12 @@ fun AlarmCard(
 
 
 @Composable
-fun DayOfWeek(dayOfWeek: String){
+fun DayOfWeek(dayOfWeek: MutableList<DaysOfWeek>){
 
-    Row(horizontalArrangement = Arrangement.Center ) {
-        //convert gson to day item with L  M  M J V S D
+    Row(horizontalArrangement = Arrangement.Center) {
+        for (day in DaysOfWeek.values()) {
+            DayItem(day = day.display(), isActive = dayOfWeek.contains(day))
+        }
     }
 
 }
@@ -120,7 +124,7 @@ fun AlarmCardPreview() {
         hour = 0,
         minutes = 0,
         isActive = false,
-        dayOfWeek = "",
+        dayOfWeek = mutableListOf(),
         changeAlarmState = { },
         onClick = { }
     )

@@ -56,7 +56,7 @@ fun NotificationsScreen(
                             hour = alarm.hours,
                             minutes = alarm.minutes,
                             isActive = alarm.isScheduled,
-                            dayOfWeek = "",
+                            dayOfWeek = alarm.daysSelected,
                             changeAlarmState = { changeAlarmState(it) },
                             onClick = { navController.navigate(
                                 Screen.AddEditAlarm.route + "?alarmId=${alarm.id}")

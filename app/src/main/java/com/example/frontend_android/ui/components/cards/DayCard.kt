@@ -1,4 +1,5 @@
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,10 +20,13 @@ import com.example.frontend_android.ui.pages.notification.add_edit_notification.
 
 @Composable
 fun Week(modifier : Modifier, dayScheduled : MutableList<DaysOfWeek>, onSelectDay : (DaysOfWeek) -> Unit) {
+
+
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        Log.e("DAY items", dayScheduled.toString())
         for (day in DaysOfWeek.values()) {
             DayCard(day = day, onClick = { onSelectDay(it) }, isActive = dayScheduled.contains(day))
         }

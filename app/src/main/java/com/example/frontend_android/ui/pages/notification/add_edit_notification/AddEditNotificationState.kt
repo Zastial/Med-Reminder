@@ -9,5 +9,5 @@ data class AddEditNotificationState constructor(
     val minutes: Int = 0,
     val isScheduled: Boolean = false,
     val scheduledDays : MutableList<DaysOfWeek> = mutableListOf(),
-    val prescription : Long? = -1L
+    val prescriptionId : Long? = -1L
 )

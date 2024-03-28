@@ -42,7 +42,7 @@ fun NavGraphBuilder.notificationGraph(
 
         ) {
             AddEditNotificationScreen(
-                navController = navController,
+                navController = navController
             )
         }
 

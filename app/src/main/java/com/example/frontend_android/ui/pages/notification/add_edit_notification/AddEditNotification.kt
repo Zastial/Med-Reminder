@@ -1,6 +1,7 @@
 package com.example.frontend_android.ui.pages.notification.add_edit_notification
 
 import Week
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -33,7 +34,6 @@ import com.example.frontend_android.ui.components.forms.BtnContinue
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,6 +43,7 @@ fun AddEditNotificationScreen(
     viewModel: AddEditNotificationsViewModel = hiltViewModel(),
 ) {
     val state = viewModel.state.value
+    Log.e("ALARM screen state recieve", state.toString())
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val timePickerState = rememberTimePickerState(
@@ -61,7 +62,7 @@ fun AddEditNotificationScreen(
 
 
     // observeur permettant de récupéré les evenement du viewModel
-    LaunchedEffect(key1 = true) {
+    /*LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collect { event ->
             when(event) {
                 is AddEditNotificationsViewModel.UiEvent.ShowSnackBar -> {
@@ -80,7 +81,7 @@ fun AddEditNotificationScreen(
 
             }
         }
-    }
+    }*/
 
 
 
@@ -128,11 +129,7 @@ fun AddEditNotificationScreen(
             }
 
 
-
-
-
         }
-
 
 
     }
