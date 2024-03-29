@@ -14,11 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import javax.inject.Inject
 
-data class MedicinesState (
-    val medicines: List<Medicine> = emptyList(),
-    val search: String = "",
-    val searching: Boolean = false,
-)
+
 
 
 @HiltViewModel
@@ -35,7 +31,6 @@ class MedicinesViewModel @Inject constructor(): ViewModel() {
         override fun onFinish() {
             retrieveMedicines()
         }
-
     }
 
     private fun retrieveMedicines() {

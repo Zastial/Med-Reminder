@@ -7,7 +7,7 @@ import com.example.frontend_android.data.model.dao.AlarmDao
 import com.example.frontend_android.data.model.dao.MedicinePosologyDao
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.dao.SideEffectDao
-import com.example.frontend_android.data.model.entities.Alarm
+import com.example.frontend_android.data.model.entities.AlarmRecord
 import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
 import com.example.frontend_android.data.model.entities.SideEffect
@@ -17,7 +17,7 @@ import com.example.frontend_android.utils.Converters
         Prescription::class,
         MedicinePosology::class,
         SideEffect::class,
-        Alarm::class
+        AlarmRecord::class
     ],
     version = 1
 )

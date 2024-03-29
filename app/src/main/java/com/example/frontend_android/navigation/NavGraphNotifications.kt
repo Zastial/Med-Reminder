@@ -1,10 +1,15 @@
 package com.example.frontend_android.navigation
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.example.frontend_android.ui.pages.notification.CreateNotificationScreen
-import com.example.frontend_android.ui.pages.notification.ViewNotifications
+import androidx.navigation.navArgument
+import com.example.frontend_android.ui.pages.notification.add_edit_notification.AddEditNotificationScreen
+import com.example.frontend_android.ui.pages.notification.notifications.AlarmEvent
+import com.example.frontend_android.ui.pages.notification.notifications.NotificationsScreen
+import com.example.frontend_android.ui.pages.notification.notifications.NotificationsViewModel
 
 fun NavGraphBuilder.notificationGraph(
     navController: NavHostController
@@ -16,11 +21,29 @@ fun NavGraphBuilder.notificationGraph(
     ) {
 
         composable(route = Screen.viewNotifications.route) {
-            ViewNotifications(navController = navController)
+            val viewModel = hiltViewModel<NotificationsViewModel>()
+            NotificationsScreen(
+                navController = navController,
+                state = viewModel.state.value,
+                changeAlarmState = { viewModel.onEvent(AlarmEvent.ChangeAlarmState(it)) }
+            )
         }
 
-        composable(route = Screen.createAlarm.route) {
-            CreateNotificationScreen(navController = navController)
+        composable(
+            route = Screen.AddEditAlarm.route + "?alarmId={alarmId}",
+            arguments = listOf(
+                navArgument(
+                    name = "alarmId"
+                ) {
+                    type = NavType.LongType
+                    defaultValue = -1L
+                }
+            )
+
+        ) {
+            AddEditNotificationScreen(
+                navController = navController
+            )
         }
 
     }

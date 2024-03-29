@@ -2,31 +2,36 @@ package com.example.frontend_android.data.model.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.time.LocalTime
+import com.example.frontend_android.ui.pages.notification.add_edit_notification.DaysOfWeek
+import com.google.gson.Gson
 
 
 @Entity(tableName = "Alarm")
-data class Alarm(
+data class AlarmRecord(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val title: String,
-    val description: String,
-    var hour: String = "00",
-    var minute: String = "00",
+    val id: Long?,
+    var title: String,
+    var description: String,
+    var hours: Int = 0,
+    var minutes: Int = 0,
     var medicineName: String?,
     var isScheduled: Boolean = false,
-    val isRecurring: Boolean = false,
-    val dates : String?,
+    var isRecurring: Boolean = false,
+    var daysSelectedJson: String = "[]",
     val prescription_id: Long?,
-)
+) {
+   val daysSelected: MutableList<DaysOfWeek>
+        get() = Gson().fromJson(daysSelectedJson, Array<DaysOfWeek>::class.java).toMutableList()
+}
+
 
 class InvalidAlarmException(message: String): Exception(message)
 
-val defaultAlarm = Alarm(
-    id = -1,
+
+val defaultAlarmRecord = AlarmRecord(
+    id = 0,
     title ="Default title Alarm",
     description = "Default description Alarm",
-    medicineName = null,
-    dates = null,
+    medicineName = "medicine name",
     prescription_id = null
 )
