@@ -42,7 +42,6 @@ class AlarmService(
             .setContentTitle(title)
             .setContentText(content)
             .setContentIntent(activityPendingIntent)
-            //.addAction()
             .build()
 
         Log.e("ALARM", "Notification send : $notification")

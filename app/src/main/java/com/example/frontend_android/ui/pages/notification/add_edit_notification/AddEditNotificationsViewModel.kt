@@ -38,7 +38,9 @@ class AddEditNotificationsViewModel @Inject constructor(
     init {
         savedStateHandle.get<Long>("alarmId")?.let { alarmId ->
             if (alarmId != -1L) {
-                getCurrentAlarm(alarmId)
+                viewModelScope.launch {
+                    getCurrentAlarm(alarmId)
+                }
             }
         }
     }
@@ -113,8 +115,8 @@ class AddEditNotificationsViewModel @Inject constructor(
                     copyValue.scheduledDays.add(event.day)
                 }
                 _state.value = copyValue
-                Log.d("ALARM", "private days states: ${_state.value.scheduledDays}")
-                Log.d("ALARM", "public days states: ${state.value.scheduledDays}")
+                Log.d("ALARM", "private days states: ${_state.value.scheduledDays} with time : ${_state.value.hours} : ${_state.value.minutes}")
+                Log.d("ALARM", "public days states: ${state.value.scheduledDays} with time : ${state.value.hours} : ${state.value.minutes}")
             }
         }
 
@@ -122,9 +124,9 @@ class AddEditNotificationsViewModel @Inject constructor(
 
     }
 
-    private fun getCurrentAlarm(alarmId: Long) {
-        viewModelScope.launch {
-            val alarm = alarmDao.getAlarmById(alarmId)?.also {
+    suspend fun getCurrentAlarm(alarmId: Long) {
+
+            alarmDao.getAlarmById(alarmId)?.also {
                 _state.value = _state.value.copy(
                     alarmId = it.id ?: alarmId,
                     hours = it.hours,
@@ -134,7 +136,7 @@ class AddEditNotificationsViewModel @Inject constructor(
                 )
             }
             Log.e("ALARM VM recieve", _state.value.toString())
-        }
+
     }
 
 

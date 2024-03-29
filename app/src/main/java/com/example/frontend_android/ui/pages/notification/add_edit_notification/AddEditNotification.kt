@@ -34,6 +34,7 @@ import com.example.frontend_android.ui.components.forms.BtnContinue
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,9 +61,8 @@ fun AddEditNotificationScreen(
 
     }
 
-
-    // observeur permettant de récupéré les evenement du viewModel
-    /*LaunchedEffect(key1 = true) {
+    //observeur permettant de récupéré les evenement du viewModel
+    LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collect { event ->
             when(event) {
                 is AddEditNotificationsViewModel.UiEvent.ShowSnackBar -> {
@@ -81,7 +81,7 @@ fun AddEditNotificationScreen(
 
             }
         }
-    }*/
+    }
 
 
 
