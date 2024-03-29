@@ -32,7 +32,7 @@ import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: Boolean = false, hasDelete : Boolean = false, onDelete : () -> Unit) {
+fun MedicineCard(medicine: Medicine, hasWarning: Boolean = false, hasDelete : Boolean = false, onDelete : () -> Unit, onClick : () -> Unit) {
     var borderStroke : BorderStroke
     if (hasWarning){
         borderStroke = BorderStroke(2.dp, md_theme_common_primaryWarning)
@@ -44,7 +44,7 @@ fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: B
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
-        onClick = { navController.navigate("medicine_informations_screen/${medicine.cis}") },
+        onClick = { onClick() },
         border = borderStroke
     ) {
         Row(
@@ -94,7 +94,6 @@ fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: B
 @Composable
 fun MedicineCardPreview() {
     MedicineCard(
-        navController = rememberNavController(), 
         medicine = Medicine(
             cis = 61266250,
             cip7 = 3000147,
@@ -106,7 +105,8 @@ fun MedicineCardPreview() {
             dose = "20mg",
             substanceName = "PHOSPHATE DE CODÉINE HÉMIHYDRATÉ"
         ),
-        onDelete = {}
+        onDelete = {},
+        onClick = {},
     )
 }
 
@@ -114,7 +114,6 @@ fun MedicineCardPreview() {
 @Composable
 fun MedicineCardPreviewWithWarningMessage() {
     MedicineCard(
-        navController = rememberNavController(),
         medicine = Medicine(
             cis = 61266250,
             cip7 = 3000147,
@@ -127,6 +126,7 @@ fun MedicineCardPreviewWithWarningMessage() {
             substanceName = "PHOSPHATE DE CODÉINE HÉMIHYDRATÉ"
         ),
         hasWarning = true,
-        onDelete = {}
+        onDelete = {},
+        onClick = {}
     )
 }

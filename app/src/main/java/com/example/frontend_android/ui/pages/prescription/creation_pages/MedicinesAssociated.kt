@@ -2,6 +2,7 @@ package com.example.frontend_android.ui.pages.prescription.creation_pages
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,12 +12,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.sharp.Lens
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,10 +46,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColor
+
 import androidx.navigation.NavController
 import com.example.frontend_android.R
-import com.example.frontend_android.data.model.entities.Medicine
+import com.example.frontend_android.navigation.Screen
 import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
@@ -53,12 +61,10 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
     val state = viewModel.state.value
     val ciMedicines = detectAllergies(state.medecineAndDosage.map { it.first }, context)
 
-//    var count by remember { mutableStateOf(0) }
-//    LaunchedEffect(count) {
-//            // Rafraîchit l'écran après chaque modification de l'état
-//            // Mettez à jour l'état de votre composable avec le nouvel état
-//            // Par exemple, vous pouvez utiliser newState pour mettre à jour votre UI
-//    }
+    var changeState by remember { mutableStateOf(0) }
+    LaunchedEffect(changeState) {
+
+    }
 
 
     Column(
@@ -120,9 +126,11 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
             ) {
                 items(state.medecineAndDosage) {
                         medicine ->
-                    MedicineCard(navController = navController, medicine = medicine.first, hasWarning = ciMedicines.contains(medicine.first.name), hasDelete = true, onDelete = {
+                    MedicineCard(medicine = medicine.first, hasWarning = ciMedicines.contains(medicine.first.name), hasDelete = true, onDelete = {
                         viewModel.deleteMedicineAssociated(medicine)
-                    })
+                        changeState++
+                    },
+                    onClick = {navController.navigate("medicine_informations_screen/${medicine.first.cis}")})
                     Spacer(modifier = Modifier.height(height = 10.dp))
                 }
             }
@@ -138,6 +146,14 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
                 )
                 Text(text = "Aucun médicament associé")
             }
+        }
+        Button(
+            modifier = Modifier.padding(8.dp),
+            onClick = {navController.navigate(Screen.searchMedicinesAssociated.route)}
+        )
+        {
+            Icon(imageVector = Icons.Default.Add, contentDescription = "Plus")
+            Text(text = "Ajouter un médicament")
         }
     }
 }

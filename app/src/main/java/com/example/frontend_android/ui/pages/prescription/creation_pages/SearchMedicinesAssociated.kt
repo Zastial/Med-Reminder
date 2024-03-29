@@ -1,4 +1,4 @@
-package com.example.frontend_android.ui.pages.medicines
+package com.example.frontend_android.ui.pages.prescription.creation_pages
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,43 +13,38 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.R
+import com.example.frontend_android.navigation.Screen
 import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.components.forms.SearchTextField
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.components.ressourceNotFound.NotFound
-import com.example.frontend_android.utils.detectAllergy
+import com.example.frontend_android.ui.pages.medicines.MedicinesViewModel
 
 @Composable
-fun ViewMedicines(
+fun SearchMedicinesAssociated(
     navController: NavController,
     viewModel: MedicinesViewModel = hiltViewModel()
 ) {
 
     val state = viewModel.state.value
-    val context = LocalContext.current
+    BaseLayout(
+        TopBar = {
+            TopBar(
+                navController = navController,
+                title = "Médicaments",
+                canGoBack = true
+            )
+        },
+        BottomBar = {}
+    ) {
 
-   BaseLayout(
-       TopBar = {
-           TopBar(
-               navController = navController,
-               title = "Médicaments",
-               canGoBack = true
-           )
-       },
-       BottomBar = {
-           BottomBarNavigation(
-               navController = navController,
-           )
-       }
-   ) {
         Column(
             modifier = Modifier.padding(16.dp, 0.dp).fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -60,11 +55,11 @@ fun ViewMedicines(
             if (state.medicines.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
 
                 ) {
-                    items(state.medicines) {
-                            medicine -> MedicineCard(medicine = medicine, detectAllergy(context, medicine), onDelete = {}, onClick = {})
+                    items(state.medicines) { medicine ->
+                        MedicineCard(medicine = medicine, onDelete = {}, onClick = {navController.navigate("add_medicine_associated_screen/${medicine.cis}")})
                     }
                 }
             } else if (state.search == "") {
@@ -83,5 +78,5 @@ fun ViewMedicines(
                 }
             }
         }
-   }
+    }
 }
