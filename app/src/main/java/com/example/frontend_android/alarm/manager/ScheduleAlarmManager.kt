@@ -53,6 +53,7 @@ class ScheduleAlarmManager @Inject constructor(
         }
 
         Log.d("ALARM", "Alarm schedule : ${calendar.time}")
+
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
