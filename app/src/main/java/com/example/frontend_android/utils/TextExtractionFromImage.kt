@@ -39,6 +39,7 @@ val patternsDosage = mutableListOf(
     Regex("(\\d+)\\s*mg"),
     Regex("(\\d+)\\s*g"),
     Regex("(\\d+)\\s*ml"),
+    Regex("(.*)\\s*sucer"),
 )
 
 data class PrescriptionInfos(
@@ -108,23 +109,31 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
 
             for (pattern in patternsDosage) {
                 val dosage = pattern.find(line.lowercase())
-                if (dosage != null) {
-                    medicine.name = line
+
+                var isToAvoid = false
+                for (patternPosology in patterns) {
+                    isToAvoid = line.lowercase().contains(patternPosology)
+                    if (isToAvoid) {
+                        break
+                    }
+                }
+                if (dosage != null && !isToAvoid) {
+                    medicine.name = line.lowercase()
                 }
             }
 
-            for (pattern in patterns) {
-                if (line.lowercase().contains(pattern)) {
-                    posologie = line
+            for (patternPosology in patterns) {
+                if (line.lowercase().contains(patternPosology)) {
+                    posologie = line.lowercase()
                 }
             }
 
             if (medicine.name.isNotEmpty()) {
+                Log.d("medicine", medicine.name)
                 medAndPos += Pair(medicine, posologie)
             }
         }
 
-        Log.d("size", medAndPos.size.toString())
         return medAndPos
     }
 
