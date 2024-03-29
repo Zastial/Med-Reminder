@@ -61,7 +61,12 @@ fun ViewPrescriptions(
                 LazyColumn(
                     modifier = Modifier.fillMaxHeight(0.90f)
                 ) {
-                    items(state.prescriptionsWithRelations) { prescriptionWithRelations -> PrescriptionCard(prescriptionWithRelations = prescriptionWithRelations) }
+                    items(state.prescriptionsWithRelations) { prescriptionWithRelations ->
+                        PrescriptionCard(
+                            navController = navController,
+                            prescriptionWithRelations = prescriptionWithRelations
+                        )
+                    }
                 }
             }
             Button(

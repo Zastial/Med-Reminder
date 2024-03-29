@@ -21,15 +21,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.R
 import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
 import com.example.frontend_android.data.model.relations.PrescriptionWithRelations
+import com.example.frontend_android.navigation.Screen
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrescriptionCard(
+    navController: NavController,
     prescriptionWithRelations: PrescriptionWithRelations,
     modifier: Modifier = Modifier,
 ) {
@@ -42,8 +46,9 @@ fun PrescriptionCard(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
-        onClick = { Log.e("CLICK", "click prescripotion") }
-
+        onClick = {
+            navController.navigate("modify_prescription_screen/${prescriptionWithRelations.prescription.id}")
+        }
     ) {
         Column(
             modifier = Modifier
@@ -55,7 +60,8 @@ fun PrescriptionCard(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    modifier = Modifier.width(200.dp)
+                    modifier = Modifier
+                        .width(200.dp)
                         .padding(end = 16.dp),
                     text = prescriptionWithRelations.prescription.title,
                     style = MaterialTheme.typography.titleMedium,
@@ -110,6 +116,7 @@ fun PrescriptionCard(
 @Composable
 fun PrescriptionPreview() {
     PrescriptionCard(
+        rememberNavController(),
         PrescriptionWithRelations(
             Prescription(
 
