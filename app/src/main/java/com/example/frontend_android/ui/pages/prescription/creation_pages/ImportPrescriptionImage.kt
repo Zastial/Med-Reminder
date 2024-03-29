@@ -190,7 +190,7 @@ fun ImportPrescriptionImage(navController : NavController, viewModel: CreatePres
                 authorizationLauncher.launch(Manifest.permission.CAMERA)
             } else {
                 camStates.shouldShowCamera.value = true
-                viewModel.changeStep(7) // Display the camera step
+                viewModel.changeStep(6) // Display the camera step
                 viewModel.changeBottomSheetBool(false)
             }
         },

@@ -14,6 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import java.util.TimeZone
 
 
@@ -43,6 +44,39 @@ val patternsDosage = mutableListOf(
     Regex("(\\d+)\\s*gcp\\.?\\b"),
     Regex("(\\d+)\\s*ml\\.?\\b"),
     Regex("(.*)\\s*sucer"),
+)
+
+val patternsMonth = mutableListOf(
+    "janvier",
+    "février",
+    "fevrier",
+    "mars",
+    "avril",
+    "mai",
+    "juin",
+    "juillet",
+    "août",
+    "aout",
+    "septembre",
+    "octobre",
+    "novembre",
+    "décembre",
+    "decembre",
+)
+
+val patternsMonthNumber = mutableListOf(
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
 )
 
 data class PrescriptionInfos(
@@ -93,8 +127,11 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
         var doctorName = ""
         var email = ""
         for (line in textPrescription) {
-            if (line.contains("Dr") || line.contains("Docteur")) {
+            if (line.contains("Dr")) {
                 doctorName = line.substring(3).trim()
+            }
+            if (line.contains("Docteur")) {
+                doctorName = line.substring(8).trim()
             }
             if (line.contains("@")) {
                 email = line
@@ -145,10 +182,18 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
         val zoneId = TimeZone.getDefault().toZoneId()
 
         for (line in textPrescription) {
-            val potentialDate = line.split(Regex("\\s+")).find { it.contains("/") }
+            var potentialDate = line.split(Regex("\\s+")).find { it.contains("/") }
+            if (potentialDate == null || potentialDate == "") {
+                potentialDate = line.split(Regex("\\s+")).find { it.contains("-") }
+            }
+
             potentialDate?.let {
                 try {
-                    return LocalDate.parse(it, DateTimeFormatter.ofPattern("dd/MM/yyyy")).atStartOfDay(zoneId).toLocalDate()
+                    val inputFormatter = DateTimeFormatter.ofPattern("d/M/yyyy")
+                    val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                    val date = LocalDate.parse(potentialDate, inputFormatter)
+
+                    return LocalDate.parse(date.format(outputFormatter), DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE)).atStartOfDay(zoneId).toLocalDate()
                 } catch (e: Exception) {
                     return LocalDate.now()
                 }
