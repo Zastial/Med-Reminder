@@ -3,10 +3,12 @@ package com.example.frontend_android.ui.components.cards
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -24,11 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.data.model.entities.Medicine
+import com.example.frontend_android.ui.theme.md_theme_common_primaryDelete
 import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MedicineCard(navController: NavController, medicine: Medicine, warningMessage: String? = null) {
+fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: Boolean? = null) {
 
     Card(
         elevation = CardDefaults.cardElevation(
@@ -44,7 +47,7 @@ fun MedicineCard(navController: NavController, medicine: Medicine, warningMessag
         ) {
 
             Surface(modifier = Modifier.width(30.dp)) {
-                if (warningMessage != null) {
+                if (hasWarning != false) {
                     Icon(
                         imageVector = Icons.Outlined.Warning,
                         contentDescription = "Warning",
@@ -110,6 +113,6 @@ fun MedicineCardPreviewWithWarningMessage() {
             dose = "20mg",
             substanceName = "PHOSPHATE DE CODÉINE HÉMIHYDRATÉ"
         ),
-        warningMessage = "Attention wola"
+        hasWarning = true
     )
 }

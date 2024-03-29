@@ -11,14 +11,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.frontend_android.data.model.dao.MedicinePosologyDao
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
+import com.example.frontend_android.data.model.entities.Medicine
+import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.ui.pages.prescription.creation_pages.AdditionalInfos
 import com.example.frontend_android.ui.components.Loading
+import com.example.frontend_android.ui.pages.prescription.creation_pages.MedicinesAssociated
 import com.example.frontend_android.ui.pages.prescription.creation_pages.PrescriptionInfos
+import com.example.frontend_android.ui.pages.prescription.creation_pages.RecapPresciption
 import com.example.frontend_android.utils.ITextExtractionFromImageService
+import com.example.frontend_android.utils.retrieveMedicine
 import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -33,7 +39,6 @@ data class CreatePrescriptionState (
     val step: Int = 0,
     val btnContinueEnabled : Boolean = true,
     val loading : Boolean = false,
-    var isBottomSheetOpen : Boolean = false,
 
     val imageUri: Uri? = null,
     val date : LocalDate = LocalDate.now(),
@@ -42,12 +47,14 @@ data class CreatePrescriptionState (
     val description : String = "",
     val nomDocteur : String = "",
     val emailDocteur : String = "",
-    val medecineAndDosage : MutableList<Pair<String, String>> = mutableListOf(),
+    val medecineAndDosage : MutableList<Pair<Medicine, String>> = mutableListOf(),
+    var isBottomSheetOpen : Boolean = false
 )
 
 @HiltViewModel
 class CreatePrescriptionViewModel @Inject constructor(
     private val prescriptionDao: PrescriptionDao,
+    private val medicinePosologyDao: MedicinePosologyDao,
     private val textExtractionService : ITextExtractionFromImageService
 ): ViewModel() {
 
@@ -58,18 +65,28 @@ class CreatePrescriptionViewModel @Inject constructor(
     fun insertPrescription() {
         viewModelScope.launch {
             try {
-                prescriptionDao.insertPrescription(
+                val prescriptionID = prescriptionDao.insertPrescription(
                     Prescription(
                         id = null,
-                        title = "",
-                        description = "",
-                        delivered_at = LocalDate.now(),
-                        doctor_first_name = null,
-                        doctor_last_name = null,
-                        doctor_email = null,
-
+                        title = state.value.nom,
+                        description = state.value.description,
+                        delivered_at = state.value.date,
+                        doctor_name = state.value.nomDocteur,
+                        doctor_email = state.value.emailDocteur,
                     )
                 )
+
+                for (med in state.value.medecineAndDosage) {
+                    medicinePosologyDao.insertMedicinePosology(
+                        MedicinePosology(
+                            id = null,
+                            description = med.second,
+                            medicine_id = med.first.cis,
+                            prescription_id = prescriptionID
+                        )
+                    )
+                }
+
             } catch (e: InvalidPrescriptionException) {
                 Log.d("ErrorInvalidPrescription", e.message!!)
             }
@@ -116,21 +133,19 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
-    fun changeMedecineAndDosage(new_medecineAndDosage: MutableList<Pair<String, String>>) {
+    fun changeMedecineAndDosage(new_medecineAndDosage: MutableList<Pair<Medicine, String>>) {
         _state.value = state.value.copy(
             medecineAndDosage = new_medecineAndDosage
         )
     }
 
     fun nextPage() {
-        if (state.value.step == 6) return
         _state.value = state.value.copy(
             step = state.value.step + 1
         )
     }
 
     fun previousPage() {
-        if (state.value.step == 0) return
         _state.value = state.value.copy(
             step = state.value.step - 1
         )
@@ -153,9 +168,9 @@ class CreatePrescriptionViewModel @Inject constructor(
 
         val res = state.value.step + 1
         if (state.value.step == 0) {
-            return res / 7f
+            return res / 6f
         }
-        return (res-1)/ 7f // Changer 7 par nombre de pages dynamiquement
+        return (res-1)/ 6f // Changer 7 par nombre de pages dynamiquement
     }
 
     fun getInformationsFromUri(context : Context) {
@@ -163,11 +178,20 @@ class CreatePrescriptionViewModel @Inject constructor(
             val image = InputImage.fromFilePath(context, state.value.imageUri!!)
 
             val result = textExtractionService.extractTextFromImage(image)
+
+            val medAndPos = mutableListOf<Pair<Medicine, String>>()
+            for (med in result.medecineAndDosage) {
+                val medicine = retrieveMedicine(med.first.name)
+                if (medicine != null) {
+                    medAndPos.add(Pair(medicine, med.second))
+                }
+            }
+
             withContext(viewModelScope.coroutineContext) {
                 changeDate(result.date)
                 changenomDocteur(result.nomDocteur)
                 changeEmailDocteur(result.emailDocteur)
-                changeMedecineAndDosage(result.medecineAndDosage)
+                changeMedecineAndDosage(medAndPos)
 
                 if (state.value.nomDocteur.isNotEmpty()) {
                     val prescriptionName = state.value.nomDocteur + "_" + state.value.date
@@ -199,7 +223,9 @@ class CreatePrescriptionViewModel @Inject constructor(
             1 -> Loading(customLaunchedEffect) // Not a concrete page, to integrate into the process
             2 -> PrescriptionInfos(this)
             3 -> AdditionalInfos(this)
-            7 -> ViewCameraScreen(navcontroller, this)
+            4 -> MedicinesAssociated(navcontroller, this)
+            5 -> RecapPresciption(navcontroller, this)
+            6 -> ViewCameraScreen(navcontroller, this)
             else -> {}
         }
     }
