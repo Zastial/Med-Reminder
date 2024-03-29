@@ -27,6 +27,9 @@ import com.example.frontend_android.utils.ITextExtractionFromImageService
 import com.example.frontend_android.utils.retrieveMedicine
 import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -60,6 +63,11 @@ class CreatePrescriptionViewModel @Inject constructor(
 
     private val _state = mutableStateOf(CreatePrescriptionState())
     val state: State<CreatePrescriptionState> = _state
+
+    //private val _state = MutableStateFlow(CreatePrescriptionState())
+    //val state: StateFlow<CreatePrescriptionState> = _state
+
+
 
     @Throws(InvalidPrescriptionException::class)
     fun insertPrescription() {
@@ -161,6 +169,11 @@ class CreatePrescriptionViewModel @Inject constructor(
         _state.value = state.value.copy(
             isBottomSheetOpen = new_value
         )
+    }
+
+    fun deleteMedicineAssociated(medicine: Pair<Medicine, String>){
+        _state.value.medecineAndDosage.remove(medicine)
+        Log.d("test", _state.value.medecineAndDosage.toString())
     }
 
     fun stepToProgress() : Float {

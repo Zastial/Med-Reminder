@@ -21,6 +21,12 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,6 +44,7 @@ import com.example.frontend_android.R
 import com.example.frontend_android.data.model.entities.Medicine
 import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
+import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 import com.example.frontend_android.utils.detectAllergies
 
 @Composable
@@ -45,6 +52,14 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
     val context = LocalContext.current
     val state = viewModel.state.value
     val ciMedicines = detectAllergies(state.medecineAndDosage.map { it.first }, context)
+
+//    var count by remember { mutableStateOf(0) }
+//    LaunchedEffect(count) {
+//            // Rafraîchit l'écran après chaque modification de l'état
+//            // Mettez à jour l'état de votre composable avec le nouvel état
+//            // Par exemple, vous pouvez utiliser newState pour mettre à jour votre UI
+//    }
+
 
     Column(
         modifier = Modifier
@@ -80,7 +95,7 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
                 Icon(
                     painter = painterResource(id = R.drawable.ic_warning),
                     contentDescription = "Description",
-                    tint = Color.Red
+                    tint = md_theme_common_primaryWarning
                 )
                 Spacer(modifier = Modifier.width(width = 10.dp))
                 if (ciMedicines.size == 1) {
@@ -100,12 +115,14 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
         if (state.medecineAndDosage.size > 0) {
             LazyColumn(
                 modifier = Modifier.padding(16.dp, 0.dp).fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
 
             ) {
                 items(state.medecineAndDosage) {
                         medicine ->
-                    MedicineCard(navController = navController, medicine = medicine.first, hasWarning = ciMedicines.contains(medicine.first.name))
+                    MedicineCard(navController = navController, medicine = medicine.first, hasWarning = ciMedicines.contains(medicine.first.name), hasDelete = true, onDelete = {
+                        viewModel.deleteMedicineAssociated(medicine)
+                    })
                     Spacer(modifier = Modifier.height(height = 10.dp))
                 }
             }

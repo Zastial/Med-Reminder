@@ -1,5 +1,7 @@
 package com.example.frontend_android.ui.components.cards
 
+import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,12 +14,14 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,15 +32,20 @@ import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: Boolean? = false) {
-
+fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: Boolean = false, hasDelete : Boolean = false, onDelete : () -> Unit) {
+    var borderStroke : BorderStroke
+    if (hasWarning){
+        borderStroke = BorderStroke(2.dp, md_theme_common_primaryWarning)
+    }else{
+        borderStroke = BorderStroke(0.dp, Color.Transparent)
+    }
     Card(
         modifier = Modifier.padding(6.dp),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 4.dp
         ),
-        onClick = { navController.navigate("medicine_informations_screen/${medicine.cis}") }
-
+        onClick = { navController.navigate("medicine_informations_screen/${medicine.cis}") },
+        border = borderStroke
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
@@ -45,11 +54,16 @@ fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: B
         ) {
 
             Surface(modifier = Modifier.width(30.dp)) {
-                if (hasWarning != false) {
-                    Icon(
-                        imageVector = Icons.Outlined.Warning,
-                        contentDescription = "Warning",
-                        tint= md_theme_common_primaryWarning
+                if (hasDelete){
+                    IconButton(
+                        onClick = {onDelete()},
+                        content = {
+                            Icon(
+                                imageVector = Icons.Outlined.Delete,
+                                contentDescription = "Delete",
+                                tint= md_theme_common_primaryDelete
+                            )
+                        }
                     )
                 }
             }
@@ -92,6 +106,7 @@ fun MedicineCardPreview() {
             dose = "20mg",
             substanceName = "PHOSPHATE DE CODÉINE HÉMIHYDRATÉ"
         ),
+        onDelete = {}
     )
 }
 
@@ -111,6 +126,7 @@ fun MedicineCardPreviewWithWarningMessage() {
             dose = "20mg",
             substanceName = "PHOSPHATE DE CODÉINE HÉMIHYDRATÉ"
         ),
-        hasWarning = true
+        hasWarning = true,
+        onDelete = {}
     )
 }
