@@ -234,7 +234,7 @@ suspend fun retrieveMedicine(name : String): Medicine? {
                 }
             }
             override fun onFailure(call: Call<List<Medicine>>, t: Throwable) {
-                Log.d("TXT", "onError: ${t.message}")
+                Log.d("Error", "Error when retrieveMedicine : ${t.message}")
                 continuation.resume(null, {})
             }
         })
