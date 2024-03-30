@@ -1,5 +1,6 @@
 package com.example.frontend_android.ui.pages.prescription.creation_pages
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,20 +25,22 @@ import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.pages.medicines.MedicineInformationsViewModel
+import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 
 @Composable
 fun AddMedicinesAssociated(
     navController: NavController,
-    viewModel: MedicineInformationsViewModel = hiltViewModel()
+    viewModel: CreatePrescriptionViewModel = hiltViewModel(),
 ) {
 
+    //Log.d("test_cis", medicineCis.toString())
     val state = viewModel.state.value
 
-    if (state.medicine == null) {
+    if (state.medecineAndDosage.size == null) {
         return;
     }
 
-    val lines = listOf(
+/*    val lines = listOf(
         "Administration: ",
         state.medicine.administration.replaceFirstChar { it.uppercase() },
         "Type de médicament: ",
@@ -48,7 +51,7 @@ fun AddMedicinesAssociated(
         state.medicine.dose,
         "Substance active: ",
         state.medicine.substanceName.replaceFirstChar { it.uppercase() }
-    )
+    )*/
 
     BaseLayout(
         TopBar = {
@@ -63,15 +66,15 @@ fun AddMedicinesAssociated(
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-            Text(
+/*            Text(
                 text = state.medicine.name,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
-            )
+            )*/
 
-            Spacer(modifier = Modifier.height(24.dp))
+/*            Spacer(modifier = Modifier.height(24.dp))
 
             LazyVerticalGrid(
                 modifier = Modifier.padding(24.dp, 8.dp),
@@ -82,7 +85,7 @@ fun AddMedicinesAssociated(
                     val fontWeight =  if (it % 2 != 0) FontWeight.Bold else FontWeight.Normal
                     Text(text = lines[it], fontWeight = fontWeight)
                 }
-            }
+            }*/
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = "",

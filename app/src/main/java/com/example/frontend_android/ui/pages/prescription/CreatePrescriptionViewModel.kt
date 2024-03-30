@@ -11,6 +11,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.frontend_android.ServiceBuilder
+import com.example.frontend_android.data.model.dao.MedicineDao
 import com.example.frontend_android.data.model.dao.MedicinePosologyDao
 import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.InvalidPrescriptionException
@@ -29,6 +31,9 @@ import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -60,6 +65,8 @@ class CreatePrescriptionViewModel @Inject constructor(
 
     private val _state = mutableStateOf(CreatePrescriptionState())
     val state: State<CreatePrescriptionState> = _state
+
+    private val medicineDao  = ServiceBuilder.buildService(MedicineDao::class.java)
 
     @Throws(InvalidPrescriptionException::class)
     fun insertPrescription() {
@@ -212,6 +219,28 @@ class CreatePrescriptionViewModel @Inject constructor(
         }.invokeOnCompletion {
             nextPage()
         }
+    }
+
+    fun retrieveOneMedicine(cis: Long) {
+        val requestCall = medicineDao.getMedicine(cis)
+
+        requestCall.enqueue(object : Callback<Medicine> {
+            override fun onResponse(
+                call: Call<Medicine>,
+                response: Response<Medicine>
+            ) {
+                if (response.isSuccessful) {
+                    val medicine = response.body()!!
+                    addMedicineAssociated(Pair(medicine, ""))
+                }
+
+            }
+
+            override fun onFailure(call: Call<Medicine>, t: Throwable) {
+                Log.d("Error", "onError: ${t.message}")
+            }
+
+        })
     }
 
     @Composable
