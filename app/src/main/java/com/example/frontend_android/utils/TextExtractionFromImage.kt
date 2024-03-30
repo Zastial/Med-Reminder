@@ -207,7 +207,6 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
 @OptIn(ExperimentalCoroutinesApi::class)
 suspend fun retrieveMedicine(name : String): Medicine? {
     return suspendCancellableCoroutine { continuation ->
-        Log.e("TXT", "retrieve medicine")
         val medicineDao = ServiceBuilder.buildService(MedicineDao::class.java)
         var DBmedicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
 
@@ -233,7 +232,6 @@ suspend fun retrieveMedicine(name : String): Medicine? {
                         }
                     }
                 }
-                Log.e("TXT", "response is Successfull ${response.isSuccessful}")
             }
             override fun onFailure(call: Call<List<Medicine>>, t: Throwable) {
                 Log.d("TXT", "onError: ${t.message}")
