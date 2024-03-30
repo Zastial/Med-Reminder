@@ -174,11 +174,13 @@ class CreatePrescriptionViewModel @Inject constructor(
     }
 
     fun getInformationsFromUri(context : Context) {
+        Log.e("TXT", "Start getInformationFrom URI ${state.value.imageUri}")
         viewModelScope.launch {
             val image = InputImage.fromFilePath(context, state.value.imageUri!!)
 
             val result = textExtractionService.extractTextFromImage(image)
 
+            Log.e("TXT", "text extraction result : $result")
             val medAndPos = mutableListOf<Pair<Medicine, String>>()
             for (med in result.medecineAndDosage) {
                 val medicine = retrieveMedicine(med.first.name)
@@ -199,6 +201,7 @@ class CreatePrescriptionViewModel @Inject constructor(
                 }
             }
         }.invokeOnCompletion {
+            Log.e("TXT", "next page")
             nextPage()
         }
     }
