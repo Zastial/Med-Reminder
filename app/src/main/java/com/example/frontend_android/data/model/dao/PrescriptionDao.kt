@@ -17,7 +17,7 @@ interface PrescriptionDao {
     fun getPrescriptions() : Flow<List<Prescription>>
 
     @Query("SELECT * FROM Prescription WHERE id = :id")
-    suspend fun getPrescription(id : Int) : Prescription?
+    suspend fun getPrescription(id : Long) : PrescriptionWithRelations?
 
     @Transaction
     @Query("SELECT * FROM Prescription")

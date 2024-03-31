@@ -46,7 +46,7 @@ fun RecapPresciption(navController: NavController, viewModel: CreatePrescription
     val scrollState = rememberScrollState()
 
     val context = LocalContext.current
-    val ciMedicines = detectAllergies(context, viewModel.state.value.medecineAndDosage)
+    val ciMedicines = detectAllergies(viewModel.state.value.medecineAndDosage.map { it.first }, context)
 
     Column(
         modifier = Modifier

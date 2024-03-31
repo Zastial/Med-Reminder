@@ -2,9 +2,12 @@ package com.example.frontend_android.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptions
+import com.example.frontend_android.ui.pages.prescription.UpdatePrescription
 import com.example.frontend_android.ui.pages.prescription.ViewPrescriptions
 
 
@@ -31,6 +34,15 @@ fun NavGraphBuilder.prescriptionGraph(
             route = Screen.createPrescription.route
         ) {
             CreatePrescriptions(
+                navController = navController
+            )
+        }
+
+        composable(
+            route = Screen.updatePrescription.route,
+            arguments = listOf(navArgument("prescription_id") { type = NavType.LongType })
+        ) {
+            UpdatePrescription(
                 navController = navController
             )
         }

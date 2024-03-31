@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.frontend_android.data.model.entities.Prescription
 
 // Point d'entree du graphe de navigation entre les écrans
 @Composable
