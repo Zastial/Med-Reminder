@@ -31,7 +31,7 @@ import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: Boolean? = null) {
+fun MedicineCard(navController: NavController, medicine: Medicine, hasWarning: Boolean? = false) {
 
     Card(
         elevation = CardDefaults.cardElevation(

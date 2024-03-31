@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -24,6 +25,7 @@ import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.components.ressourceNotFound.NotFound
+import com.example.frontend_android.utils.detectAllergy
 
 @Composable
 fun ViewMedicines(
@@ -32,6 +34,7 @@ fun ViewMedicines(
 ) {
 
     val state = viewModel.state.value
+    val context = LocalContext.current
 
    BaseLayout(
        TopBar = {
@@ -61,7 +64,7 @@ fun ViewMedicines(
 
                 ) {
                     items(state.medicines) {
-                            medicine -> MedicineCard(navController = navController, medicine = medicine)
+                            medicine -> MedicineCard(navController = navController, medicine = medicine, detectAllergy(context, medicine))
                     }
                 }
             } else if (state.search == "") {

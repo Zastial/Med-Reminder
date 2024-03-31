@@ -44,7 +44,7 @@ import com.example.frontend_android.utils.detectAllergies
 fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescriptionViewModel) {
     val context = LocalContext.current
     val state = viewModel.state.value
-    val ciMedicines = detectAllergies(state.medecineAndDosage, context)
+    val ciMedicines = detectAllergies(context, state.medecineAndDosage)
 
     Column(
         modifier = Modifier
