@@ -46,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 import androidx.navigation.NavController
 import com.example.frontend_android.R
@@ -149,7 +150,7 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
         }
         Button(
             modifier = Modifier.padding(8.dp),
-            onClick = {navController.navigate(Screen.searchMedicinesAssociated.route)}
+            onClick = {viewModel.changeStep(7)}
         )
         {
             Icon(imageVector = Icons.Default.Add, contentDescription = "Plus")

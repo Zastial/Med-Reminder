@@ -30,11 +30,12 @@ import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionView
 @Composable
 fun AddMedicinesAssociated(
     navController: NavController,
-    viewModel: CreatePrescriptionViewModel = hiltViewModel(),
+    viewModel: CreatePrescriptionViewModel,
 ) {
 
-    //Log.d("test_cis", medicineCis.toString())
     val state = viewModel.state.value
+    var medicineAssociated = state.medecineAndDosage
+    Log.d("test_cis2", medicineAssociated.toString())
 
     if (state.medecineAndDosage.size == null) {
         return;

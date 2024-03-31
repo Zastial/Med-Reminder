@@ -1,5 +1,6 @@
 package com.example.frontend_android.ui.pages.prescription.creation_pages
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -26,14 +28,16 @@ import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.components.ressourceNotFound.NotFound
 import com.example.frontend_android.ui.pages.medicines.MedicinesViewModel
+import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
 
 @Composable
 fun SearchMedicinesAssociated(
     navController: NavController,
-    viewModel: MedicinesViewModel = hiltViewModel()
+    viewModel: MedicinesViewModel = hiltViewModel(),
+    prescriptionViewModel : CreatePrescriptionViewModel,
 ) {
-
     val state = viewModel.state.value
+
     BaseLayout(
         TopBar = {
             TopBar(
@@ -59,7 +63,10 @@ fun SearchMedicinesAssociated(
 
                 ) {
                     items(state.medicines) { medicine ->
-                        MedicineCard(medicine = medicine, onDelete = {}, onClick = {navController.navigate("add_medicine_associated_screen/${medicine.cis}")})
+                        MedicineCard(medicine = medicine, onDelete = {}, onClick = {
+                            prescriptionViewModel.changeMedicineAddedId(medicine.cis)
+                            prescriptionViewModel.changeStep(8)
+                        })
                     }
                 }
             } else if (state.search == "") {

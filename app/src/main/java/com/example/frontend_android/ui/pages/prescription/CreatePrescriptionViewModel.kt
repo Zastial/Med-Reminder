@@ -22,9 +22,11 @@ import com.example.frontend_android.data.model.entities.Prescription
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.ui.pages.prescription.creation_pages.AdditionalInfos
 import com.example.frontend_android.ui.components.Loading
+import com.example.frontend_android.ui.pages.prescription.creation_pages.AddMedicinesAssociated
 import com.example.frontend_android.ui.pages.prescription.creation_pages.MedicinesAssociated
 import com.example.frontend_android.ui.pages.prescription.creation_pages.PrescriptionInfos
-import com.example.frontend_android.ui.pages.prescription.creation_pages.RecapPresciption
+import com.example.frontend_android.ui.pages.prescription.creation_pages.RecapPrescription
+import com.example.frontend_android.ui.pages.prescription.creation_pages.SearchMedicinesAssociated
 import com.example.frontend_android.utils.ITextExtractionFromImageService
 import com.example.frontend_android.utils.retrieveMedicine
 import com.google.mlkit.vision.common.InputImage
@@ -44,6 +46,7 @@ data class CreatePrescriptionState (
     val step: Int = 0,
     val btnContinueEnabled : Boolean = true,
     val loading : Boolean = false,
+    val medicineAddedId : Long = 0,
 
     val imageUri: Uri? = null,
     val date : LocalDate = LocalDate.now(),
@@ -170,6 +173,12 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
+    fun changeMedicineAddedId(new_value: Long){
+        _state.value = state.value.copy(
+            medicineAddedId = new_value
+        )
+    }
+
     fun deleteMedicineAssociated(medicine: Pair<Medicine, String>){
         _state.value.medecineAndDosage.remove(medicine)
     }
@@ -221,8 +230,9 @@ class CreatePrescriptionViewModel @Inject constructor(
         }
     }
 
-    fun retrieveOneMedicine(cis: Long) {
+    fun retrieveOneMedicine(cis: Long): Medicine {
         val requestCall = medicineDao.getMedicine(cis)
+        var DBmedicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
 
         requestCall.enqueue(object : Callback<Medicine> {
             override fun onResponse(
@@ -231,7 +241,8 @@ class CreatePrescriptionViewModel @Inject constructor(
             ) {
                 if (response.isSuccessful) {
                     val medicine = response.body()!!
-                    addMedicineAssociated(Pair(medicine, ""))
+                    Log.d("test", state.value.medecineAndDosage.toString())
+                    DBmedicine = medicine
                 }
 
             }
@@ -241,6 +252,7 @@ class CreatePrescriptionViewModel @Inject constructor(
             }
 
         })
+        return DBmedicine
     }
 
     @Composable
@@ -248,7 +260,7 @@ class CreatePrescriptionViewModel @Inject constructor(
         val context = LocalContext.current
 
         // if URI is present then wait till image is loaded
-        val customLaunchedEffect: @Composable () -> Unit = {
+        val URILaunchedEffect: @Composable () -> Unit = {
             LaunchedEffect(
                 key1 = state.value.imageUri,
             ) {
@@ -258,14 +270,34 @@ class CreatePrescriptionViewModel @Inject constructor(
             }
         }
 
+        val medicineLaunchedEffect: @Composable () -> Unit = {
+            LaunchedEffect(
+                key1 = state.value.medicineAddedId,
+            ) {
+                if (state.value.medicineAddedId != 0L) {
+                    viewModelScope.launch {
+                        var DBmedicine = retrieveOneMedicine(state.value.medicineAddedId)
+                        withContext(viewModelScope.coroutineContext) {
+                            addMedicineAssociated(Pair(DBmedicine, ""))
+                        }
+                    }.invokeOnCompletion {
+                        changeStep(9)
+                    }
+                }
+            }
+        }
+
         return when (state.value.step) {
             0 -> ImportPrescriptionImage(navcontroller, this)
-            1 -> Loading(customLaunchedEffect) // Not a concrete page, to integrate into the process
+            1 -> Loading(URILaunchedEffect) // Not a concrete page, to integrate into the process
             2 -> PrescriptionInfos(this)
             3 -> AdditionalInfos(this)
             4 -> MedicinesAssociated(navcontroller, this)
-            5 -> RecapPresciption(navcontroller, this)
+            5 -> RecapPrescription(navcontroller, this)
             6 -> ViewCameraScreen(navcontroller, this)
+            7 -> SearchMedicinesAssociated(navController = navcontroller, prescriptionViewModel = this)
+            8 -> Loading(medicineLaunchedEffect)
+            9 -> AddMedicinesAssociated(navController = navcontroller, viewModel = this)
             else -> {}
         }
     }
