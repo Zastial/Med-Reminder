@@ -46,39 +46,6 @@ val patternsDosage = mutableListOf(
     Regex("(.*)\\s*sucer"),
 )
 
-val patternsMonth = mutableListOf(
-    "janvier",
-    "février",
-    "fevrier",
-    "mars",
-    "avril",
-    "mai",
-    "juin",
-    "juillet",
-    "août",
-    "aout",
-    "septembre",
-    "octobre",
-    "novembre",
-    "décembre",
-    "decembre",
-)
-
-val patternsMonthNumber = mutableListOf(
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
-)
-
 data class PrescriptionInfos(
     var nomDocteur: String,
     var emailDocteur: String,
@@ -126,15 +93,38 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
     override fun extractNomAndEmailMedecin(textPrescription: List<String>): Pair<String, String> {
         var doctorName = ""
         var email = ""
-        for (line in textPrescription) {
-            if (line.contains("Dr")) {
-                doctorName = line.substring(3).trim()
-            }
-            if (line.contains("Docteur")) {
-                doctorName = line.substring(8).trim()
-            }
+        for ((index, line) in textPrescription.withIndex()) {
+            var nameAndEmail = listOf<String>()
+
             if (line.contains("@")) {
-                email = line
+                if (line.contains("Dr") && line.length > 3) {
+                    nameAndEmail = line.substring(3).trim().split(" ")
+                    doctorName = nameAndEmail.subList(0, nameAndEmail.size - 1).joinToString(" ")
+                } else if (line.contains("Docteur") && line.length > 8) {
+                    nameAndEmail = line.substring(8).trim().split(" ")
+                    doctorName = nameAndEmail.subList(0, nameAndEmail.size - 1).joinToString(" ")
+                }
+
+                email = if (doctorName.isNotEmpty() && nameAndEmail.isNotEmpty()) {
+                    nameAndEmail.last()
+                } else {
+                    line
+                }
+
+            } else {
+                if (line.contains("Dr") && line.length > 3) {
+                    nameAndEmail = line.substring(3).trim().split(" ")
+                    doctorName = nameAndEmail.subList(0, nameAndEmail.size).joinToString(" ")
+                } else if (line.contains("Docteur") && line.length > 8) {
+                    nameAndEmail = line.substring(8).trim().split(" ")
+                    doctorName = nameAndEmail.subList(0, nameAndEmail.size).joinToString(" ")
+                }
+
+                if (index + 1 >= textPrescription.size) {
+                    break
+                } else if (textPrescription[index + 1].contains("@")) {
+                    email = textPrescription[index + 1]
+                }
             }
         }
         return Pair(doctorName, email)
@@ -143,14 +133,15 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
     override fun extractMedicineAndDosage(lignesOrdonnance: List<String>): MutableList<Pair<Medicine, String>> {
         val medAndPos = mutableListOf<Pair<Medicine, String>>()
 
-        for (line in lignesOrdonnance) {
+        for ((index, line) in lignesOrdonnance.withIndex()) {
             val medicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
             var posologie = ""
 
             for (pattern in patternsDosage) {
                 val dosage = pattern.find(line.lowercase())
 
-                // Ici on ne veut pas prendre en compte les lignes qui contiennent des mots de posologie
+                // Pour la recherche de médicaments
+                // On ne veut pas prendre en compte les lignes qui contiennent des mots de posologie
                 // exemple : 6 comprimés à sucer par jour
                 var lineContainsPosologyPattern = false
                 for (patternPosology in patterns) {
@@ -165,8 +156,10 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
             }
 
             for (patternPosology in patterns) {
-                if (line.lowercase().contains(patternPosology)) {
-                    posologie = line.lowercase()
+                if (index + 1 >= lignesOrdonnance.size) {
+                    break
+                } else if (lignesOrdonnance[index + 1].lowercase().contains(patternPosology)) {
+                    posologie = lignesOrdonnance[index + 1].lowercase()
                 }
             }
 
@@ -181,19 +174,17 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
     override fun extractDate(textPrescription: List<String>): LocalDate {
         val zoneId = TimeZone.getDefault().toZoneId()
 
+        val dateRegex = Regex("\\b\\d{1,2}[./-]\\d{1,2}[./-]\\d{4}\\b")
+
         for (line in textPrescription) {
-            var potentialDate = line.split(Regex("\\s+")).find { it.contains("/") }
-            if (potentialDate == null || potentialDate == "") {
-                potentialDate = line.split(Regex("\\s+")).find { it.contains("-") }
-            }
+            val potentialDate = dateRegex.find(line)?.value
 
             potentialDate?.let {
                 try {
-                    val inputFormatter = DateTimeFormatter.ofPattern("d/M/yyyy")
-                    val outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                    val inputFormatter = DateTimeFormatter.ofPattern("[d/M/yyyy][d-M-yyyy][d.M.yyyy]")
                     val date = LocalDate.parse(potentialDate, inputFormatter)
 
-                    return LocalDate.parse(date.format(outputFormatter), DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE)).atStartOfDay(zoneId).toLocalDate()
+                    return date.atStartOfDay(zoneId).toLocalDate()
                 } catch (e: Exception) {
                     return LocalDate.now()
                 }
@@ -201,7 +192,6 @@ class TextExtractionFromImageService : ITextExtractionFromImageService {
         }
         return LocalDate.now()
     }
-
 }
 
 @OptIn(ExperimentalCoroutinesApi::class)
