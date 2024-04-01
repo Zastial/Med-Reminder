@@ -38,51 +38,39 @@ fun SearchMedicinesAssociated(
 ) {
     val state = viewModel.state.value
 
-    BaseLayout(
-        TopBar = {
-            TopBar(
-                navController = navController,
-                title = "Médicaments",
-                canGoBack = true
-            )
-        },
-        BottomBar = {}
+    Column(
+        modifier = Modifier.padding(16.dp, 0.dp).fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        SearchTextField(value = state.search, onValueChange = { viewModel.changeSearch(it) })
 
-        Column(
-            modifier = Modifier.padding(16.dp, 0.dp).fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            SearchTextField(value = state.search, onValueChange = { viewModel.changeSearch(it) })
+        if (state.medicines.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
 
-            if (state.medicines.isNotEmpty()) {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-
-                ) {
-                    items(state.medicines) { medicine ->
-                        MedicineCard(medicine = medicine, onDelete = {}, onClick = {
-                            prescriptionViewModel.changeMedicineAddedId(medicine.cis)
-                            prescriptionViewModel.changeStep(8)
-                        })
-                    }
+            ) {
+                items(state.medicines) { medicine ->
+                    MedicineCard(medicine = medicine, onDelete = {}, onClick = {
+                        prescriptionViewModel.changeMedicineAddedId(medicine.cis)
+                        prescriptionViewModel.changeStep(8)
+                    })
                 }
-            } else if (state.search == "") {
-                NotFound("Rechercher un médicament")
-            } else if (!state.searching) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost),
-                        contentDescription = "sad smiley",
-                    )
-                    Text(text = "Aucun médicament trouvé")
-                }
+            }
+        } else if (state.search == "") {
+            NotFound("Rechercher un médicament")
+        } else if (!state.searching) {
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost),
+                    contentDescription = "sad smiley",
+                )
+                Text(text = "Aucun médicament trouvé")
             }
         }
     }

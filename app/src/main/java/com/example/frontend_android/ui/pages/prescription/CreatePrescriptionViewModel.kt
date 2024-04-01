@@ -32,6 +32,7 @@ import com.example.frontend_android.utils.retrieveMedicine
 import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
@@ -179,6 +180,13 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
+    fun changePosologyMedicineAdded(posology: String){
+        var medicineAdded = _state.value.medecineAndDosage[_state.value.medecineAndDosage.size-1]
+        var newMedicine = Pair(medicineAdded.first, posology)
+        deleteMedicineAssociated(medicineAdded)
+        addMedicineAssociated(newMedicine)
+        Log.d("test_pos", _state.value.medecineAndDosage.toString())
+    }
     fun deleteMedicineAssociated(medicine: Pair<Medicine, String>){
         _state.value.medecineAndDosage.remove(medicine)
     }
@@ -230,29 +238,36 @@ class CreatePrescriptionViewModel @Inject constructor(
         }
     }
 
-    fun retrieveOneMedicine(cis: Long): Medicine {
-        val requestCall = medicineDao.getMedicine(cis)
-        var DBmedicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
+    suspend fun retrieveOneMedicine(cis: Long):Medicine? {
+        return suspendCancellableCoroutine { continuation ->
+            val requestCall = medicineDao.getMedicine(cis)
+            var DBmedicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")
 
-        requestCall.enqueue(object : Callback<Medicine> {
-            override fun onResponse(
-                call: Call<Medicine>,
-                response: Response<Medicine>
-            ) {
-                if (response.isSuccessful) {
-                    val medicine = response.body()!!
-                    Log.d("test", state.value.medecineAndDosage.toString())
-                    DBmedicine = medicine
+            requestCall.enqueue(object : Callback<Medicine> {
+                override fun onResponse(
+                    call: Call<Medicine>,
+                    response: Response<Medicine>
+                ) {
+                    if (response.isSuccessful) {
+                        val medicine = response.body()!!
+                        DBmedicine = medicine
+
+                        if (DBmedicine.name.isNotEmpty()) {
+                            continuation.resume(DBmedicine) {
+                            }
+                        } else {
+                            continuation.resume(null) {
+                            }
+                        }
+                    }
+
                 }
 
-            }
-
-            override fun onFailure(call: Call<Medicine>, t: Throwable) {
-                Log.d("Error", "onError: ${t.message}")
-            }
-
-        })
-        return DBmedicine
+                override fun onFailure(call: Call<Medicine>, t: Throwable) {
+                    Log.d("Error", "onError: ${t.message}")
+                }
+            })
+        }
     }
 
     @Composable
@@ -278,7 +293,7 @@ class CreatePrescriptionViewModel @Inject constructor(
                     viewModelScope.launch {
                         var DBmedicine = retrieveOneMedicine(state.value.medicineAddedId)
                         withContext(viewModelScope.coroutineContext) {
-                            addMedicineAssociated(Pair(DBmedicine, ""))
+                            addMedicineAssociated(Pair(DBmedicine!!, ""))
                         }
                     }.invokeOnCompletion {
                         changeStep(9)

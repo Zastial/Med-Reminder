@@ -34,67 +34,55 @@ fun AddMedicinesAssociated(
 ) {
 
     val state = viewModel.state.value
-    var medicineAssociated = state.medecineAndDosage
+    var medicineAssociated = state.medecineAndDosage[state.medecineAndDosage.size-1]
     Log.d("test_cis2", medicineAssociated.toString())
 
     if (state.medecineAndDosage.size == null) {
         return;
     }
 
-/*    val lines = listOf(
+    val lines = listOf(
         "Administration: ",
-        state.medicine.administration.replaceFirstChar { it.uppercase() },
+        medicineAssociated.first.administration.replaceFirstChar { it.uppercase() },
         "Type de médicament: ",
-        state.medicine.form.replaceFirstChar { it.uppercase() },
+        medicineAssociated.first.form.replaceFirstChar { it.uppercase() },
         "Nom générique",
-        state.medicine.generName?.replaceFirstChar { it.uppercase() } ?: "Inconnu",
+        medicineAssociated.first.generName?.replaceFirstChar { it.uppercase() } ?: "Inconnu",
         "Dosage: ",
-        state.medicine.dose,
+        medicineAssociated.first.dose,
         "Substance active: ",
-        state.medicine.substanceName.replaceFirstChar { it.uppercase() }
-    )*/
+        medicineAssociated.first.substanceName.replaceFirstChar { it.uppercase() }
+    )
 
-    BaseLayout(
-        TopBar = {
-            TopBar(
-                navController = navController,
-                title = "Médicaments",
-                canGoBack = true
-            )
-        },
-        BottomBar = {}
-    ) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = medicineAssociated.first.name,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
 
-/*            Text(
-                text = state.medicine.name,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )*/
+        Spacer(modifier = Modifier.height(24.dp))
 
-/*            Spacer(modifier = Modifier.height(24.dp))
-
-            LazyVerticalGrid(
-                modifier = Modifier.padding(24.dp, 8.dp),
-                columns = GridCells.Fixed(2),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                items(lines.size) {
-                    val fontWeight =  if (it % 2 != 0) FontWeight.Bold else FontWeight.Normal
-                    Text(text = lines[it], fontWeight = fontWeight)
-                }
-            }*/
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = "",
-                onValueChange = { },
-                label = {
-                    Text(text = "Saisissez votre posologie")
-                }
-            )
+        LazyVerticalGrid(
+            modifier = Modifier.padding(24.dp, 8.dp),
+            columns = GridCells.Fixed(2),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(lines.size) {
+                val fontWeight =  if (it % 2 != 0) FontWeight.Bold else FontWeight.Normal
+                Text(text = lines[it], fontWeight = fontWeight)
+            }
         }
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = medicineAssociated.second ?: "",
+            onValueChange = { viewModel.changePosologyMedicineAdded(it) },
+            label = {
+                Text(text = "Saisissez votre posologie")
+            }
+        )
     }
 }
