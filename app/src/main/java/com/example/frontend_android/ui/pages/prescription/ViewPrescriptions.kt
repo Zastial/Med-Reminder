@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -66,25 +67,25 @@ fun ViewPrescriptions(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            if (state.alarms.isEmpty()) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight(0.10f)
-                        .fillMaxWidth(0.90f)
-                        .clip(shape = RoundedCornerShape(16.dp))
-                        .border(
-                            width = 1.dp,
-                            color = Color.Black,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .padding(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight(0.10f)
+                    .fillMaxWidth(0.90f)
+                    .clip(shape = RoundedCornerShape(16.dp))
+                    .border(
+                        width = 1.dp,
+                        color = Color.Black,
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .padding(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Row (
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row (
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                    if (state.alarms.isEmpty()) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost),
                             contentDescription = "ghost smiley",
@@ -97,35 +98,15 @@ fun ViewPrescriptions(
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis
                         )
-                    }
-                }
-            } else {
-                val now = LocalTime.now()
-                val closestAlarm = state.alarms.filter { it.isScheduled }.minByOrNull { alarm ->
-                    val alarmTime = LocalTime.of(alarm.hours, alarm.minutes)
-                    val diff = abs(now.toSecondOfDay() - alarmTime.toSecondOfDay())
-                    diff
-                }
-                val formattedTime = String.format("%02dh%02d", closestAlarm!!.hours, closestAlarm.minutes)
+                    } else {
+                        val now = LocalTime.now()
+                        val closestAlarm = state.alarms.filter { it.isScheduled }.minByOrNull { alarm ->
+                            val alarmTime = LocalTime.of(alarm.hours, alarm.minutes)
+                            val diff = abs(now.toSecondOfDay() - alarmTime.toSecondOfDay())
+                            diff
+                        }
+                        val formattedTime = String.format("%02dh%02d", closestAlarm!!.hours, closestAlarm.minutes)
 
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight(0.10f)
-                        .fillMaxWidth(0.90f)
-                        .clip(shape = RoundedCornerShape(16.dp))
-                        .border(
-                            width = 1.dp,
-                            color = Color.Black,
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .padding(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Row (
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost_smile),
                             contentDescription = "happy smiley",
@@ -160,8 +141,9 @@ fun ViewPrescriptions(
                     }
                 }
             }
+
             Button(
-                modifier = Modifier.fillMaxHeight(0.90f),
+                modifier = Modifier.height(45.dp),
                 onClick = { navController.navigate(Screen.createPrescription.route) }
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Plus")
