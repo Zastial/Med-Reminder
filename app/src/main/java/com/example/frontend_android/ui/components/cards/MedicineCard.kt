@@ -32,7 +32,7 @@ import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MedicineCard(medicine: Medicine, hasWarning: Boolean = false, hasDelete : Boolean = false, onDelete : () -> Unit, onClick : () -> Unit) {
+fun MedicineCard(medicine: Medicine, hasWarning: Boolean = false, hasDelete : Boolean = false, onDelete : () -> Unit, onClick : () -> Unit, posology: String = "") {
     var borderStroke : BorderStroke
     if (hasWarning){
         borderStroke = BorderStroke(2.dp, md_theme_common_primaryWarning)
@@ -76,8 +76,11 @@ fun MedicineCard(medicine: Medicine, hasWarning: Boolean = false, hasDelete : Bo
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-
-                Text(text =  "Administration ${medicine.administration}", style = MaterialTheme.typography.labelMedium)
+                if(posology != ""){
+                    Text(text = posology, style = MaterialTheme.typography.labelMedium)
+                }else{
+                    Text(text = "Administration ${medicine.administration}", style = MaterialTheme.typography.labelMedium)
+                }
 
             }
 

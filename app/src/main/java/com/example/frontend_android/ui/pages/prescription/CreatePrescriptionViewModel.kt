@@ -6,7 +6,11 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,6 +23,7 @@ import com.example.frontend_android.data.model.entities.InvalidPrescriptionExcep
 import com.example.frontend_android.data.model.entities.Medicine
 import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
+import com.example.frontend_android.data.model.entities.emptyMedicine
 import com.example.frontend_android.ui.pages.prescription.creation_pages.ImportPrescriptionImage
 import com.example.frontend_android.ui.pages.prescription.creation_pages.AdditionalInfos
 import com.example.frontend_android.ui.components.Loading
@@ -48,6 +53,9 @@ data class CreatePrescriptionState (
     val btnContinueEnabled : Boolean = true,
     val loading : Boolean = false,
     val medicineAddedId : Long = 0,
+    val medicineClicked : Medicine = emptyMedicine,
+    val posology : String = "",
+    val old_posology : String = "",
 
     val imageUri: Uri? = null,
     val date : LocalDate = LocalDate.now(),
@@ -56,7 +64,7 @@ data class CreatePrescriptionState (
     val description : String = "",
     val nomDocteur : String = "",
     val emailDocteur : String = "",
-    val medecineAndDosage : MutableList<Pair<Medicine, String>> = mutableListOf(),
+    val medecineAndDosage : SnapshotStateList<Pair<Medicine, String>> = mutableStateListOf(),
     var isBottomSheetOpen : Boolean = false
 )
 
@@ -144,7 +152,7 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
-    fun changeMedecineAndDosage(new_medecineAndDosage: MutableList<Pair<Medicine, String>>) {
+    fun changeMedecineAndDosage(new_medecineAndDosage: SnapshotStateList<Pair<Medicine, String>>) {
         _state.value = state.value.copy(
             medecineAndDosage = new_medecineAndDosage
         )
@@ -180,22 +188,35 @@ class CreatePrescriptionViewModel @Inject constructor(
         )
     }
 
-    fun changePosologyMedicineAdded(posology: String){
-        var medicineAdded = _state.value.medecineAndDosage[_state.value.medecineAndDosage.size-1]
-        var newMedicine = Pair(medicineAdded.first, posology)
-        deleteMedicineAssociated(medicineAdded)
-        addMedicineAssociated(newMedicine)
-        Log.d("test_pos", _state.value.medecineAndDosage.toString())
-    }
-    fun deleteMedicineAssociated(medicine: Pair<Medicine, String>){
-        _state.value.medecineAndDosage.remove(medicine)
+    fun changePosologyMedicine(posology: String){
+        _state.value = state.value.copy(
+            posology = posology
+        )
     }
 
-    fun addMedicineAssociated(medicine: Pair<Medicine, String>){
-        _state.value.medecineAndDosage.add(medicine)
-        Log.d("test", _state.value.medecineAndDosage.toString())
+    fun changeOldPosology(posology: String){
+        _state.value = state.value.copy(
+            old_posology = posology
+        )
     }
 
+    fun deleteMedicineAssociated(medicine_posology: Pair<Medicine, String>){
+        state.value.medecineAndDosage.remove(medicine_posology)
+        _state.value = state.value.copy()
+    }
+
+    fun addMedicineAssociated(medicine_posology: Pair<Medicine, String>){
+        state.value.medecineAndDosage.add(medicine_posology)
+        _state.value = state.value.copy(posology = "", medicineClicked = emptyMedicine)
+
+    }
+
+    fun changeMedicineClicked(medicine: Medicine){
+        _state.value = state.value.copy(
+            medicineClicked = medicine
+        )
+        Log.d("clicked", state.value.medicineClicked.toString())
+    }
 
     fun stepToProgress() : Float {
         // We ignore the loading page as a step
@@ -213,10 +234,9 @@ class CreatePrescriptionViewModel @Inject constructor(
 
             val result = textExtractionService.extractTextFromImage(image)
 
-            val medAndPos = mutableListOf<Pair<Medicine, String>>()
+            val medAndPos = mutableStateListOf<Pair<Medicine, String>>()
             for (med in result.medecineAndDosage) {
                 val medicine = retrieveMedicine(med.first.name)
-                Log.d("medecine2", medicine.toString())
                 if (medicine != null) {
                     medAndPos.add(Pair(medicine, med.second))
                 }
@@ -293,7 +313,7 @@ class CreatePrescriptionViewModel @Inject constructor(
                     viewModelScope.launch {
                         var DBmedicine = retrieveOneMedicine(state.value.medicineAddedId)
                         withContext(viewModelScope.coroutineContext) {
-                            addMedicineAssociated(Pair(DBmedicine!!, ""))
+                            changeMedicineClicked(DBmedicine!!)
                         }
                     }.invokeOnCompletion {
                         changeStep(9)

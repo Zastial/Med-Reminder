@@ -131,7 +131,13 @@ fun MedicinesAssociated(navController: NavController, viewModel: CreatePrescript
                         viewModel.deleteMedicineAssociated(medicine)
                         changeState++
                     },
-                    onClick = {navController.navigate("medicine_informations_screen/${medicine.first.cis}")})
+                    onClick = {
+                        viewModel.changeMedicineAddedId(medicine.first.cis)
+                        viewModel.changePosologyMedicine(medicine.second)
+                        viewModel.changeOldPosology(medicine.second)
+                        viewModel.changeStep(8)
+                              },
+                    posology = medicine.second)
                     Spacer(modifier = Modifier.height(height = 10.dp))
                 }
             }

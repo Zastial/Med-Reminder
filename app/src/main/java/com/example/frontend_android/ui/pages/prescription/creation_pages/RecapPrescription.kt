@@ -189,7 +189,7 @@ fun RecapPrescription(navController: NavController, viewModel: CreatePrescriptio
                 )
             } else {
                 for (medicine in it) {
-                    MedicineCard(medicine = medicine.first, ciMedicines.contains(medicine.first.name), onDelete = {}, onClick = {navController.navigate("medicine_informations_screen/${medicine.first.cis}")})
+                    MedicineCard(medicine = medicine.first, ciMedicines.contains(medicine.first.name), onDelete = {}, onClick = {navController.navigate("medicine_informations_screen/${medicine.first.cis}")}, posology = medicine.second)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
             }

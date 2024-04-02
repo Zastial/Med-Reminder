@@ -1,6 +1,7 @@
 package com.example.frontend_android.ui.pages.prescription
 
 import android.net.Uri
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -34,10 +35,29 @@ fun CreatePrescriptions(
             1 -> {}
             5 -> BottomBarValidation(
                 navController = navController,
-                onValidation = { viewModel.insertPrescription() },
-                onCancellation = { viewModel.previousPage() }
+                onValidation = {
+                    viewModel.insertPrescription()
+                    navController.navigateUp()
+                },
+                onCancellation = {
+                    viewModel.previousPage()
+                    navController.navigateUp()
+                }
             )
             6 -> {}
+            9 -> BottomBarValidation(
+                navController = navController,
+                onValidation = {
+                    viewModel.deleteMedicineAssociated(Pair(viewModel.state.value.medicineClicked, viewModel.state.value.old_posology))
+                    viewModel.addMedicineAssociated(Pair(viewModel.state.value.medicineClicked, viewModel.state.value.posology))
+                    viewModel.changeStep(4)
+                               },
+                onCancellation = {
+                    viewModel.changePosologyMedicine("")
+                    viewModel.changeOldPosology("")
+                    viewModel.changeStep(4)
+                }
+            )
             else -> BottomBarStepNavigation(
                 navController = navController,
                 onClick = { viewModel.nextPage() },
@@ -55,6 +75,11 @@ fun CreatePrescriptions(
                         0 -> navController.navigateUp()
                         2 -> viewModel.changeStep(0)
                         6 -> viewModel.changeStep(0)
+                        7 -> viewModel.changeStep(4)
+                        9 -> {
+                            viewModel.changePosologyMedicine("")
+                            viewModel.changeStep(4)
+                        }
                         else -> viewModel.previousPage()
                     }
                 }

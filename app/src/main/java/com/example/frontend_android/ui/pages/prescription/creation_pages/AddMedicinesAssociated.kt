@@ -34,30 +34,25 @@ fun AddMedicinesAssociated(
 ) {
 
     val state = viewModel.state.value
-    var medicineAssociated = state.medecineAndDosage[state.medecineAndDosage.size-1]
-    Log.d("test_cis2", medicineAssociated.toString())
-
-    if (state.medecineAndDosage.size == null) {
-        return;
-    }
+    var medicineAssociated = state.medicineClicked
 
     val lines = listOf(
         "Administration: ",
-        medicineAssociated.first.administration.replaceFirstChar { it.uppercase() },
+        medicineAssociated.administration.replaceFirstChar { it.uppercase() },
         "Type de médicament: ",
-        medicineAssociated.first.form.replaceFirstChar { it.uppercase() },
+        medicineAssociated.form.replaceFirstChar { it.uppercase() },
         "Nom générique",
-        medicineAssociated.first.generName?.replaceFirstChar { it.uppercase() } ?: "Inconnu",
+        medicineAssociated.generName?.replaceFirstChar { it.uppercase() } ?: "Inconnu",
         "Dosage: ",
-        medicineAssociated.first.dose,
+        medicineAssociated.dose,
         "Substance active: ",
-        medicineAssociated.first.substanceName.replaceFirstChar { it.uppercase() }
+        medicineAssociated.substanceName.replaceFirstChar { it.uppercase() }
     )
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
         Text(
-            text = medicineAssociated.first.name,
+            text = medicineAssociated.name,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             maxLines = 1,
@@ -78,8 +73,9 @@ fun AddMedicinesAssociated(
         }
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
-            value = medicineAssociated.second ?: "",
-            onValueChange = { viewModel.changePosologyMedicineAdded(it) },
+            value = state.posology ?: "",
+            onValueChange = {
+                viewModel.changePosologyMedicine(it) },
             label = {
                 Text(text = "Saisissez votre posologie")
             }
