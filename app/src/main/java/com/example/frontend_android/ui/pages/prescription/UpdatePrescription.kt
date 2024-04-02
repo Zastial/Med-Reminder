@@ -67,92 +67,104 @@ fun UpdatePrescription(
             )
         }
     ) {
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxSize()
-                .verticalScroll(scrollState),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-            Text(
-                text = "Mise à jour de l'ordonnance",
-                fontWeight = FontWeight.Bold,
-                fontSize = 25.sp,
-            )
-            Text(
-                text = "Ordonnance",
-                textAlign = TextAlign.Left,
-                fontSize = 15.sp,
-            )
-
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.title,
-                onValueChange = { viewModel.changeTitle(it) },
-                label = {
-                    Text(text = "Nom")
-                },
-            )
-
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.description,
-                onValueChange = { viewModel.changeDescription(it) },
-                label = {
-                    Text(text = "Description")
-                },
-            )
-
-            Text(
-                text = "Docteur",
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Left,
-                fontSize = 15.sp,
-            )
-
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.doctor_email,
-                onValueChange = { viewModel.changeDoctorEmail(it) },
-                label = {
-                    Text(text = "Email")
-                },
-            )
-
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.doctor_name,
-                onValueChange = { viewModel.changeDoctorName(it) },
-                label = {
-                    Text(text = "Nom")
-                },
-            )
-
-            Text(
-                text = "Liste des médicaments",
+        if (state.isLoading) {
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp, bottom = 5.dp),
-                textAlign = TextAlign.Left,
-                fontSize = 15.sp,
-            )
+                    .fillMaxSize()
+                    .background(Color.White)
+            ) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxSize()
+                    .verticalScroll(scrollState),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                Text(
+                    text = "Mise à jour de l'ordonnance",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 25.sp,
+                )
+                Text(
+                    text = "Ordonnance",
+                    textAlign = TextAlign.Left,
+                    fontSize = 15.sp,
+                )
 
-            state.medicines_posology.let {
-                if (it.isEmpty()) {
-                    Text(
-                        text = "Aucun médicament",
-                        modifier = Modifier.padding(16.dp, 0.dp),
-                        fontSize = 15.sp,
-                    )
-                } else {
-                    for (medicine_posology in it) {
-                        MedicineCard(
-                            navController = navController,
-                            medicine = medicine_posology.first,
-                            hasWarning = ciMedicines.contains(medicine_posology.first.name)
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.title,
+                    onValueChange = { viewModel.changeTitle(it) },
+                    label = {
+                        Text(text = "Nom")
+                    },
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.description,
+                    onValueChange = { viewModel.changeDescription(it) },
+                    label = {
+                        Text(text = "Description")
+                    },
+                )
+
+                Text(
+                    text = "Docteur",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Left,
+                    fontSize = 15.sp,
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.doctor_email,
+                    onValueChange = { viewModel.changeDoctorEmail(it) },
+                    label = {
+                        Text(text = "Email")
+                    },
+                )
+
+                OutlinedTextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.doctor_name,
+                    onValueChange = { viewModel.changeDoctorName(it) },
+                    label = {
+                        Text(text = "Nom")
+                    },
+                )
+
+                Text(
+                    text = "Liste des médicaments",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp, bottom = 5.dp),
+                    textAlign = TextAlign.Left,
+                    fontSize = 15.sp,
+                )
+
+                state.medicines_posology.let {
+                    if (it.isEmpty()) {
+                        Text(
+                            text = "Aucun médicament",
+                            modifier = Modifier.padding(16.dp, 0.dp),
+                            fontSize = 15.sp,
                         )
-                        Spacer(modifier = Modifier.height(10.dp))
+                    } else {
+                        for (medicine_posology in it) {
+                            MedicineCard(
+                                navController = navController,
+                                medicine = medicine_posology.first,
+                                hasWarning = ciMedicines.contains(medicine_posology.first.name)
+                            )
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
                     }
                 }
             }
