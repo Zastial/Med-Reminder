@@ -26,7 +26,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.frontend_android.ui.components.forms.BtnContinue
 import com.example.frontend_android.ui.components.forms.TimeInput
+import com.example.frontend_android.ui.components.layout.BottomBarSaveOrDelete
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -123,17 +122,13 @@ fun AddEditNotificationScreen(
                 title = "Ajouter une alarme"
             )},
         bottomBar = {
-            BtnContinue(
-                actionText = "Sauvegarder",
-                modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 20.dp),
-                enabled = saveButtonIsEnabled,
-                onClick = {
-                    saveButtonIsEnabled = false
-                    viewModel.onEvent(
-                        AddEditNotificationEvent.SaveNotification
-                    )
-                }
-            )},
+            BottomBarSaveOrDelete(
+                navController = navController,
+                onValidation = {  },
+                onDelete = { viewModel.onEvent(AddEditNotificationEvent.DeleteNotification)}
+                )
+
+        },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState)  }
     ) { it ->
 

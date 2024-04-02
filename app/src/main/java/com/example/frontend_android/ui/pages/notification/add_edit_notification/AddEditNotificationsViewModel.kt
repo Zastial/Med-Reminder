@@ -13,7 +13,6 @@ import com.example.frontend_android.data.model.entities.AlarmRecord
 import com.example.frontend_android.data.model.entities.InvalidAlarmException
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -22,7 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditNotificationsViewModel @Inject constructor(
     private val alarmDao: AlarmDao,
-    private val scheduler: IScheduleAlarmManager,
+    private val alarmScheduler: IScheduleAlarmManager,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -53,24 +52,18 @@ class AddEditNotificationsViewModel @Inject constructor(
 
         when(event){
             is AddEditNotificationEvent.EnteredHour -> {
-                Log.d("ALARM", "entered hour: $event")
                 _state.value = state.value.copy(
                     hours = event.value
                 )
             }
             is AddEditNotificationEvent.EnteredMinute -> {
-                Log.d("ALARM", "entered minutes: $event")
                 _state.value = state.value.copy(
                     minutes = event.value
                 )
             }
             is AddEditNotificationEvent.SaveNotification -> {
-                Log.d("ALARM", "VM save notification: $event")
                 viewModelScope.launch {
-                    Log.e("ALARM", "try insert")
                     try {
-                        //insert
-                        Log.e("ALARM insert sched days", _state.value.scheduledDays.toString())
                         val alarmToInsert = AlarmRecord(
                             id = if (_state.value.alarmId == -1L) null else _state.value.alarmId,
                             title = "",
@@ -78,8 +71,8 @@ class AddEditNotificationsViewModel @Inject constructor(
                             medicineName = "",
                             hours = _state.value.hours,
                             minutes = _state.value.minutes,
-                            isScheduled = true,
-                            isRecurring = false,
+                            isScheduled = _state.value.isScheduled,
+                            isRecurring = _state.value.isRecuring,
                             prescription_id = if (_state.value.alarmId == -1L) null else _state.value.prescriptionId,
                             daysSelectedJson = Gson().toJson(_state.value.scheduledDays.toList())
                         )
@@ -87,14 +80,13 @@ class AddEditNotificationsViewModel @Inject constructor(
                         val alarmToSchedule = alarmDao.getAlarmById(alarmId)
                             ?: throw InvalidAlarmException("L'alarme a planifiée est nulle")
 
-                        scheduler.schedule(alarmToSchedule)
+                        alarmScheduler.schedule(alarmToSchedule)
 
                         _eventFlow.emit(
                             UiEvent.ShowSnackBar(
                                 message = "Alarme sauvegardée"
                             )
                         )
-                        delay(1000)
                         _eventFlow.emit(
                             UiEvent.SaveNotification
                         )
@@ -109,6 +101,29 @@ class AddEditNotificationsViewModel @Inject constructor(
 
                 }
             }
+            is AddEditNotificationEvent.DeleteNotification -> {
+                viewModelScope.launch {
+                    try {
+                        val alarmToDelete = _state.value.alarmId?.let { alarmDao.getAlarmById(it) }
+                        if (alarmToDelete != null) {
+                            alarmScheduler.cancel(alarmToDelete)
+                            alarmDao.deleteAlarm(alarmToDelete)
+                        }
+                        _eventFlow.emit(
+                            UiEvent.ShowSnackBar(
+                                message = "TODO"
+                            )
+                        )
+                    } catch (e : InvalidAlarmException) {
+                        _eventFlow.emit(
+                            UiEvent.ShowSnackBar(
+                                message = e.message ?: "Impossible de supprimer l'alarme"
+                            )
+                        )
+                    }
+                }
+            }
+
             is AddEditNotificationEvent.SelectDayToSchedule -> {
                 Log.d("ALARM", "day clicked: $event")
                 val copyValue = state.value.copy()

@@ -5,4 +5,5 @@ sealed class AddEditNotificationEvent {
 
     data class SelectDayToSchedule(val day : DaysOfWeek): AddEditNotificationEvent()
     object SaveNotification: AddEditNotificationEvent()
+    object DeleteNotification: AddEditNotificationEvent()
 }

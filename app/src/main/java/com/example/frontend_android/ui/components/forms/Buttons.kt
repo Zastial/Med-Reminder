@@ -20,10 +20,14 @@ fun BtnContinue(enabled : Boolean = true, modifier : Modifier, actionText: Strin
     }
 }
 
+
 @Preview(showBackground = true )
 @Composable
 fun ButtonPreview() {
     MedreminderTheme {
         BtnContinue(actionText = "Continuer", modifier = Modifier, onClick = { })
+
     }
 }
+
+

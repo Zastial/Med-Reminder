@@ -9,7 +9,8 @@ data class AddEditNotificationState constructor(
     val alarmId : Long? = -1L,
     val hours: Int = 0,
     val minutes: Int = 0,
-    val isScheduled: Boolean = false,
+    val isScheduled: Boolean = true,
+    val isRecuring: Boolean = true,
     val scheduledDays : SnapshotStateList<DaysOfWeek> = mutableStateListOf(),
     val prescriptionId : Long? = -1L
 )
