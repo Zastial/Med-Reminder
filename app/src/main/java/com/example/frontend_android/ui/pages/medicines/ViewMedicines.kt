@@ -60,7 +60,7 @@ fun ViewMedicines(
             if (state.medicines.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
 
                 ) {
                     items(state.medicines) {
