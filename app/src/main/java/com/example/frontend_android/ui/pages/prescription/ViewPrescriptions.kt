@@ -74,7 +74,7 @@ fun ViewPrescriptions(
                     .clip(shape = RoundedCornerShape(16.dp))
                     .border(
                         width = 1.dp,
-                        color = Color.Black,
+                        color = Color.LightGray,
                         shape = RoundedCornerShape(16.dp)
                     )
                     .padding(10.dp),
@@ -87,8 +87,9 @@ fun ViewPrescriptions(
                 ) {
                     if (state.alarms.isEmpty()) {
                         Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost),
-                            contentDescription = "ghost smiley",
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_bell_slash),
+                            contentDescription = "bell slash",
+                            tint = Color.Gray
                         )
 
                         Spacer(modifier = Modifier.size(16.dp))
@@ -96,28 +97,23 @@ fun ViewPrescriptions(
                         Text(
                             text = "Pas d'alarme configurée.",
                             maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
+                            color = Color.Gray
                         )
                     } else {
-                        val now = LocalTime.now()
-                        val closestAlarm = state.alarms.filter { it.isScheduled }.minByOrNull { alarm ->
-                            val alarmTime = LocalTime.of(alarm.hours, alarm.minutes)
-                            val diff = abs(now.toSecondOfDay() - alarmTime.toSecondOfDay())
-                            diff
-                        }
-                        val formattedTime = String.format("%02dh%02d", closestAlarm!!.hours, closestAlarm.minutes)
-
                         Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_ghost_smile),
-                            contentDescription = "happy smiley",
+                            imageVector = ImageVector.vectorResource(id = R.drawable.ic_bell),
+                            contentDescription = "bell",
+                            tint = Color.Gray
                         )
 
                         Spacer(modifier = Modifier.size(16.dp))
 
                         Text(
-                            text = "Prochaine alarme à : $formattedTime",
+                            text = "Prochaine alarme à : ${state.closestAlarm}",
                             maxLines = 2,
-                            overflow = TextOverflow.Ellipsis
+                            overflow = TextOverflow.Ellipsis,
+                            color = Color.Gray
                         )
                     }
                 }
