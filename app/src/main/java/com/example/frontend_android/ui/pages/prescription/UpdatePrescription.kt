@@ -159,9 +159,10 @@ fun UpdatePrescription(
                     } else {
                         for (medicine_posology in it) {
                             MedicineCard(
-                                navController = navController,
                                 medicine = medicine_posology.first,
-                                hasWarning = ciMedicines.contains(medicine_posology.first.name)
+                                hasWarning = ciMedicines.contains(medicine_posology.first.name),
+                                onClick = {},
+                                onDelete = {},
                             )
                             Spacer(modifier = Modifier.height(10.dp))
                         }
@@ -170,5 +171,4 @@ fun UpdatePrescription(
             }
         }
     }
-
 }
