@@ -64,7 +64,7 @@ fun ViewMedicines(
 
                 ) {
                     items(state.medicines) {
-                            medicine -> MedicineCard(navController = navController, medicine = medicine, detectAllergy(context, medicine))
+                            medicine -> MedicineCard(medicine = medicine, detectAllergy(context, medicine), onDelete = {}, onClick = {})
                     }
                 }
             } else if (state.search == "") {

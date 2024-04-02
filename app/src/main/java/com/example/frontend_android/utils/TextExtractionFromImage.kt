@@ -218,7 +218,6 @@ suspend fun retrieveMedicine(name : String): Medicine? {
             ) {
                 if (response.isSuccessful) {
                     val medicineList = response.body()!!
-                    Log.d("Med", medicineList.toString())
 
                     if (medicineList.isNotEmpty()) {
                         DBmedicine = medicineList[0]

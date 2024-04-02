@@ -41,7 +41,7 @@ import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionView
 import com.example.frontend_android.utils.detectAllergies
 
 @Composable
-fun RecapPresciption(navController: NavController, viewModel: CreatePrescriptionViewModel) {
+fun RecapPrescription(navController: NavController, viewModel: CreatePrescriptionViewModel) {
     val state = viewModel.state.value
     val scrollState = rememberScrollState()
 
@@ -189,7 +189,7 @@ fun RecapPresciption(navController: NavController, viewModel: CreatePrescription
                 )
             } else {
                 for (medicine in it) {
-                    MedicineCard(navController = navController, medicine = medicine.first, ciMedicines.contains(medicine.first.name))
+                    MedicineCard(medicine = medicine.first, ciMedicines.contains(medicine.first.name), onDelete = {}, onClick = {navController.navigate("medicine_informations_screen/${medicine.first.cis}")}, posology = medicine.second)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
             }
