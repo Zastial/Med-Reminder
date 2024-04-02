@@ -43,6 +43,7 @@ fun CreatePrescriptions(
                 onCancellation = { viewModel.previousPage() }
             )
             6 -> {}
+            7 -> {}
             9 -> BottomBarValidation(
                 navController = navController,
                 onValidation = {
