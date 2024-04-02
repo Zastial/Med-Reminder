@@ -3,6 +3,7 @@ package com.example.frontend_android.ui.pages.notification.add_edit_notification
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,7 @@ import com.example.frontend_android.alarm.manager.IScheduleAlarmManager
 import com.example.frontend_android.data.model.dao.AlarmDao
 import com.example.frontend_android.data.model.entities.AlarmRecord
 import com.example.frontend_android.data.model.entities.InvalidAlarmException
+import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -38,6 +40,7 @@ class AddEditNotificationsViewModel @Inject constructor(
     init {
         savedStateHandle.get<Long>("alarmId")?.let { alarmId ->
             if (alarmId != -1L) {
+                Log.d("ALARM", "INIT ViewModel")
                 viewModelScope.launch {
                     getCurrentAlarm(alarmId)
                 }
@@ -57,7 +60,6 @@ class AddEditNotificationsViewModel @Inject constructor(
             }
             is AddEditNotificationEvent.EnteredMinute -> {
                 Log.d("ALARM", "entered minutes: $event")
-
                 _state.value = state.value.copy(
                     minutes = event.value
                 )
@@ -65,6 +67,7 @@ class AddEditNotificationsViewModel @Inject constructor(
             is AddEditNotificationEvent.SaveNotification -> {
                 Log.d("ALARM", "VM save notification: $event")
                 viewModelScope.launch {
+                    Log.e("ALARM", "try insert")
                     try {
                         //insert
                         Log.e("ALARM insert sched days", _state.value.scheduledDays.toString())
@@ -78,7 +81,7 @@ class AddEditNotificationsViewModel @Inject constructor(
                             isScheduled = true,
                             isRecurring = false,
                             prescription_id = if (_state.value.alarmId == -1L) null else _state.value.prescriptionId,
-                            daysSelectedJson = _state.value.scheduledDays.toString()
+                            daysSelectedJson = Gson().toJson(_state.value.scheduledDays.toList())
                         )
                         val alarmId = alarmDao.insertAlarm(alarmToInsert)
                         val alarmToSchedule = alarmDao.getAlarmById(alarmId)
@@ -124,15 +127,16 @@ class AddEditNotificationsViewModel @Inject constructor(
 
     }
 
-    suspend fun getCurrentAlarm(alarmId: Long) {
+    private suspend fun getCurrentAlarm(alarmId: Long) {
 
             alarmDao.getAlarmById(alarmId)?.also {
+
                 _state.value = _state.value.copy(
                     alarmId = it.id ?: alarmId,
                     hours = it.hours,
                     minutes = it.minutes,
                     isScheduled = it.isScheduled,
-                    scheduledDays = it.daysSelected
+                    scheduledDays = it.daysSelected.toMutableStateList()
                 )
             }
             Log.e("ALARM VM recieve", _state.value.toString())

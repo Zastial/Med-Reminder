@@ -1,5 +1,6 @@
 package com.example.frontend_android.ui.pages.notification.notifications
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -21,6 +22,7 @@ class NotificationsViewModel @Inject constructor(
 
 
     init {
+        Log.e("ALARM", "INIT LOADING ALL ALARMS")
         getAlarms()
     }
 
@@ -42,6 +44,6 @@ class NotificationsViewModel @Inject constructor(
             )
         }.launchIn(viewModelScope)
 
-
+        Log.e("ALARM", "Alarm loaded : ${_state.value}")
     }
 }

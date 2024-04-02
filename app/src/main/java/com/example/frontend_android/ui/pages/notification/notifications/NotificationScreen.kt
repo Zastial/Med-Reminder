@@ -3,6 +3,7 @@ package com.example.frontend_android.ui.pages.notification.notifications
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
@@ -42,7 +43,7 @@ fun NotificationsScreen(
         }
     ) {
         Column(
-            modifier = Modifier,
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -66,14 +67,13 @@ fun NotificationsScreen(
                 }
             }
             Spacer(modifier = Modifier.size(12.dp))
+
             Button(
                 onClick = { navController.navigate(Screen.AddEditAlarm.route) }
             ) {
                 Text(text = "Ajouter une notification")
             }
-
         }
-
     }
 }
 

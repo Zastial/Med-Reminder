@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -18,21 +19,6 @@ import com.example.frontend_android.ui.pages.notification.add_edit_notification.
 import com.example.frontend_android.ui.pages.notification.add_edit_notification.display
 
 
-@Composable
-fun Week(modifier : Modifier, dayScheduled : MutableList<DaysOfWeek>, onSelectDay : (DaysOfWeek) -> Unit) {
-
-
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Log.e("DAY items", dayScheduled.toString())
-        for (day in DaysOfWeek.values()) {
-            DayCard(day = day, onClick = { onSelectDay(it) }, isActive = dayScheduled.contains(day))
-        }
-    }
-
-}
 
 
 @Composable

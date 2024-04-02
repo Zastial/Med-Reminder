@@ -1,6 +1,8 @@
 package com.example.frontend_android.ui.pages.notification.add_edit_notification
 
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 
 @OptIn(ExperimentalMaterial3Api::class)
 data class AddEditNotificationState constructor(
@@ -8,6 +10,6 @@ data class AddEditNotificationState constructor(
     val hours: Int = 0,
     val minutes: Int = 0,
     val isScheduled: Boolean = false,
-    val scheduledDays : MutableList<DaysOfWeek> = mutableListOf(),
+    val scheduledDays : SnapshotStateList<DaysOfWeek> = mutableStateListOf(),
     val prescriptionId : Long? = -1L
 )
