@@ -59,7 +59,7 @@ fun AllergiesInformations(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Text(
-                text = "Informations allergies",
+                text = "Informations allergies médicamenteuses",
                 fontSize = 32.sp,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onBackground,
