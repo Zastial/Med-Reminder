@@ -12,11 +12,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import java.time.LocalTime
 import javax.inject.Inject
+import kotlin.math.abs
 
 data class PrescriptionsState (
     val prescriptionsWithRelations: List<PrescriptionWithRelations> = emptyList(),
-    val alarms : List<AlarmRecord> = emptyList()
+    val alarms : List<AlarmRecord> = emptyList(),
+    val closestAlarm: String = "",
 )
 
 @HiltViewModel
@@ -55,7 +58,25 @@ class PrescriptionsViewModel  @Inject constructor (
                 _state.value = state.value.copy(
                     alarms = alarms
                 )
+
+                getClosestAlarm(alarms)
             }
             .launchIn(viewModelScope)
+    }
+
+    private fun getClosestAlarm(alarms : List<AlarmRecord>) {
+        if (alarms.isEmpty()) {
+            return
+        }
+
+        val closestAlarm = alarms.filter { it.isScheduled }.minByOrNull { alarm ->
+            val alarmTime = LocalTime.of(alarm.hours, alarm.minutes)
+            val diff = abs(LocalTime.now().toSecondOfDay() - alarmTime.toSecondOfDay())
+            diff
+        } ?: return
+
+        _state.value = state.value.copy(
+            closestAlarm = String.format("%02dh%02d", closestAlarm!!.hours, closestAlarm.minutes)
+        )
     }
 }
