@@ -9,24 +9,32 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontend_android.alarm.manager.IScheduleAlarmManager
 import com.example.frontend_android.data.model.dao.AlarmDao
+import com.example.frontend_android.data.model.dao.PrescriptionDao
 import com.example.frontend_android.data.model.entities.AlarmRecord
 import com.example.frontend_android.data.model.entities.InvalidAlarmException
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditNotificationsViewModel @Inject constructor(
     private val alarmDao: AlarmDao,
+    private val prescriptionDao: PrescriptionDao,
     private val alarmScheduler: IScheduleAlarmManager,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val _state = mutableStateOf(AddEditNotificationState())
     val state: State<AddEditNotificationState> = _state
+
+    private var getPrescriptionJob: Job? = null
+
 
     // permet de gérer les evenements
     // ex : quand on sauvegarde une alarme
@@ -42,6 +50,7 @@ class AddEditNotificationsViewModel @Inject constructor(
                 Log.d("ALARM", "INIT ViewModel")
                 viewModelScope.launch {
                     getCurrentAlarm(alarmId)
+                    getAllPrescriptions()
                 }
             }
         }
@@ -76,6 +85,7 @@ class AddEditNotificationsViewModel @Inject constructor(
                             prescription_id = if (_state.value.alarmId == -1L) null else _state.value.prescriptionId,
                             daysSelectedJson = Gson().toJson(_state.value.scheduledDays.toList())
                         )
+                        Log.e("ALARM", "ALARM to INSERT, prescriptionID : ${alarmToInsert.prescription_id} ")
                         val alarmId = alarmDao.insertAlarm(alarmToInsert)
                         val alarmToSchedule = alarmDao.getAlarmById(alarmId)
                             ?: throw InvalidAlarmException("L'alarme a planifiée est nulle")
@@ -87,9 +97,7 @@ class AddEditNotificationsViewModel @Inject constructor(
                                 message = "Alarme sauvegardée"
                             )
                         )
-                        _eventFlow.emit(
-                            UiEvent.SaveNotification
-                        )
+
                     } catch (e : InvalidAlarmException) {
 
                         _eventFlow.emit(
@@ -136,6 +144,11 @@ class AddEditNotificationsViewModel @Inject constructor(
                 Log.d("ALARM", "private days states: ${_state.value.scheduledDays} with time : ${_state.value.hours} : ${_state.value.minutes}")
                 Log.d("ALARM", "public days states: ${state.value.scheduledDays} with time : ${state.value.hours} : ${state.value.minutes}")
             }
+            is AddEditNotificationEvent.SelectPrescriptionToLink -> {
+                _state.value = state.value.copy(
+                    prescriptionId = event.prescriptionId
+                )
+            }
         }
 
 
@@ -146,7 +159,7 @@ class AddEditNotificationsViewModel @Inject constructor(
 
             alarmDao.getAlarmById(alarmId)?.also {
 
-                _state.value = _state.value.copy(
+                _state.value = state.value.copy(
                     alarmId = it.id ?: alarmId,
                     hours = it.hours,
                     minutes = it.minutes,
@@ -156,10 +169,18 @@ class AddEditNotificationsViewModel @Inject constructor(
             }
             Log.e("ALARM VM recieve", _state.value.toString())
     }
+    private fun getAllPrescriptions() {
 
+        getPrescriptionJob?.cancel()
+        getPrescriptionJob = prescriptionDao.getPrescriptions().onEach { prescriptions ->
+            _state.value = state.value.copy(
+                prescriptionsList = prescriptions
+            )
+        }.launchIn(viewModelScope)
+
+    }
 
     sealed class UiEvent {
         data class ShowSnackBar(val message: String): UiEvent()
-        object SaveNotification: UiEvent()
     }
 }

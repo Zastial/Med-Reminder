@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
@@ -69,11 +70,11 @@ fun BottomBarSaveOrDelete(
             ) {
 
                 Icon(
-                    imageVector = Icons.Default.Close,
+                    imageVector = Icons.Default.Add,
                     contentDescription = "Delete",
                 )
                 Spacer(modifier = Modifier.size(5.dp))
-                Text("Supprimer")
+                Text("Sauvegarder")
             }
         }
     }

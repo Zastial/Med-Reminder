@@ -15,11 +15,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -81,6 +86,10 @@ fun AddEditNotificationScreen(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    var expanded by remember { mutableStateOf(false) }
+    Log.e("ALARM", "stae prescription id : ${state.prescriptionId}")
+    var selectedText by remember { mutableStateOf(state.prescriptionsList.find { it.id == state.prescriptionId }?.title ?: "") }
+
     var saveButtonIsEnabled by remember { mutableStateOf(true) }
 
     LaunchedEffect(saveButtonIsEnabled) {
@@ -92,19 +101,13 @@ fun AddEditNotificationScreen(
     //observeur permettant de récupéré les evenement du viewModel
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collect { event ->
-            when(event) {
+            when (event) {
                 is AddEditNotificationsViewModel.UiEvent.ShowSnackBar -> {
                     scope.launch {
                         snackbarHostState.showSnackbar(
                             message = event.message
                         )
                     }
-                }
-                is AddEditNotificationsViewModel.UiEvent.SaveNotification -> {
-                    scope.launch {
-                        navController.navigateUp()
-                    }
-
                 }
 
             }
@@ -117,24 +120,25 @@ fun AddEditNotificationScreen(
         modifier = Modifier.fillMaxHeight(),
         topBar = {
             TopBar(
-                navController= navController,
+                navController = navController,
                 canGoBack = true,
                 title = "Ajouter une alarme"
-            )},
+            )
+        },
         bottomBar = {
             BottomBarSaveOrDelete(
                 navController = navController,
-                onValidation = {  },
-                onDelete = { viewModel.onEvent(AddEditNotificationEvent.DeleteNotification)}
-                )
+                onValidation = { viewModel.onEvent(AddEditNotificationEvent.SaveNotification) },
+                onDelete = { viewModel.onEvent(AddEditNotificationEvent.DeleteNotification) }
+            )
 
         },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState)  }
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { it ->
 
         Surface(
             modifier = Modifier
-            .padding(it)
+                .padding(it)
         ) {
 
             Column(
@@ -154,17 +158,17 @@ fun AddEditNotificationScreen(
 
                 //en attente de mieux
                 Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                  DayCard(
-                      day = DaysOfWeek.LUNDI,
-                      onClick = {
-                          viewModel.onEvent(
-                              AddEditNotificationEvent.SelectDayToSchedule(
-                                  DaysOfWeek.LUNDI
-                              )
-                          )
-                      },
-                      isActive = state.scheduledDays.contains(DaysOfWeek.LUNDI)
-                  )
+                    DayCard(
+                        day = DaysOfWeek.LUNDI,
+                        onClick = {
+                            viewModel.onEvent(
+                                AddEditNotificationEvent.SelectDayToSchedule(
+                                    DaysOfWeek.LUNDI
+                                )
+                            )
+                        },
+                        isActive = state.scheduledDays.contains(DaysOfWeek.LUNDI)
+                    )
                     DayCard(
                         day = DaysOfWeek.MARDI,
                         onClick = {
@@ -233,14 +237,54 @@ fun AddEditNotificationScreen(
                     )
                 }
 
+                Spacer(modifier = Modifier.size(20.dp))
+
+                Text("Sélectionner l'ordonnance associée :")
+
+                Spacer(modifier = Modifier.size(10.dp))
+                Log.e("ALARM", "STATE 1 PRESCRIPTION LIST : ${state.prescriptionsList}")
+
+
+
+                ExposedDropdownMenuBox(
+                    expanded = expanded,
+                    onExpandedChange = {
+                        expanded = !expanded
+                    }
+                ) {
+                    OutlinedTextField(
+                        value = selectedText,
+                        onValueChange = {},
+                        readOnly = true,
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+                        modifier = Modifier.menuAnchor()
+                    )
+
+                    ExposedDropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        for (prescription in state.prescriptionsList) {
+                            DropdownMenuItem(
+                                text = { Text(text = prescription.title) },
+                                onClick = {
+                                    viewModel.onEvent(
+                                        AddEditNotificationEvent.SelectPrescriptionToLink(
+                                            prescription.id ?: -1L
+                                        )
+                                    )
+                                    selectedText = prescription.title
+                                    expanded = false
+                                    Toast.makeText(context, prescription.title, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            )
+                        }
+                    }
+                }
             }
-
-
         }
-
-
     }
-
 }
 
 fun ToastActivateNotification(context: Context) {

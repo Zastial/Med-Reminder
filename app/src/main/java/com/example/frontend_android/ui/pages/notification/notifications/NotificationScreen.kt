@@ -27,7 +27,7 @@ import com.example.frontend_android.ui.theme.MedreminderTheme
 fun NotificationsScreen(
     navController: NavController,
     state: NotificationState,
-    changeAlarmState: (state : Boolean) -> Unit
+    changeAlarmState: (alarmId : Long) -> Unit
 ) {
     val context = LocalContext.current
     BaseLayout(
@@ -60,7 +60,7 @@ fun NotificationsScreen(
                             minutes = alarm.minutes,
                             isActive = alarm.isScheduled,
                             dayOfWeek = alarm.daysSelected,
-                            changeAlarmState = { changeAlarmState(it) },
+                            changeAlarmState = { alarm.id?.let { it1 -> changeAlarmState(it1) } },
                             onClick = { navController.navigate(
                                 Screen.AddEditAlarm.route + "?alarmId=${alarm.id}")
                             }
