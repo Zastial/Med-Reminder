@@ -1,7 +1,6 @@
 package com.example.frontend_android.ui.pages.prescription
 
 import android.net.Uri
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -25,6 +24,11 @@ fun CreatePrescriptions(
         }
     }
 
+    fun validatePrescription() {
+        viewModel.changeBottomSheetBool(true)
+        viewModel.insertPrescription()
+    }
+
     @Composable
     fun BottomBar(step : Int) {
         when (step) {
@@ -35,14 +39,8 @@ fun CreatePrescriptions(
             1 -> {}
             5 -> BottomBarValidation(
                 navController = navController,
-                onValidation = {
-                    viewModel.insertPrescription()
-                    navController.navigateUp()
-                },
-                onCancellation = {
-                    viewModel.previousPage()
-                    navController.navigateUp()
-                }
+                onValidation = { validatePrescription() },
+                onCancellation = { viewModel.previousPage() }
             )
             6 -> {}
             9 -> BottomBarValidation(
