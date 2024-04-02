@@ -15,8 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
-import androidx.compose.material3.TimeInput
-import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -33,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.frontend_android.ui.components.forms.BtnContinue
+import com.example.frontend_android.ui.components.forms.TimeInput
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
 import kotlinx.coroutines.delay
@@ -49,13 +48,6 @@ fun AddEditNotificationScreen(
     Log.e("ALARM screen state recieve", state.toString())
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    val timePickerState by rememberUpdatedState(
-        TimePickerState(
-            initialHour =  state.hours,
-            initialMinute = state.minutes,
-            is24Hour = true
-        )
-    )
 
     var enabled by remember { mutableStateOf(true) }
 
@@ -105,7 +97,7 @@ fun AddEditNotificationScreen(
                 onClick = {
                     enabled = false
                     viewModel.onEvent(
-                        AddEditNotificationEvent.SaveNotification(timePickerState.hour, timePickerState.minute)
+                        AddEditNotificationEvent.SaveNotification
                     )
                 }
             )},
@@ -124,8 +116,12 @@ fun AddEditNotificationScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 //Content of screen
-                TimeInput(state = timePickerState)
-
+                TimeInput(
+                    hours = state.hours,
+                    minutes = state.minutes,
+                    setHours = { viewModel.onEvent(AddEditNotificationEvent.EnteredHour(it)) },
+                    setMinutes = { viewModel.onEvent(AddEditNotificationEvent.EnteredMinute(it)) }
+                )
                 Spacer(Modifier.size(15.dp))
 
                 //en attente de mieux
