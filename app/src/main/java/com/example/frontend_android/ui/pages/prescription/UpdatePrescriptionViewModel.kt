@@ -37,6 +37,8 @@ data class UpdatePrescriptionState (
     val doctor_name : String = "",
     val doctor_email : String = "",
     val medicines_posology : MutableList<Pair<Medicine, String>> = mutableListOf(),
+
+    var isBottomSheetOpen : Boolean = false
 )
 
 @HiltViewModel
@@ -57,7 +59,7 @@ class UpdatePrescriptionViewModel @Inject constructor(
         retrievePrescription()
     }
 
-    fun udpatePrescription() {
+    fun updatePrescription() {
         viewModelScope.launch {
             try {
                 prescriptionDao.insertPrescription(
@@ -161,4 +163,9 @@ class UpdatePrescriptionViewModel @Inject constructor(
         )
     }
 
+    fun changeBottomSheetState(isOpen: Boolean) {
+        _state.value = state.value.copy(
+            isBottomSheetOpen = isOpen
+        )
+    }
 }

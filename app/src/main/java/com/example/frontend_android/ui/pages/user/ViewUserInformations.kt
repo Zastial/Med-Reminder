@@ -1,21 +1,31 @@
 package com.example.frontend_android.ui.pages.user
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.frontend_android.ui.components.bottomSheets.BottomSheetOperationValidation
 import com.example.frontend_android.ui.components.forms.DropDownItem
 import com.example.frontend_android.ui.components.forms.MultiSelectDropdown
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.components.layout.TopBar
+import com.example.frontend_android.ui.theme.md_theme_dark_green
 
 
 @Composable
@@ -38,7 +48,7 @@ fun ViewUserInformations(
         BottomBar = {
             BottomBarValidation(
                 navController = navController,
-                onValidation = { viewModel.handleValidation() },
+                onValidation = { viewModel.changeBottomSheetState(true) },
                 onCancellation = {}
             )
         },
@@ -135,10 +145,29 @@ fun ViewUserInformations(
                 )
             }
 
-
-
+            BottomSheetOperationValidation(
+                isSuccesfull = true,
+                isOpen = state.isBottomSheetOpen,
+                title = "Informations mises à jour avec succès",
+                description = "Vous allez être redirigé vers la page précédente",
+                actionButton = {
+                    Button(
+                        modifier = Modifier.background(Color.Transparent).width(200.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            md_theme_dark_green,
+                        ),
+                        onClick = {
+                            viewModel.handleValidation()
+                            navController.navigateUp()
+                        },
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Done,
+                            contentDescription = "Done",
+                        )
+                    }
+                }
+            )
         }
-
-
     }
 }

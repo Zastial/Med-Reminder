@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,11 +29,13 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.frontend_android.R
 import com.example.frontend_android.components.layout.TopBarPrescriptionNavigation
+import com.example.frontend_android.ui.components.bottomSheets.BottomSheetOperationValidation
 import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
+import com.example.frontend_android.ui.theme.md_theme_dark_green
 import com.example.frontend_android.utils.detectAllergies
 import java.time.format.DateTimeFormatter
 
@@ -64,7 +68,10 @@ fun UpdatePrescription(
         BottomBar = {
             BottomBarValidation(
                 navController = navController,
-                onValidation = { viewModel.udpatePrescription() },
+                onValidation = {
+                    viewModel.changeBottomSheetState(true)
+                    viewModel.updatePrescription()
+               },
                 onCancellation = {}
             )
         }
@@ -194,5 +201,28 @@ fun UpdatePrescription(
                 }
             }
         }
+
+        BottomSheetOperationValidation(
+            isSuccesfull = true,
+            isOpen = state.isBottomSheetOpen,
+            title = "Votre ordonnance a été modifiée avec succès",
+            description = "Vous allez être redirigé vers la liste des ordonnances",
+            actionButton = {
+                Button(
+                    modifier = Modifier.background(Color.Transparent).width(200.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        md_theme_dark_green,
+                    ),
+                    onClick = {
+                        navController.navigateUp()
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Done,
+                        contentDescription = "Done",
+                    )
+                }
+            }
+        )
     }
 }

@@ -95,7 +95,7 @@ fun ViewPrescriptions(
                         Spacer(modifier = Modifier.size(16.dp))
 
                         Text(
-                            text = "Pas d'alarme configurée.",
+                            text = "Aucune alarme configurée.",
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
                             color = Color.Gray
