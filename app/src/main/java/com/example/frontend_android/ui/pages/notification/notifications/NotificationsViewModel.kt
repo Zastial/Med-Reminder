@@ -22,7 +22,6 @@ class NotificationsViewModel @Inject constructor(
 
 
     init {
-        Log.e("ALARM", "INIT LOADING ALL ALARMS")
         getAlarms()
     }
 

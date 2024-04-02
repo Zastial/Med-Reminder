@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -28,6 +29,7 @@ fun NotificationsScreen(
     state: NotificationState,
     changeAlarmState: (state : Boolean) -> Unit
 ) {
+    val context = LocalContext.current
     BaseLayout(
         TopBar = {
             TopBar(
@@ -69,17 +71,15 @@ fun NotificationsScreen(
             Spacer(modifier = Modifier.size(12.dp))
 
             Button(
-                onClick = { navController.navigate(Screen.AddEditAlarm.route) }
+                onClick = {
+                    navController.navigate(Screen.AddEditAlarm.route)
+                }
             ) {
                 Text(text = "Ajouter une notification")
             }
         }
     }
 }
-
-
-
-
 
 
 

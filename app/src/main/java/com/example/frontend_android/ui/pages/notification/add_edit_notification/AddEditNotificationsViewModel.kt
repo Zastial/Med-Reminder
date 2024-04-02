@@ -140,9 +140,7 @@ class AddEditNotificationsViewModel @Inject constructor(
                 )
             }
             Log.e("ALARM VM recieve", _state.value.toString())
-
     }
-
 
 
     sealed class UiEvent {

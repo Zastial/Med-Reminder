@@ -1,7 +1,12 @@
 package com.example.frontend_android.ui.pages.notification.add_edit_notification
 
 import DayCard
+import android.Manifest
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +30,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,25 +40,52 @@ import com.example.frontend_android.ui.components.forms.BtnContinue
 import com.example.frontend_android.ui.components.forms.TimeInput
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.theme.MedreminderTheme
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun AddEditNotificationScreen(
     navController: NavController,
     viewModel: AddEditNotificationsViewModel = hiltViewModel(),
 ) {
+    // >====================< notifications >====================<
+    val permission = Manifest.permission.POST_NOTIFICATIONS
+    val notificationPermissionState = rememberPermissionState(permission)
+    val context = LocalContext.current
+    val requestPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            //it's ok
+        } else {
+            ToastActivateNotification(context)
+            Log.e("TXT", "permission denied ")
+
+        }
+    }
+
+    LaunchedEffect(notificationPermissionState) {
+        if (!notificationPermissionState.permissionRequested && notificationPermissionState.shouldShowRationale) {
+            ToastActivateNotification(context)
+        } else {
+            requestPermissionLauncher.launch(permission)
+        }
+    }
+
+    // >====================< View >====================<
+
     val state = viewModel.state.value
-    Log.e("ALARM screen state recieve", state.toString())
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
-    var enabled by remember { mutableStateOf(true) }
+    var saveButtonIsEnabled by remember { mutableStateOf(true) }
 
-    LaunchedEffect(enabled) {
-        if (enabled) return@LaunchedEffect
+    LaunchedEffect(saveButtonIsEnabled) {
+        if (saveButtonIsEnabled) return@LaunchedEffect
         else delay(1000L)
 
     }
@@ -93,9 +126,9 @@ fun AddEditNotificationScreen(
             BtnContinue(
                 actionText = "Sauvegarder",
                 modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 20.dp),
-                enabled = enabled,
+                enabled = saveButtonIsEnabled,
                 onClick = {
-                    enabled = false
+                    saveButtonIsEnabled = false
                     viewModel.onEvent(
                         AddEditNotificationEvent.SaveNotification
                     )
@@ -215,6 +248,13 @@ fun AddEditNotificationScreen(
 
 }
 
+fun ToastActivateNotification(context: Context) {
+    Toast.makeText(
+        context,
+        "Veuillez activer les notifications pour utiliser cette fonctionnalité",
+        Toast.LENGTH_LONG
+    ).show()
+}
 
 @Composable
 @Preview
