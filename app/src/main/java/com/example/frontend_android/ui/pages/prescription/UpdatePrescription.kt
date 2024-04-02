@@ -16,6 +16,7 @@ import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,6 +31,7 @@ import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.components.layout.TopBar
+import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 import com.example.frontend_android.utils.detectAllergies
 import java.time.format.DateTimeFormatter
 
@@ -91,11 +93,6 @@ fun UpdatePrescription(
                     fontWeight = FontWeight.Bold,
                     fontSize = 25.sp,
                 )
-                Text(
-                    text = "Ordonnance",
-                    textAlign = TextAlign.Left,
-                    fontSize = 15.sp,
-                )
 
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
@@ -144,7 +141,7 @@ fun UpdatePrescription(
                     text = "Liste des médicaments",
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 20.dp, bottom = 5.dp),
+                        .padding(top = 10.dp, bottom = 5.dp),
                     textAlign = TextAlign.Left,
                     fontSize = 15.sp,
                 )
@@ -157,14 +154,41 @@ fun UpdatePrescription(
                             fontSize = 15.sp,
                         )
                     } else {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
+                            modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp)
+                        )
+                        {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_warning),
+                                contentDescription = "Description",
+                                tint = md_theme_common_primaryWarning
+                            )
+                            Spacer(modifier = Modifier.width(width = 10.dp))
+                            if (ciMedicines.size == 1) {
+                                Text(
+                                    text = "Vous avez ${ciMedicines.size} médicament en contre indication avec vos allergies",
+                                    textAlign = TextAlign.Left,
+                                )
+                            } else {
+                                Text(
+                                    text = "Vous avez ${ciMedicines.size} médicaments en contre indication avec vos allergies",
+                                    textAlign = TextAlign.Left,
+                                )
+                            }
+                        }
                         for (medicine_posology in it) {
                             MedicineCard(
                                 medicine = medicine_posology.first,
                                 hasWarning = ciMedicines.contains(medicine_posology.first.name),
                                 onClick = {},
                                 onDelete = {},
+                                posology = medicine_posology.second,
                             )
-                            Spacer(modifier = Modifier.height(10.dp))
                         }
                     }
                 }

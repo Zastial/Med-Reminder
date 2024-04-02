@@ -99,10 +99,16 @@ class UpdatePrescriptionViewModel @Inject constructor(
             val prescription = result.prescription
             val medicinePosologies = result.medicine_posologies
 
-            val medicines: List<Medicine> = medicinePosologies.map {
+            Log.d("pres", medicinePosologies.toString())
+            Log.d("pres", prescription.toString())
+
+            val medicines: List<Pair<Medicine, String>> = medicinePosologies.map {
                 val response = medicineDao.getMedicine(it.medicine_id)
-                response.execute().body()!!
+                val posology = it.description
+                Pair(response.execute().body()!!, posology)
             }
+
+            Log.d("pres", medicines.toString())
 
             withContext(Dispatchers.Main) {
                 changeDate(prescription.delivered_at)
@@ -110,7 +116,7 @@ class UpdatePrescriptionViewModel @Inject constructor(
                 changeDescription(prescription.description)
                 changeDoctorName(prescription.doctor_name ?: "")
                 changeDoctorEmail(prescription.doctor_email ?: "")
-                changeMedicinesPosology(medicines.map { Pair(it, "") }.toMutableList())
+                changeMedicinesPosology(medicines.toMutableList())
             }
         }.invokeOnCompletion {
             _state.value = state.value.copy(
