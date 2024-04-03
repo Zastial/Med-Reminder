@@ -14,9 +14,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -36,12 +42,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.frontend_android.R
+import com.example.frontend_android.ui.components.bottomSheets.BottomSheetOperationValidation
+import com.example.frontend_android.ui.components.bottomSheets.BottomSheetSurface
 import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
+import com.example.frontend_android.ui.theme.md_theme_dark_green
 import com.example.frontend_android.utils.detectAllergies
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecapPresciption(navController: NavController, viewModel: CreatePrescriptionViewModel) {
+fun RecapPrescription(navController: NavController, viewModel: CreatePrescriptionViewModel) {
     val state = viewModel.state.value
     val scrollState = rememberScrollState()
 
@@ -56,8 +66,9 @@ fun RecapPresciption(navController: NavController, viewModel: CreatePrescription
             .verticalScroll(scrollState),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         LinearProgressIndicator(
-            progress = viewModel.stepToProgress(),
+            progress = { if (!state.isBottomSheetOpen) viewModel.stepToProgress() else 1f },
             modifier = Modifier.fillMaxWidth(),
             trackColor = MaterialTheme.colorScheme.tertiary
         )
@@ -189,10 +200,33 @@ fun RecapPresciption(navController: NavController, viewModel: CreatePrescription
                 )
             } else {
                 for (medicine in it) {
-                    MedicineCard(navController = navController, medicine = medicine.first, ciMedicines.contains(medicine.first.name))
+                    MedicineCard(medicine = medicine.first, ciMedicines.contains(medicine.first.name), onDelete = {}, onClick = {navController.navigate("medicine_informations_screen/${medicine.first.cis}")}, posology = medicine.second)
                     Spacer(modifier = Modifier.height(10.dp))
                 }
             }
         }
+
+        BottomSheetOperationValidation(
+            isSuccesfull = true,
+            isOpen = state.isBottomSheetOpen,
+            title = "Votre ordonnance a été ajoutée avec succès",
+            description = "Vous allez être redirigé vers la liste des ordonnances",
+            actionButton = {
+                Button(
+                    modifier = Modifier.background(Color.Transparent).width(200.dp),
+                    colors = ButtonDefaults.buttonColors(
+                       md_theme_dark_green,
+                    ),
+                    onClick = {
+                        navController.navigateUp()
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Done,
+                        contentDescription = "Done",
+                    )
+                }
+            }
+        )
     }
 }

@@ -17,22 +17,28 @@ import com.example.frontend_android.data.model.entities.MedicinePosology
 import com.example.frontend_android.data.model.entities.Prescription
 import com.example.frontend_android.utils.ITextExtractionFromImageService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 data class UpdatePrescriptionState (
+    val isLoading : Boolean = true,
+
     val date : LocalDate = LocalDate.now(),
     val title : String = "",
     val description : String = "",
     val doctor_name : String = "",
     val doctor_email : String = "",
     val medicines_posology : MutableList<Pair<Medicine, String>> = mutableListOf(),
+
+    var isBottomSheetOpen : Boolean = false
 )
 
 @HiltViewModel
@@ -50,13 +56,10 @@ class UpdatePrescriptionViewModel @Inject constructor(
 
 
     init {
-        viewModelScope.launch {
-            retrievePrescription()
-        }
-
+        retrievePrescription()
     }
 
-    fun udpatePrescription() {
+    fun updatePrescription() {
         viewModelScope.launch {
             try {
                 prescriptionDao.insertPrescription(
@@ -90,25 +93,43 @@ class UpdatePrescriptionViewModel @Inject constructor(
     }
 
 
-    private suspend fun retrievePrescription() {
-        val result = prescriptionDao.getPrescription(prescriptionID)
-            ?: throw Error("The prescription could not have been found")
+    private fun retrievePrescription() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = prescriptionDao.getPrescription(prescriptionID)
+                ?: throw Error("The prescription could not have been found")
 
-        val prescription = result.prescription
-        val medicinePosologies = result.medicine_posologies
+            val prescription = result.prescription
+            val medicinePosologies = result.medicine_posologies
 
-        val medicines: List<Medicine> = medicinePosologies.map {
-            val response = medicineDao.getMedicine(it.medicine_id)
-            response.execute().body()!!
+            Log.d("pres", medicinePosologies.toString())
+            Log.d("pres", prescription.toString())
+
+            val medicines: List<Pair<Medicine, String>> = medicinePosologies.map {
+                val response = medicineDao.getMedicine(it.medicine_id)
+                val posology = it.description
+                Pair(response.execute().body()!!, posology)
+            }
+
+            Log.d("pres", medicines.toString())
+
+            withContext(Dispatchers.Main) {
+                changeDate(prescription.delivered_at)
+                changeTitle(prescription.title)
+                changeDescription(prescription.description)
+                changeDoctorName(prescription.doctor_name ?: "")
+                changeDoctorEmail(prescription.doctor_email ?: "")
+                changeMedicinesPosology(medicines.toMutableList())
+            }
+        }.invokeOnCompletion {
+            _state.value = state.value.copy(
+                isLoading = false
+            )
         }
+    }
 
+    fun changeDate(new_date: LocalDate) {
         _state.value = state.value.copy(
-            date = prescription.delivered_at,
-            title = prescription.title,
-            description = prescription.description,
-            doctor_name = prescription.doctor_name ?: "",
-            doctor_email = prescription.doctor_email ?: "",
-            medicines_posology = medicines.map { Pair(it, "") }.toMutableList()
+            date = new_date
         )
     }
 
@@ -142,4 +163,9 @@ class UpdatePrescriptionViewModel @Inject constructor(
         )
     }
 
+    fun changeBottomSheetState(isOpen: Boolean) {
+        _state.value = state.value.copy(
+            isBottomSheetOpen = isOpen
+        )
+    }
 }

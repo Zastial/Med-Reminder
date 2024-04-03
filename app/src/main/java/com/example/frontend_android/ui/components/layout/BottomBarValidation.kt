@@ -42,7 +42,6 @@ fun BottomBarValidation (
             Button(
                 onClick = {
                     onCancellation()
-                    navController.navigateUp()
                 },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = md_theme_common_primaryCancel
@@ -59,7 +58,6 @@ fun BottomBarValidation (
                 modifier = Modifier.background(Color.Transparent),
                 onClick = {
                     onValidation()
-                    navController.navigateUp()
                 },
             ) {
                 Icon(

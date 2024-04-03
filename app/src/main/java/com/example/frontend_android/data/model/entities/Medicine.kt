@@ -31,3 +31,5 @@ var defaultMedicine = Medicine(
     generType = "0",
     substanceName = "PARACÉTAMOL",
 )
+
+var emptyMedicine = Medicine("", "", 0, 0, 0, "", "", "", "", "", "", "")

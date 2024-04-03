@@ -24,6 +24,11 @@ fun CreatePrescriptions(
         }
     }
 
+    fun validatePrescription() {
+        viewModel.changeBottomSheetBool(true)
+        viewModel.insertPrescription()
+    }
+
     @Composable
     fun BottomBar(step : Int) {
         when (step) {
@@ -34,10 +39,24 @@ fun CreatePrescriptions(
             1 -> {}
             5 -> BottomBarValidation(
                 navController = navController,
-                onValidation = { viewModel.insertPrescription() },
+                onValidation = { validatePrescription() },
                 onCancellation = { viewModel.previousPage() }
             )
             6 -> {}
+            7 -> {}
+            9 -> BottomBarValidation(
+                navController = navController,
+                onValidation = {
+                    viewModel.deleteMedicineAssociated(Pair(viewModel.state.value.medicineClicked, viewModel.state.value.old_posology))
+                    viewModel.addMedicineAssociated(Pair(viewModel.state.value.medicineClicked, viewModel.state.value.posology))
+                    viewModel.changeStep(4)
+                               },
+                onCancellation = {
+                    viewModel.changePosologyMedicine("")
+                    viewModel.changeOldPosology("")
+                    viewModel.changeStep(4)
+                }
+            )
             else -> BottomBarStepNavigation(
                 navController = navController,
                 onClick = { viewModel.nextPage() },
@@ -55,6 +74,11 @@ fun CreatePrescriptions(
                         0 -> navController.navigateUp()
                         2 -> viewModel.changeStep(0)
                         6 -> viewModel.changeStep(0)
+                        7 -> viewModel.changeStep(4)
+                        9 -> {
+                            viewModel.changePosologyMedicine("")
+                            viewModel.changeStep(4)
+                        }
                         else -> viewModel.previousPage()
                     }
                 }

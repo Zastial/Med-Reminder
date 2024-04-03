@@ -25,6 +25,8 @@ data class UserInformationsState (
     val allergies_search: String = "",
     val subtances: List<Substance> = listOf(),
     val searching: Boolean = false,
+
+    val isBottomSheetOpen: Boolean = false,
 )
 
 @HiltViewModel
@@ -159,9 +161,13 @@ class ViewUserInformationsModel @Inject constructor(
     fun changeSelectedAllergies(new_selected_allergies: Set<String>) {
         _state.value = state.value.copy(
             selected_allergies = new_selected_allergies
-
         )
     }
 
+    fun changeBottomSheetState(new_state: Boolean) {
+        _state.value = state.value.copy(
+            isBottomSheetOpen = new_state
+        )
+    }
 
 }
