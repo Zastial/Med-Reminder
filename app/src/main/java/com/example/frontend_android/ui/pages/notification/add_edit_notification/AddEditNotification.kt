@@ -87,8 +87,11 @@ fun AddEditNotificationScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     var expanded by remember { mutableStateOf(false) }
+    var expandedScheduledDays by remember { mutableStateOf(false) }
+
     Log.e("ALARM", "stae prescription id : ${state.prescriptionId}")
     var selectedText by remember { mutableStateOf(state.prescriptionsList.find { it.id == state.prescriptionId }?.title ?: "") }
+    var selectedTextScheduledDays by remember { mutableStateOf("Jours") }
 
     var saveButtonIsEnabled by remember { mutableStateOf(true) }
 
@@ -237,7 +240,7 @@ fun AddEditNotificationScreen(
                     )
                 }
 
-                Spacer(modifier = Modifier.size(20.dp))
+                Spacer(modifier = Modifier.size(40.dp))
 
                 Text("Sélectionner l'ordonnance associée :")
 
@@ -282,12 +285,33 @@ fun AddEditNotificationScreen(
                         }
                     }
                 }
+                  /*
+                Spacer(modifier = Modifier.size(40.dp))
+                Row(
 
-                Row() {
-                    Text("Répété l'alarme tous les")
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text("Répéter l'alarme tous les")
                     OutlinedTextField(value = "", onValueChange = {} )
 
-                }
+
+                    // en attentes des modifications du viewModel
+                    ExposedDropdownMenuBox(
+                        expanded = expandedScheduledDays,
+                        onExpandedChange = {
+                            expandedScheduledDays = !expandedScheduledDays
+                        }
+                    ) {
+                        OutlinedTextField(
+                            value = selectedTextScheduledDays,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedScheduledDays) },
+                            modifier = Modifier.menuAnchor()
+                        )
+
+                    }
+                }*/
             }
         }
     }
