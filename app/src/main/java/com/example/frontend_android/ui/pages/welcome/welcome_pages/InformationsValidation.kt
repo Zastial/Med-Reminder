@@ -81,7 +81,9 @@ fun InformationsValidation(
                 enabled = state.accepted_condition,
                 onClick = {
                     viewModel.handleValidation()
-                    navController.navigate(Screen.viewPrescriptions.route)
+                    navController.navigate(Screen.viewPrescriptions.route) {
+                        popUpTo(0)
+                    }
                 }
             ) {
                 Text(

@@ -72,7 +72,7 @@ fun UpdatePrescription(
                     viewModel.changeBottomSheetState(true)
                     viewModel.updatePrescription()
                },
-                onCancellation = {}
+                onCancellation = { navController.navigateUp() }
             )
         }
     ) {

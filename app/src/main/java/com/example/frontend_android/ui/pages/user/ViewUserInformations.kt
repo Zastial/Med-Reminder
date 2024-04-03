@@ -49,7 +49,7 @@ fun ViewUserInformations(
             BottomBarValidation(
                 navController = navController,
                 onValidation = { viewModel.changeBottomSheetState(true) },
-                onCancellation = {}
+                onCancellation = { navController.navigateUp() }
             )
         },
         scrollState = scrollState
