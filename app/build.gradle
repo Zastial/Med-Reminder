@@ -134,5 +134,5 @@ dependencies {
     implementation"io.coil-kt:coil-compose:1.4.0"
 
     //permission
-    //implementation "com.google.accompanist:accompanist-permissions"
+    implementation "com.google.accompanist:accompanist-permissions:0.17.0"
 }

@@ -17,11 +17,13 @@ data class AlarmRecord(
     var medicineName: String?,
     var isScheduled: Boolean = false,
     var isRecurring: Boolean = false,
-    var daysSelectedJson: String = "[]",
+    var daysSelectedJson: String = "",
     val prescription_id: Long?,
 ) {
    val daysSelected: MutableList<DaysOfWeek>
-        get() = Gson().fromJson(daysSelectedJson, Array<DaysOfWeek>::class.java).toMutableList()
+       get() = Gson().fromJson(daysSelectedJson, Array<DaysOfWeek>::class.java).toMutableList()
+
+
 }
 
 

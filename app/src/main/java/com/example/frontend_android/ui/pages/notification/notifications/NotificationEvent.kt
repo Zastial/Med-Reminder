@@ -3,5 +3,5 @@ package com.example.frontend_android.ui.pages.notification.notifications
 sealed class AlarmEvent {
 
     // switch between enabled and disabled
-    data class ChangeAlarmState(val isEnable: Boolean): AlarmEvent()
+    data class ChangeAlarmState(val alarmId : Long) : AlarmEvent()
 }

@@ -1,7 +1,5 @@
 package com.example.frontend_android.ui.components.bottomSheets
 
-import android.graphics.drawable.Icon
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.frontend_android.R
 
 @Composable
 fun BottomSheetSurface(icon : Int, text : String, onclick : () -> Unit){
@@ -35,7 +32,7 @@ fun BottomSheetSurface(icon : Int, text : String, onclick : () -> Unit){
         {
             Icon(
                 painter = painterResource(id = icon),
-                contentDescription = "Description"
+                contentDescription = text
             )
             Spacer(modifier = Modifier.width(width = 10.dp))
             Text(

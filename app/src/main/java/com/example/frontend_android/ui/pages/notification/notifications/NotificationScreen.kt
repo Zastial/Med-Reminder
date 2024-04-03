@@ -3,6 +3,7 @@ package com.example.frontend_android.ui.pages.notification.notifications
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
@@ -10,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -25,8 +27,9 @@ import com.example.frontend_android.ui.theme.MedreminderTheme
 fun NotificationsScreen(
     navController: NavController,
     state: NotificationState,
-    changeAlarmState: (state : Boolean) -> Unit
+    changeAlarmState: (alarmId : Long) -> Unit
 ) {
+    val context = LocalContext.current
     BaseLayout(
         TopBar = {
             TopBar(
@@ -42,7 +45,7 @@ fun NotificationsScreen(
         }
     ) {
         Column(
-            modifier = Modifier,
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -57,7 +60,7 @@ fun NotificationsScreen(
                             minutes = alarm.minutes,
                             isActive = alarm.isScheduled,
                             dayOfWeek = alarm.daysSelected,
-                            changeAlarmState = { changeAlarmState(it) },
+                            changeAlarmState = { alarm.id?.let { it1 -> changeAlarmState(it1) } },
                             onClick = { navController.navigate(
                                 Screen.AddEditAlarm.route + "?alarmId=${alarm.id}")
                             }
@@ -66,20 +69,17 @@ fun NotificationsScreen(
                 }
             }
             Spacer(modifier = Modifier.size(12.dp))
+
             Button(
-                onClick = { navController.navigate(Screen.AddEditAlarm.route) }
+                onClick = {
+                    navController.navigate(Screen.AddEditAlarm.route)
+                }
             ) {
                 Text(text = "Ajouter une notification")
             }
-
         }
-
     }
 }
-
-
-
-
 
 
 
