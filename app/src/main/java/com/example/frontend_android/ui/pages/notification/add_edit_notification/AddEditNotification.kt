@@ -244,7 +244,7 @@ fun AddEditNotificationScreen(
                 Spacer(modifier = Modifier.size(10.dp))
                 Log.e("ALARM", "STATE 1 PRESCRIPTION LIST : ${state.prescriptionsList}")
 
-
+                Spacer(modifier = Modifier.size(20.dp))
 
                 ExposedDropdownMenuBox(
                     expanded = expanded,
@@ -281,6 +281,12 @@ fun AddEditNotificationScreen(
                             )
                         }
                     }
+                }
+
+                Row() {
+                    Text("Répété l'alarme tous les")
+                    OutlinedTextField(value = "", onValueChange = {} )
+
                 }
             }
         }
