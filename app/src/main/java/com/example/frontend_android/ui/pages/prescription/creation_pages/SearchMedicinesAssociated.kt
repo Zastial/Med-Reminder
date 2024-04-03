@@ -1,6 +1,5 @@
 package com.example.frontend_android.ui.pages.prescription.creation_pages
 
-import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,7 +10,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -20,12 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.frontend_android.R
-import com.example.frontend_android.navigation.Screen
 import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.components.forms.SearchTextField
-import com.example.frontend_android.ui.components.layout.BaseLayout
-import com.example.frontend_android.ui.components.layout.BottomBarNavigation
-import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.components.ressourceNotFound.NotFound
 import com.example.frontend_android.ui.pages.medicines.MedicinesViewModel
 import com.example.frontend_android.ui.pages.prescription.CreatePrescriptionViewModel
@@ -43,7 +37,7 @@ fun SearchMedicinesAssociated(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        SearchTextField(value = state.search, onValueChange = { viewModel.changeSearch(it) })
+        SearchTextField(value = state.search, onValueChange = { viewModel.changeSearch(it) }, placeholder = "Rechercher un médicament...")
 
         if (state.medicines.isNotEmpty()) {
             LazyColumn(

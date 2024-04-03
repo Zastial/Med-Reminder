@@ -20,6 +20,7 @@ data class PrescriptionsState (
     val prescriptionsWithRelations: List<PrescriptionWithRelations> = emptyList(),
     val alarms : List<AlarmRecord> = emptyList(),
     val closestAlarm: String = "",
+    val search: String = "",
 )
 
 @HiltViewModel
@@ -77,6 +78,12 @@ class PrescriptionsViewModel  @Inject constructor (
 
         _state.value = state.value.copy(
             closestAlarm = String.format("%02dh%02d", closestAlarm!!.hours, closestAlarm.minutes)
+        )
+    }
+
+    fun changeSearch(new_search: String) {
+        _state.value = state.value.copy(
+            search = new_search
         )
     }
 }
