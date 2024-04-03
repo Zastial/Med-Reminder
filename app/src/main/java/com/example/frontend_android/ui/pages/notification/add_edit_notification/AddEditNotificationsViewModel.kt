@@ -164,7 +164,8 @@ class AddEditNotificationsViewModel @Inject constructor(
                     hours = it.hours,
                     minutes = it.minutes,
                     isScheduled = it.isScheduled,
-                    scheduledDays = it.daysSelected.toMutableStateList()
+                    scheduledDays = it.daysSelected.toMutableStateList(),
+                    prescriptionId = it.prescription_id
                 )
             }
             Log.e("ALARM VM recieve", _state.value.toString())

@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.frontend_android.MainActivity
 import com.example.frontend_android.R
@@ -32,8 +31,6 @@ class AlarmService(
             .setContentText(content)
             .setContentIntent(activityPendingIntent)
             .build()
-
-        Log.e("ALARM", "Notification send : $notification")
 
         notificationManager.notify(
             Random.nextInt(),

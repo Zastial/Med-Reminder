@@ -87,10 +87,12 @@ fun AddEditNotificationScreen(
     val snackbarHostState = remember { SnackbarHostState() }
 
     var expanded by remember { mutableStateOf(false) }
-    var expandedScheduledDays by remember { mutableStateOf(false) }
 
     Log.e("ALARM", "stae prescription id : ${state.prescriptionId}")
-    var selectedText by remember { mutableStateOf(state.prescriptionsList.find { it.id == state.prescriptionId }?.title ?: "") }
+    var selectedText by remember { mutableStateOf((state.prescriptionsList.find { it.id == state.prescriptionId }?.title) ?: "") }
+    Log.d("ALARM", "selectedText : $selectedText , state  : ${state.prescriptionsList}  , prescription id : ${state.prescriptionId}, find title :   ${state.prescriptionsList.find { it.id == state.prescriptionId }?.title}")
+
+    var expandedScheduledDays by remember { mutableStateOf(false) }
     var selectedTextScheduledDays by remember { mutableStateOf("Jours") }
 
     var saveButtonIsEnabled by remember { mutableStateOf(true) }
@@ -255,6 +257,7 @@ fun AddEditNotificationScreen(
                         expanded = !expanded
                     }
                 ) {
+                    Log.e("ALARM", "prescription title in Outlined : $selectedText")
                     OutlinedTextField(
                         value = selectedText,
                         onValueChange = {},
