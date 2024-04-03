@@ -92,7 +92,7 @@ fun ImportPrescriptionImage(navController : NavController, viewModel: CreatePres
             if (isGranted) {
                 isCameraPermission = true
                 camStates.shouldShowCamera.value = true
-                viewModel.changeStep(7) // Display the camera step
+                viewModel.changeStep(6) // Display the camera step
                 viewModel.changeBottomSheetBool(false)
             }
         })
@@ -106,9 +106,9 @@ fun ImportPrescriptionImage(navController : NavController, viewModel: CreatePres
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LinearProgressIndicator(
-            progress = viewModel.stepToProgress(),
+            progress = { viewModel.stepToProgress() },
             modifier = Modifier.fillMaxWidth(),
-            trackColor = MaterialTheme.colorScheme.tertiary
+            trackColor = MaterialTheme.colorScheme.tertiary,
         )
 
         Text(

@@ -101,7 +101,11 @@ fun PrescriptionCard(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(text = "${prescriptionWithRelations.medicine_posologies.size} médicaments")
+                if (prescriptionWithRelations.medicine_posologies.size > 1) {
+                    Text(text = "${prescriptionWithRelations.medicine_posologies.size} médicaments")
+                } else {
+                    Text(text = "${prescriptionWithRelations.medicine_posologies.size} médicament")
+                }
 
                 if (prescriptionWithRelations.prescription.doctor_name != "") {
                     prescriptionWithRelations.prescription.doctor_name?.let { Text(text = "Dr. $it") }
