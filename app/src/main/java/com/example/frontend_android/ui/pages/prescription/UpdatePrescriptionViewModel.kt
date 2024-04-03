@@ -127,6 +127,15 @@ class UpdatePrescriptionViewModel @Inject constructor(
         }
     }
 
+    fun deletePrescription() {
+        viewModelScope.launch {
+            val result = prescriptionDao.getPrescription(prescriptionID)
+                ?: throw Error("Une erreur est survenue lors de la suppression de la prescription")
+
+            prescriptionDao.deletePrescription(result.prescription)
+        }
+    }
+
     fun changeDate(new_date: LocalDate) {
         _state.value = state.value.copy(
             date = new_date

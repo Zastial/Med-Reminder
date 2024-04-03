@@ -32,8 +32,10 @@ import com.example.frontend_android.components.layout.TopBarPrescriptionNavigati
 import com.example.frontend_android.ui.components.bottomSheets.BottomSheetOperationValidation
 import com.example.frontend_android.ui.components.cards.MedicineCard
 import com.example.frontend_android.ui.components.layout.BaseLayout
+import com.example.frontend_android.ui.components.layout.BottomBarSaveOrDelete
 import com.example.frontend_android.ui.components.layout.BottomBarValidation
 import com.example.frontend_android.ui.components.layout.TopBar
+import com.example.frontend_android.ui.theme.md_theme_common_primaryCancel
 import com.example.frontend_android.ui.theme.md_theme_common_primaryWarning
 import com.example.frontend_android.ui.theme.md_theme_dark_green
 import com.example.frontend_android.utils.detectAllergies
@@ -66,13 +68,15 @@ fun UpdatePrescription(
             )
         },
         BottomBar = {
-            BottomBarValidation(
+            BottomBarSaveOrDelete(
                 navController = navController,
                 onValidation = {
                     viewModel.changeBottomSheetState(true)
                     viewModel.updatePrescription()
-               },
-                onCancellation = { navController.navigateUp() }
+                },
+                onDelete = {
+                    viewModel.deletePrescription()
+                }
             )
         }
     ) {
@@ -209,7 +213,9 @@ fun UpdatePrescription(
             description = "Vous allez être redirigé vers la liste des ordonnances",
             actionButton = {
                 Button(
-                    modifier = Modifier.background(Color.Transparent).width(200.dp),
+                    modifier = Modifier
+                        .background(Color.Transparent)
+                        .width(200.dp),
                     colors = ButtonDefaults.buttonColors(
                         md_theme_dark_green,
                     ),
