@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun SearchTextField(value: String, onValueChange: (value: String) -> Unit) {
+fun SearchTextField(value: String, onValueChange: (value: String) -> Unit, placeholder: String) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
@@ -27,8 +27,9 @@ fun SearchTextField(value: String, onValueChange: (value: String) -> Unit) {
             modifier = Modifier.fillMaxWidth(),
             value = value,
             onValueChange = onValueChange,
-            placeholder = { Text(text = "Rechercher un médicament...") },
+            placeholder = { Text(text = placeholder) },
             maxLines = 1,
+            singleLine = true,
             prefix = {
                 Icon(
                     modifier = Modifier.padding(0.dp, 0.dp, 12.dp, 0.dp),
@@ -44,5 +45,5 @@ fun SearchTextField(value: String, onValueChange: (value: String) -> Unit) {
 @Preview
 @Composable
 fun SearchTextFieldPreview() {
-    SearchTextField(value = "", onValueChange = {})
+    SearchTextField(value = "", onValueChange = {}, placeholder = "")
 }

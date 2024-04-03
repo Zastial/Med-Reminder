@@ -55,7 +55,11 @@ fun ViewMedicines(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            SearchTextField(value = state.search, onValueChange = { viewModel.changeSearch(it) })
+            SearchTextField(
+                value = state.search,
+                onValueChange = { viewModel.changeSearch(it) },
+                placeholder = "Rechercher un médicament..."
+            )
 
             if (state.medicines.isNotEmpty()) {
                 LazyColumn(

@@ -1,7 +1,6 @@
 package com.example.frontend_android.ui.pages.prescription
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,12 +32,11 @@ import androidx.navigation.NavController
 import com.example.frontend_android.R
 import com.example.frontend_android.navigation.Screen
 import com.example.frontend_android.ui.components.cards.PrescriptionCard
+import com.example.frontend_android.ui.components.forms.SearchTextField
 import com.example.frontend_android.ui.components.layout.BaseLayout
 import com.example.frontend_android.ui.components.layout.BottomBarNavigation
 import com.example.frontend_android.ui.components.layout.TopBar
 import com.example.frontend_android.ui.components.ressourceNotFound.NotFound
-import java.time.LocalTime
-import kotlin.math.abs
 
 
 @Composable
@@ -119,17 +117,26 @@ fun ViewPrescriptions(
                 }
             }
 
+            SearchTextField(
+                value = state.search,
+                onValueChange = { viewModel.changeSearch(it) },
+                placeholder = "Rechercher une ordonnance..."
+            )
+
             if (state.prescriptionsWithRelations.isEmpty()) {
                 Column(
-                    modifier = Modifier.fillMaxHeight(0.90f)
+                    modifier = Modifier.fillMaxHeight(0.85f)
                 ) {
                     NotFound("Aucune ordonnance enregistrée.")
                 }
             } else {
                 LazyColumn(
-                    modifier = Modifier.fillMaxHeight(0.90f)
+                    modifier = Modifier.fillMaxHeight(0.85f)
                 ) {
-                    items(state.prescriptionsWithRelations) { prescriptionWithRelations ->
+                    items(
+                        state.prescriptionsWithRelations.filter { state.search == "" ||
+                        it.prescription.title.lowercase().contains(state.search.lowercase()) }
+                    ) { prescriptionWithRelations ->
                         PrescriptionCard(
                             navController = navController,
                             prescriptionWithRelations = prescriptionWithRelations
