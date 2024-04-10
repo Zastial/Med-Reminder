@@ -13,7 +13,7 @@ Dans le cadre de notre projet de mon BUT 3 en Informatique, nous avons eu l’oc
 Scrum master, Product Owner, Développeurs, notre équipe était constituée d’une multitude de profils, tous à l’aise avec les  technologies utilisées : Kotlin et Jetpack Compose.
 
 Au bout de 7 mois, notre application, complète et fonctionnelle, a pû être présentée et testée. Sa force ? Son interface user-friendly et ses fonctionnalités adaptées à une utilisation par n’importe quel utilisateur.
-Ce sont notamment les intéractions avec notre client qui nous ont permis de mieux définir le produit final et de mieux utiliser notre temps afin de proposer une application qui se démarque 📈
+Ce sont notamment les intéractions avec notre client qui nous ont permis de mieux définir le produit final et de mieux utiliser notre temps afin de proposer une application qui se démarque
 
 Malgré les défis rencontrés en cours de route, notre équipe a su faire preuve de résilience et de créativité pour concevoir un code maintenable, facilement compréhensible et bien documenté.
 Les tests unitaires et fonctionnels réalisés tout au long du cycle de développement ont joué un rôle crucial dans la minimisation des bugs et des erreurs pour garantir une expérience utilisateur fluide avec Med-Reminder
