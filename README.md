@@ -6,7 +6,7 @@ Cochet Jolan
 Lucas GIRARD
 Michenaud Mathis
 
-![appicon](https://media.discordapp.net/attachments/1162661414217973812/1222834581548564523/Appicon.png?ex=6620e2f3&is=660e6df3&hm=7acc309ac6fedf619ee2a475a5c888651ae7abb20faca34aded13f63ce14ed6e&=&format=webp&quality=lossless&width=626&height=626)
+![appicon](https://media.discordapp.net/attachments/1162661414217973812/1222834581548564523/Appicon.png?ex=6620e2f3&is=660e6df3&hm=7acc309ac6fedf619ee2a475a5c888651ae7abb20faca34aded13f63ce14ed6e&=&format=webp&quality=lossless&width=100&height=100&crop=smart)
 
 Dans le cadre de notre projet de mon BUT 3 en Informatique, nous avons eu l’occasion de développer une application médicale permettant de scanner une ordonnance, de suivre la prise médicamenteuse mais aussi d’enregistrer des notifications personnalisées. Tout cela regroupé dans un seul nom : Med-Reminder
 
